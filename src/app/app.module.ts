@@ -5,6 +5,12 @@ import { NgModule } from '@angular/core';
 import { AppComponent } from './app.component';
 import { ProfilePageComponent } from './profile-page/profile-page.component';
 
+import {RouterModule, Routes} from '@angular/router';
+
+const appRoutes: Routes = [
+  {path: '', component: ProfilePageComponent}
+]
+
 
 @NgModule({
   declarations: [
@@ -12,7 +18,11 @@ import { ProfilePageComponent } from './profile-page/profile-page.component';
     ProfilePageComponent
   ],
   imports: [
-    BrowserModule
+    BrowserModule,
+    RouterModule.forRoot(
+      appRoutes,
+      { enableTracing: true } // <-- debugging purposes only
+    )
   ],
   providers: [],
   bootstrap: [AppComponent]
