@@ -12,7 +12,8 @@ import { OfferCreationPageComponent } from './offer-creation-page/offer-creation
 
 const appRoutes: Routes = [
   {path: '', component: ProfilePageComponent},
-  {path: 'create-textbook', component: TextbookCreationPageComponent}
+  {path: 'create-textbook', component: TextbookCreationPageComponent},
+  {path: 'create-offer', component: OfferCreationPageComponent}
 ]
 
 

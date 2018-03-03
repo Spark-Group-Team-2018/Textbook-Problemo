@@ -1,3 +1,22 @@
-<p>
-  offer-creation-page works!
-</p>
+<div class = "container-fluid">
+
+  <h1 class = "text-center">Create Offer</h1>
+
+  <form name = "create-textbook-form">
+
+      <div class = "form-group">
+        <label>Textbook Name: </label>
+        <input [(ngModel)] = "new_offer.textbook_name" class = "form-control" name = "textbook-name"/>
+      </div>
+
+      <div class = "form-group">
+        <label>Price:</label>
+        <input type = "number" [(ngModel)] = "new_offer.price" class = "form-control" name = "offer-price"/>
+      </div>
+
+      <button (click) = "goBack()" class = "btn btn-danger">Back</button>
+      <button (click) = "submitOffer()" class = "btn btn-success">Submit</button>
+
+  </form>
+
+</div>
