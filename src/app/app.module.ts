@@ -8,6 +8,7 @@ import { FormsModule }   from '@angular/forms';
 
 import {RouterModule, Routes} from '@angular/router';
 import { TextbookCreationPageComponent } from './textbook-creation-page/textbook-creation-page.component';
+import { OfferCreationPageComponent } from './offer-creation-page/offer-creation-page.component';
 
 const appRoutes: Routes = [
   {path: '', component: ProfilePageComponent},
@@ -19,7 +20,8 @@ const appRoutes: Routes = [
   declarations: [
     AppComponent,
     ProfilePageComponent,
-    TextbookCreationPageComponent
+    TextbookCreationPageComponent,
+    OfferCreationPageComponent
   ],
   imports: [
     BrowserModule,
