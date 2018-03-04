@@ -1,0 +1,15 @@
+[
+
+  {
+    "offer_id": 0,
+    "textbook_id": 1,
+    "price": 100,
+  },
+
+  {
+    "offer_id": 1,
+    "textbook_id": 0,
+    "price": 50
+  }
+
+]

@@ -1,0 +1,16 @@
+[
+
+  {
+    "textbook_id": 0,
+    "name": "The meme book",
+    "description": "This book is about memes"
+  },
+
+  {
+    "textbook_id": 1,
+    "name": "Calc 3",
+    "description": "This book teaches you calculus"
+  }
+
+
+]
