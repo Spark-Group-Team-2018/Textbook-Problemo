@@ -15,6 +15,7 @@ import { AppComponent } from './app.component';
 import { ProfilePageComponent } from './profile-page/profile-page.component';
 import { TextbookCreationPageComponent } from './textbook-creation-page/textbook-creation-page.component';
 import { OfferCreationPageComponent } from './offer-creation-page/offer-creation-page.component';
+import { NavbarComponent } from './navbar/navbar.component';
 
 
 //The Angular Routes
@@ -30,7 +31,8 @@ const appRoutes: Routes = [
     AppComponent,
     ProfilePageComponent,
     TextbookCreationPageComponent,
-    OfferCreationPageComponent
+    OfferCreationPageComponent,
+    NavbarComponent
   ],
   imports: [
     BrowserModule,
