@@ -1,5 +1,6 @@
 export class Textbook {
 
+  id:number
   name:string
   description:string
 
