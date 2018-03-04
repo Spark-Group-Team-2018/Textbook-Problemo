@@ -12,11 +12,25 @@
     <!-- View Textbooks -->
     <div class = "col-md-6">
       <h2 class = "text-center">View Textbooks</h2>
+
+      <ul class="list-group">
+        <div *ngFor = "let textbook of user_textbooks" class="list-group-item">
+          {{textbook.name}}
+        </div>
+      </ul>
+
     </div>
 
     <!-- View Offers -->
     <div class = "col-md-6">
       <h2 class = "text-center">View Offers</h2>
+
+      <ul class="list-group">
+        <div *ngFor = "let offer of user_offers" class="list-group-item">
+          <p>Offer for <u>{{getOfferTextbook(offer).name}}</u></p>
+        </div>
+      </ul>
+
     </div>
 
   </div>
