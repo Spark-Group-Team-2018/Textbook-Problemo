@@ -1,0 +1,2 @@
+class TextbookController < ApplicationController
+end
