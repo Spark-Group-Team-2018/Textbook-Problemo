@@ -1,0 +1,15 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  lat: 1.5
+  lon: 1.5
+  price: 
+  is_public: false
+  book: one
+
+two:
+  lat: 1.5
+  lon: 1.5
+  price: 
+  is_public: false
+  book: two
