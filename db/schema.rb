@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180311194114) do
+ActiveRecord::Schema.define(version: 20180311181016) do
 
   create_table "books", force: :cascade do |t|
     t.integer "ISBN", limit: 13
@@ -45,6 +45,7 @@ ActiveRecord::Schema.define(version: 20180311194114) do
     t.integer "buyer_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["buyer_id"], name: "index_pending_offers_on_buyer_id"
     t.index ["offer_id"], name: "index_pending_offers_on_offer_id"
   end
 
@@ -67,7 +68,6 @@ ActiveRecord::Schema.define(version: 20180311194114) do
     t.string "password"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index [nil], name: "index_users_on_buyer_id"
   end
 
   create_table "wishlists", force: :cascade do |t|

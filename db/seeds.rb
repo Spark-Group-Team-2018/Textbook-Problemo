@@ -25,3 +25,24 @@ books = Book.create([
     description: "Useful for AP Gov"
   }
 ])
+
+user = User.create(:first_name => "Michael", :last_name => "Navazhylau", :email => "mikipux7@gmail.com")
+
+textbooks = Textbook.create([
+  {
+      book_id: 1,
+      user_id: user.id,
+      status: "meh",
+      owner_description: "I like it",
+      is_public: true
+  },
+
+  {
+      book_id: 2,
+      user_id: user.id,
+      status: "It aight",
+      owner_description: "I like it",
+      is_public: true
+  }
+
+])

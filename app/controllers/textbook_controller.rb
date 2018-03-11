@@ -1,8 +1,19 @@
 class TextbookController < ApplicationController
 
+  def index
+    @textbooks = Textbook.all()
+    render :json => @textbooks
+  end
+
   def show
-    @data = File.read("#{Rails.root}/public/data/textbooks.json")
-    render :json => @data
+    @textbook = Textbook.find(params[:id]) rescue nil
+
+    if @textbook then
+      render :json => @textbook
+    else
+      render :json => {status: 404}
+    end
+
   end
 
 end

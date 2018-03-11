@@ -1,7 +1,8 @@
 Rails.application.routes.draw do
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
 
-  get '/user/textbooks', to: 'textbook#show'
-  get '/user/offers', to: 'offer#show'
+  resources :textbooks, controller: 'textbook'
+  resources :books
+  resources :offers
 
 end
