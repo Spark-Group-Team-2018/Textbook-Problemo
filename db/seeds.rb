@@ -46,3 +46,18 @@ textbooks = Textbook.create([
   }
 
 ])
+
+offers = Offer.create([
+  {
+    price: 20.00,
+    is_public: true,
+    textbook_id: 1
+  },
+
+  {
+    price: 30.00,
+    is_public: true,
+    textbook_id: 2
+  }
+
+])

@@ -1,8 +1,19 @@
 class OfferController < ApplicationController
 
+  def index
+    @offers = Offer.all()
+    render :json => @offers
+  end
+
   def show
-    @data = File.read("#{Rails.root}/public/data/offers.json")
-    render :json => @data
+    @offer = Offer.find(params[:id]) rescue nil
+
+    if @offer then
+      render :json => @offer
+    else
+      render :json => {status: 404}
+    end
+
   end
 
 end

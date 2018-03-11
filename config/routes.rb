@@ -3,6 +3,6 @@ Rails.application.routes.draw do
 
   resources :textbooks, controller: 'textbook'
   resources :books
-  resources :offers
+  resources :offers, controller: 'offer'
 
 end
