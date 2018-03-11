@@ -29,15 +29,15 @@ export class TextbookTradeSystemApi {
     let that = this;
 
     var textbook_promise = new Promise(function (resolve, reject) {
-      that.http.get(endpoint + "/user/textbooks")
+      that.http.get(endpoint + "/textbooks")
         .toPromise()
         .then (function (res) {
 
           var textbooks:Textbook[] = (<any[]>res).map(function (item) {
             return <Textbook>{
-              id: Number(item["textbook_id"]),
-              name: item["name"],
-              description: item["description"]
+              id: Number(item["id"]),
+              name: item["textbook_title"],
+              description: item["owner_description"]
             }
           })
 
@@ -58,13 +58,13 @@ export class TextbookTradeSystemApi {
     let that = this;
 
     var offer_promise = new Promise(function (resolve, reject) {
-      that.http.get(endpoint + "/user/offers")
+      that.http.get(endpoint + "/offers")
         .toPromise()
         .then (function (res) {
 
           var offers:Offer[] = (<any[]>res).map(function (item) {
             return <Offer>{
-              id: Number(item["offer_id"]),
+              id: Number(item["id"]),
               textbook_id: item["textbook_id"],
               price: Number(item["price"])
             }
