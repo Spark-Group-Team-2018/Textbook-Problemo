@@ -29,7 +29,7 @@ export class BrowseBooksPageComponent implements OnInit {
 
     this.api.getBooks().then (function (books:Book[]){
       that.books = books;
-      alert(that.books)
+      //alert(that.books)
     })
 
   }

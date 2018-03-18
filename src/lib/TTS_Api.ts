@@ -9,6 +9,7 @@ import {Injectable} from '@angular/core';
 import {Textbook} from '../models/textbook';
 import {Offer} from '../models/offer';
 import {Book} from '../models/book';
+import {Manufacturer} from '../models/manufacturer';
 
 //Import rxjs helpers for API
 import 'rxjs/add/operator/toPromise';
@@ -27,6 +28,30 @@ export class TextbookTradeSystemApi {
 
   //Retrieve all da manufacturers
   public getManufacturers() {
+
+    let that = this;
+
+    var manufacturer_promise = new Promise(function (resolve, reject) {
+      that.http.get(endpoint + "/manufacturers")
+        .toPromise()
+        .then (function (res) {
+          var manufacturers:Manufacturer[] = (<any[]>res).map(function (item) {
+
+            return <Manufacturer> {
+              id: Number(item["id"]),
+              name: item["name"],
+              description: item["description"]
+            }
+
+          })
+
+          resolve(manufacturers)
+        }).catch (function (err) {
+          reject(err)
+        })
+    })
+
+    return manufacturer_promise;
 
   }
 
@@ -85,7 +110,11 @@ export class TextbookTradeSystemApi {
             return <Textbook>{
               id: Number(item["id"]),
               name: item["textbook_title"],
-              description: item["owner_description"]
+              book_id: item["book_id"],
+              user_id: item["user_id"],
+              status: item["status"],
+              is_public: item["is_public"],
+              owner_description: item["owner_description"]
             }
           })
 

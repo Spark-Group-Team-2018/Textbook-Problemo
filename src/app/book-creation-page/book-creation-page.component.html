@@ -22,7 +22,7 @@
       <div class = "form-group">
         <label>Manufacturer: </label>
         <select [(ngModel)] = "new_book.manufacturer_id" class = "form-control" name = "book-manufacturer-id">
-          <option value = "1">N/A</option>
+          <option *ngFor = "let manufacturer of manufacturers" value = "{{manufacturer.id}}">{{manufacturer.name}}</option>
         </select>
       </div>
 
