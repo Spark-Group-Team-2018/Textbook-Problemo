@@ -16,13 +16,15 @@ import { ProfilePageComponent } from './profile-page/profile-page.component';
 import { TextbookCreationPageComponent } from './textbook-creation-page/textbook-creation-page.component';
 import { OfferCreationPageComponent } from './offer-creation-page/offer-creation-page.component';
 import { NavbarComponent } from './navbar/navbar.component';
+import { BookCreationPageComponent } from './book-creation-page/book-creation-page.component';
 
 
 //The Angular Routes
 const appRoutes: Routes = [
   {path: '', component: ProfilePageComponent},
   {path: 'create-textbook', component: TextbookCreationPageComponent},
-  {path: 'create-offer', component: OfferCreationPageComponent}
+  {path: 'create-offer', component: OfferCreationPageComponent},
+  {path: 'add-book', component: BookCreationPageComponent}
 ]
 
 
@@ -32,7 +34,8 @@ const appRoutes: Routes = [
     ProfilePageComponent,
     TextbookCreationPageComponent,
     OfferCreationPageComponent,
-    NavbarComponent
+    NavbarComponent,
+    BookCreationPageComponent
   ],
   imports: [
     BrowserModule,
