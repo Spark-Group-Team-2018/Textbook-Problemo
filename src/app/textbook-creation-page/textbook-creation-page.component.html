@@ -5,13 +5,20 @@
   <form name = "create-textbook-form">
 
       <div class = "form-group">
-        <label>Name: </label>
-        <input [(ngModel)] = "new_textbook.name" class = "form-control" name = "textbook-name"/>
+        <label>Book: </label>
+        <select [(ngModel)] = "new_textbook.book_id" class = "form-control" name = "textbook-book-id">
+          <option *ngFor = "let book of books" value = "{{book.id}}">{{book.title}}</option>
+        </select>
+      </div>
+
+      <div class = "form-group">
+        <label>Status:</label>
+        <input [(ngModel)] = "new_textbook.status" class = "form-control" name = "textbook-status"/>
       </div>
 
       <div class = "form-group">
         <label>Description:</label>
-        <textarea [(ngModel)] = "new_textbook.description" class = "form-control" name = "textbook-description"></textarea>
+        <textarea [(ngModel)] = "new_textbook.owner_description" class = "form-control" name = "textbook-description"></textarea>
       </div>
 
       <button (click) = "goBack()" class = "btn btn-danger">Back</button>

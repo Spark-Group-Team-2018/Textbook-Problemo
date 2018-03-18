@@ -39,7 +39,14 @@ export class BookCreationPageComponent implements OnInit {
   }
 
   submitBook() {
-    alert(JSON.stringify(this.new_book));
+    let that = this;
+
+    this.api.createBook(this.new_book).then (function (book:Book) {
+      alert(JSON.stringify(book));
+      that.goBack();
+    }).catch (function (err) {
+      alert("Unable to create book");
+    })
   }
 
   goBack() {

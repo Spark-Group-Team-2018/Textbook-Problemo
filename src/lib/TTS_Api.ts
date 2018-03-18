@@ -88,7 +88,37 @@ export class TextbookTradeSystemApi {
   //Create a book
   public createBook(new_book:Book) {
 
+    var book_payload = Book.getBookPayload(new_book);
 
+    const httpOptions = {
+        headers: new HttpHeaders({
+          'Content-Type': 'application/json'
+        })
+    }
+
+    let that = this;
+
+    var create_book_promise = new Promise (function (resolve, reject) {
+
+      that.http.post(endpoint + "/books", book_payload, httpOptions)
+        .toPromise()
+        .then (function (item:any) {
+          var book:Book = <Book> {
+            id: Number(item["id"]),
+            ISBN: item["ISBN"],
+            title: item["title"],
+            description: item["description"],
+            manufacturer_id: item["manufacturer_id"]
+          }
+
+          console.log("CREATED BOOK");
+          resolve(book);
+        }).catch (function (err) {
+          reject(err);
+        })
+    });
+
+    return create_book_promise;
 
   }
 
@@ -129,8 +159,46 @@ export class TextbookTradeSystemApi {
 
   }
 
+  //Create a new textbook
+  public createTextbook(new_textbook:Textbook) {
+    var textbook_payload = Textbook.getTextbookPayload(new_textbook);
+
+    const httpOptions = {
+        headers: new HttpHeaders({
+          'Content-Type': 'application/json'
+        })
+    }
+
+    let that = this;
+
+    var create_textbook_promise = new Promise (function (resolve, reject) {
+
+      that.http.post(endpoint + "/textbooks", textbook_payload, httpOptions)
+        .toPromise()
+        .then (function (item:any) {
+          var textbook:Textbook = <Textbook> {
+            id: Number(item["id"]),
+            name: item["textbook_title"],
+            book_id: item["book_id"],
+            user_id: item["user_id"],
+            status: item["status"],
+            is_public: item["is_public"],
+            owner_description: item["owner_description"]
+          }
+
+          console.log("CREATED TEXTBOOK");
+          resolve(textbook);
+        }).catch (function (err) {
+          reject(err);
+        })
+    });
+
+    return create_textbook_promise;
+  }
+
+
   //FIXME Do with real data and model
-  getUserOffers() {
+  public getUserOffers() {
 
     let that = this;
 

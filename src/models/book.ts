@@ -12,10 +12,12 @@ export class Book {
 
   static getBookPayload(book: Book) {
     return {
-      ISBN: book["ISBN"],
-      title: book["title"],
-      description: book["description"],
-      manufacturer_id: book["manufacturer_id"]
+      book: {
+        ISBN: book["ISBN"],
+        title: book["title"],
+        description: book["description"],
+        manufacturer_id: book["manufacturer_id"]
+      }
     }
   }
 
