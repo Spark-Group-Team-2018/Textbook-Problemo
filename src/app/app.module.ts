@@ -17,6 +17,7 @@ import { TextbookCreationPageComponent } from './textbook-creation-page/textbook
 import { OfferCreationPageComponent } from './offer-creation-page/offer-creation-page.component';
 import { NavbarComponent } from './navbar/navbar.component';
 import { BookCreationPageComponent } from './book-creation-page/book-creation-page.component';
+import { BrowseBooksPageComponent } from './browse-books-page/browse-books-page.component';
 
 
 //The Angular Routes
@@ -24,7 +25,8 @@ const appRoutes: Routes = [
   {path: '', component: ProfilePageComponent},
   {path: 'create-textbook', component: TextbookCreationPageComponent},
   {path: 'create-offer', component: OfferCreationPageComponent},
-  {path: 'add-book', component: BookCreationPageComponent}
+  {path: 'add-book', component: BookCreationPageComponent},
+  {path: 'browse-books', component: BrowseBooksPageComponent}
 ]
 
 
@@ -35,7 +37,8 @@ const appRoutes: Routes = [
     TextbookCreationPageComponent,
     OfferCreationPageComponent,
     NavbarComponent,
-    BookCreationPageComponent
+    BookCreationPageComponent,
+    BrowseBooksPageComponent
   ],
   imports: [
     BrowserModule,

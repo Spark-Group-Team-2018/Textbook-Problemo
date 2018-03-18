@@ -8,6 +8,7 @@ import {Injectable} from '@angular/core';
 //Import models for parsing
 import {Textbook} from '../models/textbook';
 import {Offer} from '../models/offer';
+import {Book} from '../models/book';
 
 //Import rxjs helpers for API
 import 'rxjs/add/operator/toPromise';
@@ -20,6 +21,53 @@ import endpoint from './Endpoint';
 export class TextbookTradeSystemApi {
 
   constructor(private http:HttpClient) {
+
+  }
+
+
+  //Retrieve all da manufacturers
+  public getManufacturers() {
+
+  }
+
+  //Retrieve all da book
+  public getBooks() {
+
+    let that = this;
+
+    var book_promise = new Promise(function (resolve, reject) {
+      that.http.get(endpoint + "/books")
+        .toPromise()
+        .then (function (res) {
+
+          var books:Book[] = (<any[]>res).map(function (item) {
+            return <Book>{
+              id: Number(item["id"]),
+              ISBN: item["ISBN"],
+              title: item["title"],
+              description: item["description"],
+              manufacturer_id: item["manufacturer_id"]
+            }
+          })
+
+          resolve(books)
+        }).catch (function (err) {
+          reject(err);
+        })
+    })
+
+    return book_promise;
+
+  }
+
+  //Create a book
+  public createBook(new_book:Book) {
+
+
+
+  }
+
+  public getUserPendingOffers() {
 
   }
 
