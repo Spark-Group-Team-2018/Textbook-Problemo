@@ -5,13 +5,18 @@
   <form name = "create-textbook-form" class="container">
 
       <div class = "form-group row">
-        <label class="col-sm-2">Name: </label>
+        <label class="col-sm-2">Name</label>
         <input [(ngModel)] = "new_textbook.name" class = "form-control col-sm-10" name = "textbook-name"/>
       </div>
 
       <div class = "form-group row">
-        <label class="col-sm-2">Description:</label>
+        <label class="col-sm-2">Description</label>
         <textarea [(ngModel)] = "new_textbook.description" class = "form-control col-sm-10" name = "textbook-description"></textarea>
+      </div>
+
+      <div class="form-group row">
+          <label class="col-sm-2" for="">Condition</label>
+          <input class="form-control col-sm-10" name="" type="text" value=""/>
       </div>
 
       <div class="text-right">
