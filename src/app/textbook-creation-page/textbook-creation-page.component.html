@@ -1,17 +1,17 @@
 <div class = "container-fluid">
 
-  <h1 class = "text-center">Create Textbook</h1>
+  <h1 class = "text-center">Sell A Textbook</h1>
 
-  <form name = "create-textbook-form">
+  <form name = "create-textbook-form" class="container">
 
-      <div class = "form-group">
-        <label>Name: </label>
-        <input [(ngModel)] = "new_textbook.name" class = "form-control" name = "textbook-name"/>
+      <div class = "form-group row">
+        <label class="col-sm-2">Name: </label>
+        <input [(ngModel)] = "new_textbook.name" class = "form-control col-sm-10" name = "textbook-name"/>
       </div>
 
-      <div class = "form-group">
-        <label>Description:</label>
-        <textarea [(ngModel)] = "new_textbook.description" class = "form-control" name = "textbook-description"></textarea>
+      <div class = "form-group row">
+        <label class="col-sm-2">Description:</label>
+        <textarea [(ngModel)] = "new_textbook.description" class = "form-control col-sm-10" name = "textbook-description"></textarea>
       </div>
 
       <button (click) = "goBack()" class = "btn btn-danger">Back</button>
