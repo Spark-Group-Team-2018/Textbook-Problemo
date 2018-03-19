@@ -14,9 +14,10 @@
         <textarea [(ngModel)] = "new_textbook.description" class = "form-control col-sm-10" name = "textbook-description"></textarea>
       </div>
 
-      <button (click) = "goBack()" class = "btn btn-danger">Back</button>
-      <button (click) = "submitTextbook()" class = "btn btn-success">Submit</button>
-
+      <div class="text-right">
+          <button (click) = "goBack()" class = "btn btn-danger">Back</button>
+          <button (click) = "submitTextbook()" class = "btn btn-success">Submit</button>
+      </div>
   </form>
 
 </div>
