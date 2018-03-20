@@ -10,6 +10,7 @@ import {Textbook} from '../models/textbook';
 import {Offer} from '../models/offer';
 import {Book} from '../models/book';
 import {Manufacturer} from '../models/manufacturer';
+import {User} from '../models/user';
 
 //Import rxjs helpers for API
 import 'rxjs/add/operator/toPromise';
@@ -121,6 +122,60 @@ export class TextbookTradeSystemApi {
     return create_book_promise;
 
   }
+
+  //User functions
+  public parseRawUser(item:any) {
+    return <User> {
+      id: item["id"],
+      first_name: item["first_name"],
+      last_name: item["last_name"],
+      email: item["email"]
+    }
+  }
+
+  public getUsers() {
+
+    let that = this;
+
+    var get_user_promise = new Promise(function (resolve, reject) {
+
+      that.http.get(endpoint + '/users')
+        .toPromise()
+        .then (function (res) {
+          var users:User[] = (<any[]>res).map(function (rawItem:any) {
+            return that.parseRawUser(rawItem);
+          })
+
+          resolve(users);
+        }).catch (function (err) {
+          reject(err);
+        })
+
+    })
+
+    return get_user_promise
+
+  }
+
+  public getUserById(user_id:number) {
+    let that = this;
+
+    var get_user_promise = new Promise(function (resolve, reject) {
+
+      that.http.get(endpoint + '/users')
+        .toPromise()
+        .then (function (rawItem:any) {
+          var user:User = that.parseRawUser(rawItem);
+          resolve(user);
+        }).catch (function (err) {
+          reject(err);
+        })
+
+    })
+
+    return get_user_promise
+  }
+
 
   public getUserPendingOffers() {
 
