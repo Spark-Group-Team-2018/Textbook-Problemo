@@ -42,25 +42,20 @@ export class ProfilePageComponent implements OnInit {
       return that.api.getUserById(id);
     }).then (function (user:User) {
       that.user = user;
-      console.log(that.user);
+
+      that.api.getUserOffers(that.user.id).then (function (offers:Offer[]) {
+        that.user_offers = offers
+        console.log(offers);
+      })
+
+      //Retrieve the user created textbooks
+      that.api.getUserTextbooks(that.user.id).then (function (textbooks: Textbook[]) {
+        that.user_textbooks = textbooks;
+
+      })
+
     }).catch (function (err) {
       console.log(err)
-    })
-
-    //Retrieve the user created offers
-    this.api.getUserOffers().then (function (offers:Offer[]) {
-      that.user_offers = offers
-      console.log(that.user_offers);
-    }).catch (function (err) {
-      console.log(err);
-    });
-
-    //Retrieve the user created textbooks
-    this.api.getUserTextbooks().then (function (textbooks: Textbook[]) {
-      that.user_textbooks = textbooks;
-      console.log(that.user_textbooks);
-    }).catch (function (err) {
-      console.log(err);
     })
 
   }

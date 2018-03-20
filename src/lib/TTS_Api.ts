@@ -183,7 +183,7 @@ export class TextbookTradeSystemApi {
   }
 
   //FIXME Do with real data and model
-  public getUserTextbooks() {
+  public getTextbooks() {
 
     let that = this;
 
@@ -212,6 +212,30 @@ export class TextbookTradeSystemApi {
     })
 
     return textbook_promise;
+
+  }
+
+  //Get the textbooks by the user, FIXME backend
+  public getUserTextbooks(user_id:number) {
+
+    let that = this;
+
+    var textbook_promise = new Promise(function (resolve, reject) {
+
+      that.getTextbooks().then (function (textbooks: Textbook[]) {
+        var filtered_textbooks:Textbook[] = textbooks.filter(function (textbook:Textbook) {
+          return textbook.user_id == user_id;
+        })
+
+        resolve(filtered_textbooks);
+      }).catch (function (err) {
+        reject(err);
+      })
+
+    })
+
+    return textbook_promise;
+
 
   }
 
@@ -254,7 +278,7 @@ export class TextbookTradeSystemApi {
 
 
   //FIXME Do with real data and model
-  public getUserOffers() {
+  public getOffers() {
 
     let that = this;
 
@@ -277,6 +301,40 @@ export class TextbookTradeSystemApi {
         }).catch (function (err) {
           reject(err);
         })
+    })
+
+    return offer_promise;
+
+  }
+
+  //Get the user offers by id FIXME backend
+  public getUserOffers(user_id:number) {
+
+    let that = this;
+
+    var offer_promise = new Promise(function (resolve, reject) {
+
+      var textbook_ids:Number[] = [];
+
+      that.getUserTextbooks(user_id).then (function (pulled_textbooks:Textbook[]) {
+        pulled_textbooks.map(function (textbook:Textbook) {
+          textbook_ids.push(textbook.id);
+        })
+        return that.getOffers()
+      }).then (function (offers:Offer[]) {
+
+        console.log("MEH")
+
+        var filtered_offers:Offer[] = offers.filter(function (offer:Offer) {
+          return textbook_ids.includes(offer.textbook_id);
+        })
+
+        resolve(filtered_offers);
+
+      }).catch (function (err) {
+        reject(err);
+      })
+
     })
 
     return offer_promise;
