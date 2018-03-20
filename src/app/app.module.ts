@@ -20,7 +20,6 @@ import { BookCreationPageComponent } from './book-creation-page/book-creation-pa
 import { BrowseBooksPageComponent } from './browse-books-page/browse-books-page.component';
 import { HomePageComponent } from './home-page/home-page.component';
 
-
 //The Angular Routes
 const appRoutes: Routes = [
   {path: '', component: ProfilePageComponent},
