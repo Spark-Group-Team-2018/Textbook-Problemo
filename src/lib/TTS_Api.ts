@@ -125,6 +125,7 @@ export class TextbookTradeSystemApi {
 
   //User functions
   public parseRawUser(item:any) {
+
     return <User> {
       id: item["id"],
       first_name: item["first_name"],
@@ -162,7 +163,7 @@ export class TextbookTradeSystemApi {
 
     var get_user_promise = new Promise(function (resolve, reject) {
 
-      that.http.get(endpoint + '/users')
+      that.http.get(endpoint + '/users/' + user_id.toString())
         .toPromise()
         .then (function (rawItem:any) {
           var user:User = that.parseRawUser(rawItem);
