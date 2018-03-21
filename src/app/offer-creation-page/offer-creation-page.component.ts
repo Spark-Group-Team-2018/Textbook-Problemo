@@ -12,6 +12,7 @@ import { RouterModule, Routes, Router, ActivatedRoute }  from '@angular/router';
 export class OfferCreationPageComponent implements OnInit {
 
   public new_offer:Offer = Offer.createEmptyOffer();
+  public user_id:number = null;
 
   constructor(
     private route: ActivatedRoute,

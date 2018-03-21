@@ -16,9 +16,10 @@ import {TextbookTradeSystemApi} from '../../lib/TTS_Api';
 })
 export class TextbookCreationPageComponent implements OnInit {
 
-  new_textbook:Textbook = Textbook.createEmptyTextbook()
+  public new_textbook:Textbook = Textbook.createEmptyTextbook()
+  public user_id:number = 0;
 
-  books:Book[] = [];
+  public books:Book[] = [];
 
   constructor(
     private route: ActivatedRoute,
