@@ -88,8 +88,5 @@ export class ProfilePageComponent implements OnInit {
     })
   }
 
-  getTest() {
-
-  }
 
 }

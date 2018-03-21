@@ -1,29 +1,30 @@
 <div class = "container-fluid">
 
-  <h1 class = "text-center">Create Textbook</h1>
+  <h1 class = "text-center">Sell A Textbook</h1>
 
-  <form name = "create-textbook-form">
+  <form name = "create-textbook-form" class="container">
 
       <div class = "form-group">
         <label>Book: </label>
-        <select [(ngModel)] = "new_textbook.book_id" class = "form-control" name = "textbook-book-id">
+        <select [(ngModel)] = "new_textbook.book_id" class = "form-control col-sm-10" name = "textbook-book-id">
           <option *ngFor = "let book of books" value = "{{book.id}}">{{book.title}}</option>
         </select>
       </div>
 
       <div class = "form-group">
-        <label>Status:</label>
-        <input [(ngModel)] = "new_textbook.status" class = "form-control" name = "textbook-status"/>
-      </div>
-
-      <div class = "form-group">
         <label>Description:</label>
-        <textarea [(ngModel)] = "new_textbook.owner_description" class = "form-control" name = "textbook-description"></textarea>
+        <textarea [(ngModel)] = "new_textbook.owner_description" class = "form-control col-sm-10" name = "textbook-description"></textarea>
       </div>
 
-      <button (click) = "goBack()" class = "btn btn-danger">Back</button>
-      <button (click) = "submitTextbook()" class = "btn btn-success">Submit</button>
+      <div class="form-group">
+          <label class="col-sm-2" for="">Condition:</label>
+          <input [(ngModel)] = "new_textbook.status" class = "form-control" name = "textbook-status"/>
+      </div>
 
+      <div class="text-left">
+          <button (click) = "goBack()" class = "btn btn-danger">Back</button>
+          <button (click) = "submitTextbook()" class = "btn btn-success">Submit</button>
+      </div>
   </form>
 
 </div>
