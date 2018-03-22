@@ -28,7 +28,8 @@ const appRoutes: Routes = [
   {path: 'create-textbook', component: TextbookCreationPageComponent},
   {path: 'create-offer', component: OfferCreationPageComponent},
   {path: 'add-book', component: BookCreationPageComponent},
-  {path: 'browse-books', component: BrowseBooksPageComponent}
+  {path: 'browse-books', component: BrowseBooksPageComponent},
+  {path: 'browse-offers', component: BrowseOffersPageComponent}
 ]
 
 
