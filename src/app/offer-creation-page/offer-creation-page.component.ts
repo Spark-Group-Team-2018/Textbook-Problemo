@@ -4,19 +4,25 @@ import {Offer} from '../../models/offer';
 
 import { RouterModule, Routes, Router, ActivatedRoute }  from '@angular/router';
 
+import {TextbookTradeSystemApi} from '../../lib/TTS_Api';
+
 @Component({
   selector: 'app-offer-creation-page',
   templateUrl: './offer-creation-page.component.html',
-  styleUrls: ['./offer-creation-page.component.css']
+  styleUrls: ['./offer-creation-page.component.css'],
+  providers: [TextbookTradeSystemApi]
 })
 export class OfferCreationPageComponent implements OnInit {
 
   public new_offer:Offer = Offer.createEmptyOffer();
   public user_id:number = null;
 
+  public user_textbooks:Textbook[] = [];
+
   constructor(
     private route: ActivatedRoute,
-    private router: Router
+    private router: Router,
+    private api: TextbookTradeSystemApi
   ) { }
 
   ngOnInit() {
@@ -25,6 +31,10 @@ export class OfferCreationPageComponent implements OnInit {
 
     that.getUserId().then (function (user_id:number) {
       that.user_id = user_id;
+      return that.api.getUserTextbooks(that.user_id);
+    }).then (function (textbooks: Textbook[]) {
+      that.user_textbooks = textbooks;
+      console.log(that.user_textbooks);
     }).catch(function (err) {
       console.log(err);
       that.goBack();
@@ -38,7 +48,16 @@ export class OfferCreationPageComponent implements OnInit {
   }
 
   submitOffer() {
-    alert(JSON.stringify(this.new_offer));
+
+    let that = this;
+
+    this.api.createOffer(this.new_offer).then (function (offer:Offer) {
+      alert(JSON.stringify(offer));
+      that.goBack();
+    }).catch (function (err) {
+      alert("Unable to create offer");
+    })
+
   }
 
   getUserId() {

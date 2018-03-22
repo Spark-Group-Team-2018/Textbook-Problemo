@@ -6,8 +6,13 @@
 
       <div class = "form-group">
         <label>Textbook Name: </label>
-        <input [(ngModel)] = "new_offer.textbook_name" class = "form-control" name = "textbook-name"/>
+        
+        <select [(ngModel)] = "new_offer.textbook_id" class = "form-control col-sm-10" name = "offer-textbook-id">
+          <option *ngFor = "let textbook of user_textbooks" value = "{{textbook.id}}">{{textbook.name}}</option>
+        </select>
       </div>
+
+
 
       <div class = "form-group">
         <label>Price:</label>
