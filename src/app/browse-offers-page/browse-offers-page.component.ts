@@ -18,6 +18,9 @@ export class BrowseOffersPageComponent implements OnInit {
 
   public textbooks:Textbook[] = [];
 
+  //FIXME
+  public user_id:number = null;
+
   constructor(
     private api: TextbookTradeSystemApi
   ) { }
@@ -25,6 +28,8 @@ export class BrowseOffersPageComponent implements OnInit {
   ngOnInit() {
 
     let that = this;
+
+
 
     that.api.getOffers().then (function (offers: Offer[]) {
       that.offers = offers;
@@ -46,6 +51,17 @@ export class BrowseOffersPageComponent implements OnInit {
     return this.textbooks.find(function (textbook:Textbook) {
       return textbook.id == id;
     })
+  }
+
+
+  //IMPLEMENTME
+  sendOffer(offer_id:number) {
+
+  }
+
+  //IMPLEMENTME
+  getUserId() {
+
   }
 
 }
