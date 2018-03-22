@@ -19,6 +19,7 @@ import { NavbarComponent } from './navbar/navbar.component';
 import { BookCreationPageComponent } from './book-creation-page/book-creation-page.component';
 import { BrowseBooksPageComponent } from './browse-books-page/browse-books-page.component';
 import { HomePageComponent } from './home-page/home-page.component';
+import { BrowseOffersPageComponent } from './browse-offers-page/browse-offers-page.component';
 
 //The Angular Routes
 const appRoutes: Routes = [
@@ -40,7 +41,8 @@ const appRoutes: Routes = [
     NavbarComponent,
     BookCreationPageComponent,
     BrowseBooksPageComponent,
-    HomePageComponent
+    HomePageComponent,
+    BrowseOffersPageComponent
   ],
   imports: [
     BrowserModule,
