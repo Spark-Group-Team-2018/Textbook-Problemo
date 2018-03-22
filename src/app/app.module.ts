@@ -22,7 +22,8 @@ import { HomePageComponent } from './home-page/home-page.component';
 
 //The Angular Routes
 const appRoutes: Routes = [
-  {path: '', component: ProfilePageComponent},
+  {path: 'home', component: HomePageComponent},
+  {path: 'profile', component: ProfilePageComponent},
   {path: 'create-textbook', component: TextbookCreationPageComponent},
   {path: 'create-offer', component: OfferCreationPageComponent},
   {path: 'add-book', component: BookCreationPageComponent},

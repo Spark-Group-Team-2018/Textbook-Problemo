@@ -178,6 +178,7 @@ export class TextbookTradeSystemApi {
   }
 
 
+
   public getUserPendingOffers() {
 
   }
@@ -278,6 +279,7 @@ export class TextbookTradeSystemApi {
 
 
   //FIXME Do with real data and model
+
   public getOffers() {
 
     let that = this;
@@ -300,6 +302,40 @@ export class TextbookTradeSystemApi {
 
         }).catch (function (err) {
           reject(err);
+        })
+    })
+
+    return offer_promise;
+
+  }
+
+  public createOffer(offer:Offer) {
+
+    let that = this;
+
+    const httpOptions = {
+        headers: new HttpHeaders({
+          'Content-Type': 'application/json'
+        })
+    }
+
+    var offer_payload = Offer.getOfferPayload(offer);
+
+    var offer_promise = new Promise(function (resolve, reject) {
+      that.http.post(endpoint + "/offers", offer_payload, httpOptions)
+        .toPromise()
+        .then (function (item:any) {
+
+          var offer_res:Offer = <Offer> {
+            id: Number(item["id"]),
+            textbook_id: item["textbook_id"],
+            price: Number(item["price"])
+          }
+
+          resolve(offer_res);
+
+        }).catch (function (err) {
+            reject(err)
         })
     })
 

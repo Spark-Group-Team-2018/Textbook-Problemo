@@ -11,7 +11,7 @@ export class Textbook {
 
   static createEmptyTextbook() {
       //Change User id part
-      return <Textbook> {book_id: null, user_id: 1, status: "", owner_description: "", is_public: true}
+      return <Textbook> {book_id: null, user_id: null, status: "", owner_description: "", is_public: true}
   }
 
   static getTextbookPayload(textbook:Textbook) {

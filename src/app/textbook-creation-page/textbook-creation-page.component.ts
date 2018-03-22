@@ -3,7 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import {Textbook} from '../../models/textbook';
 import {Book} from '../../models/book';
 
-import { RouterModule, Routes, Router, ActivatedRoute }  from '@angular/router';
+import { RouterModule, Routes, Router, ActivatedRoute, NavigationExtras }  from '@angular/router';
 
 //Import the api
 import {TextbookTradeSystemApi} from '../../lib/TTS_Api';
@@ -16,10 +16,12 @@ import {TextbookTradeSystemApi} from '../../lib/TTS_Api';
 })
 export class TextbookCreationPageComponent implements OnInit {
 
-  public new_textbook:Textbook = Textbook.createEmptyTextbook()
-  public user_id:number = 0;
+  public new_textbook:Textbook = Textbook.createEmptyTextbook();
+  public user_id:number = null;
 
   public books:Book[] = [];
+
+
 
   constructor(
     private route: ActivatedRoute,
@@ -31,6 +33,16 @@ export class TextbookCreationPageComponent implements OnInit {
 
     this.api.getBooks().then (function (books:Book[]){
       that.books = books;
+    }).catch (function (err) {
+      console.log(err);
+    })
+
+    that.getUserId().then (function (user_id:number) {
+      that.user_id = user_id;
+      that.new_textbook.user_id = user_id;
+    }).catch(function (err) {
+      console.log(err);
+      that.goBack();
     })
 
   }
@@ -54,7 +66,29 @@ export class TextbookCreationPageComponent implements OnInit {
   }
 
   goBack() {
-    this.router.navigate(['/'])
+
+    this.router.navigate(['/profile'], {queryParams: {user_id: this.user_id}})
+  }
+
+  getUserId() {
+
+    let that = this;
+
+    var user_id_promise = new Promise(function (resolve, reject) {
+      that.route.queryParams
+        .subscribe(params => {
+          let user_id:number = Number(params["user_id"]) || null;
+
+          if (user_id == null) {
+            reject("invalid_user");
+          }
+
+          resolve(user_id)
+        })
+    })
+
+    return user_id_promise;
+
   }
 
 }

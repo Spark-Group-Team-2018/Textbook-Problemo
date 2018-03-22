@@ -56,6 +56,11 @@ export class ProfilePageComponent implements OnInit {
 
     }).catch (function (err) {
       console.log(err)
+
+      if (err == "invalid_user") {
+        that.router.navigate(["/"]);
+      }
+
     })
 
   }
@@ -67,10 +72,10 @@ export class ProfilePageComponent implements OnInit {
     var user_id_promise = new Promise(function (resolve, reject) {
       that.route.queryParams
         .subscribe(params => {
-          let user_id:number = Number(params["user_id"] || null)
+          let user_id:number = Number(params["user_id"]) || null;
 
           if (user_id == null) {
-            reject("Unable to pull that");
+            reject("invalid_user");
           }
 
           resolve(user_id)

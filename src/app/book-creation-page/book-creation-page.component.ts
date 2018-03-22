@@ -21,6 +21,8 @@ export class BookCreationPageComponent implements OnInit {
 
   public manufacturers:Manufacturer[] = [];
 
+  public user_id:number = null;
+
   constructor(private route: ActivatedRoute,
   private router: Router,
   private api: TextbookTradeSystemApi) {
@@ -33,9 +35,20 @@ export class BookCreationPageComponent implements OnInit {
       console.log(that.manufacturers)
     })
 
+    that.getUserId().then (function (user_id:number) {
+      that.user_id = user_id;
+    }).catch(function (err) {
+      console.log(err);
+      that.goBack();
+    })
+
   }
 
   ngOnInit() {
+
+
+
+
   }
 
   submitBook() {
@@ -49,8 +62,29 @@ export class BookCreationPageComponent implements OnInit {
     })
   }
 
+  getUserId() {
+
+    let that = this;
+
+    var user_id_promise = new Promise(function (resolve, reject) {
+      that.route.queryParams
+        .subscribe(params => {
+          let user_id:number = Number(params["user_id"]) || null;
+
+          if (user_id == null) {
+            reject("invalid_user");
+          }
+
+          resolve(user_id)
+        })
+    })
+
+    return user_id_promise;
+
+  }
+
   goBack() {
-    this.router.navigate(['/'])
+    this.router.navigate(['/profile'], {queryParams: {user_id: this.user_id}})
   }
 
 }
