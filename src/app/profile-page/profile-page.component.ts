@@ -7,6 +7,7 @@ import {TextbookTradeSystemApi} from "../../lib/TTS_Api";
 import {Textbook} from '../../models/textbook';
 import {Offer} from '../../models/offer';
 import {User} from '../../models/user';
+import {PendingOffer} from '../../models/pendingoffer';
 
 import {Router, ActivatedRoute, ParamMap, NavigationExtras} from '@angular/router';
 import { Observable }         from 'rxjs/Observable';
@@ -25,6 +26,8 @@ export class ProfilePageComponent implements OnInit {
 
   public user_offers:Offer[] = [];
   public user_textbooks:Textbook[] = [];
+  public pending_offers: PendingOffer[] = [];
+
   public user_id:number = null;
   public user:User = null;
 
@@ -42,6 +45,11 @@ export class ProfilePageComponent implements OnInit {
       return that.api.getUserById(id);
     }).then (function (user:User) {
       that.user = user;
+
+      that.api.getUserPendingOffers(that.user.id).then (function (pending_offers:PendingOffer[]) {
+        that.pending_offers = pending_offers
+        console.log(that.pending_offers);
+      })
 
       that.api.getUserOffers(that.user.id).then (function (offers:Offer[]) {
         that.user_offers = offers

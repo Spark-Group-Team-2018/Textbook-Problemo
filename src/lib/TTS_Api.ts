@@ -11,6 +11,8 @@ import {Offer} from '../models/offer';
 import {Book} from '../models/book';
 import {Manufacturer} from '../models/manufacturer';
 import {User} from '../models/user';
+import {PendingOffer} from '../models/pendingoffer';
+
 
 //Import rxjs helpers for API
 import 'rxjs/add/operator/toPromise';
@@ -178,8 +180,63 @@ export class TextbookTradeSystemApi {
   }
 
 
+  public parseRawPendingOffer(item:any) {
 
-  public getUserPendingOffers() {
+    return <PendingOffer> {
+      id: Number(item["id"]),
+      offer_id: Number(item["offer_id"]),
+      buyer_id: Number(item["buyer_id"])
+    }
+
+  }
+
+  public getPendingOffers() {
+
+    let that = this;
+
+    var pending_offer_promise = new Promise (function (resolve, reject) {
+
+      that.http.get(endpoint + '/pendingoffers')
+        .toPromise()
+        .then (function (res) {
+
+          var items:any[] = (<any[]>res);
+
+          var pending_offers:PendingOffer[] = items.map(function (item:any) {
+            return that.parseRawPendingOffer(item);
+          })
+
+          resolve(pending_offers);
+
+        }).catch (function (err) {
+          reject(err);
+        })
+
+    })
+
+    return pending_offer_promise;
+
+  }
+
+  public getUserPendingOffers(user_id:number) {
+
+    let that = this;
+
+    var pending_offer_promise = new Promise (function (resolve, reject) {
+
+      that.getPendingOffers().then (function (pendingoffers: PendingOffer[]) {
+        var filtered_pending_offers = pendingoffers.filter(function (pending_offer:PendingOffer) {
+          return pending_offer.buyer_id == user_id;
+        })
+
+        resolve(filtered_pending_offers);
+      }).catch (function (err) {
+        reject(err);
+      })
+
+    })
+
+    return pending_offer_promise;
 
   }
 
