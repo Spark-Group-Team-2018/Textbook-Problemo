@@ -26,7 +26,13 @@ export class ProfilePageComponent implements OnInit {
 
   public user_offers:Offer[] = [];
   public user_textbooks:Textbook[] = [];
-  public pending_offers: PendingOffer[] = [];
+
+  /** OPTIMIZE ME **/
+  public all_offers:Offer[] = [];
+  public all_textbooks:Textbook[] = [];
+  /** END OPTIMIZE **/
+
+  public seller_pending_offers: PendingOffer[] = [];
 
   public user_id:number = null;
   public user:User = null;
@@ -47,8 +53,8 @@ export class ProfilePageComponent implements OnInit {
       that.user = user;
 
       that.api.getUserPendingOffers(that.user.id).then (function (pending_offers:PendingOffer[]) {
-        that.pending_offers = pending_offers
-        console.log(that.pending_offers);
+        that.seller_pending_offers = pending_offers
+        console.log(that.seller_pending_offers);
       })
 
       that.api.getUserOffers(that.user.id).then (function (offers:Offer[]) {
@@ -70,6 +76,21 @@ export class ProfilePageComponent implements OnInit {
       }
 
     })
+
+    /** OPTIMIZE ME **/
+    that.api.getOffers().then (function (offers:Offer[]) {
+      that.all_offers = offers;
+    }).catch (function (err) {
+      console.log(err);
+    })
+
+    that.api.getTextbooks().then(function (textbooks:Textbook[]) {
+      that.all_textbooks = textbooks;
+    }).catch (function (err) {
+      console.log(err);
+    })
+
+    /** END OPTIMIZE **/
 
   }
 
@@ -100,6 +121,46 @@ export class ProfilePageComponent implements OnInit {
       return offer.textbook_id == textbook.id
     })
   }
+
+
+  /**
+  OPTIMIZE ME
+  ;; These are helper functions for rendering pending offers from sellers
+  **/
+
+  getTextbookByOffer(offer_id:number) {
+
+    let that = this;
+
+    var textbook:Textbook = this.all_textbooks.find(function (textbook: Textbook) {
+      var offer = that.all_offers.find(function (offer: Offer) {
+        return offer.id = offer_id;
+      })
+
+      return textbook.id == offer.textbook_id;
+
+    })
+
+    return textbook;
+
+  }
+
+  getPendingOfferSellerOffer(offer_id) {
+    let that = this;
+
+    var offer:Offer = this.all_offers.find(function (offer: Offer) {
+      return offer.id == offer_id
+    })
+
+    return offer;
+
+  }
+
+  getPendingOfferSeller() {
+
+  }
+
+  // OPTIMIZE END
 
 
 }

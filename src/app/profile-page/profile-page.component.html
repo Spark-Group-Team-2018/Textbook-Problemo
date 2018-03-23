@@ -25,6 +25,17 @@
         </div>
       </ul>
 
+      <br>
+
+      <h2 class = "text-center">View Pending Offers with Seller</h2>
+
+      <ul class = "list-group">
+        <div *ngFor = "let seller_pendingoffer of seller_pending_offers" class = "list-group-item">
+          <p>Pending offer for <br><em>{{getTextbookByOffer(seller_pendingoffer.offer_id).name}}</em></p>
+          <p>Price: ${{getPendingOfferSellerOffer(seller_pendingoffer.offer_id).price}}</p>
+        </div>
+      </ul>
+
     </div>
 
     <!-- View Offers -->
@@ -34,6 +45,7 @@
       <ul class="list-group">
         <div *ngFor = "let offer of user_offers" class="list-group-item">
           <p>Offer for <u>{{getOfferTextbook(offer).name}}</u></p>
+
         </div>
       </ul>
 
