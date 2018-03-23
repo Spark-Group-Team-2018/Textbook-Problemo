@@ -240,7 +240,34 @@ export class TextbookTradeSystemApi {
 
   }
 
-  //FIXME Do with real data and model
+  public createPendingOffer(pending_offer:PendingOffer) {
+
+    let that = this;
+
+
+    var pendingOfferPayload = PendingOffer.getPendingOfferPayload(pending_offer);
+
+    const httpOptions = {
+        headers: new HttpHeaders({
+          'Content-Type': 'application/json'
+        })
+    }
+
+    var pending_offer_promise = new Promise(function (resolve, reject) {
+      that.http.post(endpoint + "/pendingoffers", pendingOfferPayload, httpOptions)
+        .toPromise()
+        .then (function (item:any) {
+          var created_pending_offer:PendingOffer = that.parseRawPendingOffer(item);
+          resolve(created_pending_offer);
+        }).catch (function (err) {
+          reject(err);
+        })
+    })
+
+    return pending_offer_promise;
+
+  }
+
   public getTextbooks() {
 
     let that = this;
@@ -273,7 +300,6 @@ export class TextbookTradeSystemApi {
 
   }
 
-  //Get the textbooks by the user, FIXME backend
   public getUserTextbooks(user_id:number) {
 
     let that = this;
@@ -335,7 +361,6 @@ export class TextbookTradeSystemApi {
   }
 
 
-  //FIXME Do with real data and model
 
   public getOffers() {
 
@@ -400,7 +425,6 @@ export class TextbookTradeSystemApi {
 
   }
 
-  //Get the user offers by id FIXME backend
   public getUserOffers(user_id:number) {
 
     let that = this;

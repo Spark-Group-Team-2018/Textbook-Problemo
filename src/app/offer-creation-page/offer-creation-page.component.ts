@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 
 import {Offer} from '../../models/offer';
+import {Textbook} from '../../models/textbook';
 
 import { RouterModule, Routes, Router, ActivatedRoute }  from '@angular/router';
 

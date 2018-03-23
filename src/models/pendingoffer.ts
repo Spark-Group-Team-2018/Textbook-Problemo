@@ -7,4 +7,15 @@ export class PendingOffer {
 
   constructor() {}
 
+  static getPendingOfferPayload(pendingoffer:PendingOffer) {
+
+    return {
+      pendingoffer: {
+        offer_id: pendingoffer.offer_id,
+        buyer_id: pendingoffer.buyer_id
+      }
+    };
+
+  }
+
 }

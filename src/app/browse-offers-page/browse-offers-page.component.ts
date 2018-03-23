@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 
 //models
 import {Offer} from '../../models/offer';
+import {Textbook} from '../../models/textbook';
 
 //TTS Api
 import {TextbookTradeSystemApi} from '../../lib/TTS_Api';
