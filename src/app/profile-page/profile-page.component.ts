@@ -90,7 +90,7 @@ export class ProfilePageComponent implements OnInit {
     /** OPTIMIZE ME **/
     that.api.getOffers().then (function (offers:Offer[]) {
       that.all_offers = offers;
-      console.log(all_offers);
+      console.log(that.all_offers);
     }).catch (function (err) {
       console.log(err);
     })
