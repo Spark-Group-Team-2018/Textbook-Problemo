@@ -218,7 +218,46 @@ export class TextbookTradeSystemApi {
 
   }
 
-  public getUserPendingOffers(user_id:number) {
+  //OPTIMIZE ME
+  public getBuyerPendingOffers(seller_id:number) {
+    let that = this;
+
+    var pending_offer_promise = new Promise(function (resolve, reject) {
+
+      var offer_ids:number[] = [];
+
+      that.getUserOffers(seller_id).then (function (offers: Offer[]) {
+
+        console.log("User Offers")
+        console.log(offers);
+
+        offer_ids = offers.map (function (offer: Offer) {
+          return offer.id;
+        })
+
+        return that.getPendingOffers();
+
+      }).then (function (pendingoffers:PendingOffer[]) {
+
+        console.log(offer_ids);
+        var filtered_pending_offers:PendingOffer[] = pendingoffers.filter(function (pending_offer:PendingOffer) {
+          return offer_ids.includes(pending_offer.offer_id);
+        })
+
+        resolve(filtered_pending_offers);
+
+      }).catch (function (err) {
+        reject(err);
+      })
+
+    })
+
+    return pending_offer_promise;
+
+  }
+
+  //OPTIMIZE ME
+  public getSellerPendingOffers(buyer_id:number) {
 
     let that = this;
 
@@ -226,7 +265,7 @@ export class TextbookTradeSystemApi {
 
       that.getPendingOffers().then (function (pendingoffers: PendingOffer[]) {
         var filtered_pending_offers = pendingoffers.filter(function (pending_offer:PendingOffer) {
-          return pending_offer.buyer_id == user_id;
+          return pending_offer.buyer_id == buyer_id;
         })
 
         resolve(filtered_pending_offers);

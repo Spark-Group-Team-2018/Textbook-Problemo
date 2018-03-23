@@ -30,9 +30,11 @@ export class ProfilePageComponent implements OnInit {
   /** OPTIMIZE ME **/
   public all_offers:Offer[] = [];
   public all_textbooks:Textbook[] = [];
+  public all_users:User[] = [];
   /** END OPTIMIZE **/
 
   public seller_pending_offers: PendingOffer[] = [];
+  public buyer_pending_offers: PendingOffer[] = [];
 
   public user_id:number = null;
   public user:User = null;
@@ -52,14 +54,22 @@ export class ProfilePageComponent implements OnInit {
     }).then (function (user:User) {
       that.user = user;
 
-      that.api.getUserPendingOffers(that.user.id).then (function (pending_offers:PendingOffer[]) {
+      that.api.getSellerPendingOffers(that.user.id).then (function (pending_offers:PendingOffer[]) {
         that.seller_pending_offers = pending_offers
-        console.log(that.seller_pending_offers);
+        console.log(that.seller_pending_offers)
       })
+
+      that.api.getBuyerPendingOffers(that.user.id).then (function (pending_offers:PendingOffer[]) {
+
+        that.buyer_pending_offers = pending_offers;
+        console.log("Buyer Pending Offers")
+        console.log(that.buyer_pending_offers);
+
+      });
+
 
       that.api.getUserOffers(that.user.id).then (function (offers:Offer[]) {
         that.user_offers = offers
-        console.log(offers);
       })
 
       //Retrieve the user created textbooks
@@ -80,6 +90,13 @@ export class ProfilePageComponent implements OnInit {
     /** OPTIMIZE ME **/
     that.api.getOffers().then (function (offers:Offer[]) {
       that.all_offers = offers;
+      console.log(all_offers);
+    }).catch (function (err) {
+      console.log(err);
+    })
+
+    that.api.getUsers().then(function (users: User[]) {
+      that.all_users = users;
     }).catch (function (err) {
       console.log(err);
     })
@@ -134,7 +151,7 @@ export class ProfilePageComponent implements OnInit {
 
     var textbook:Textbook = this.all_textbooks.find(function (textbook: Textbook) {
       var offer = that.all_offers.find(function (offer: Offer) {
-        return offer.id = offer_id;
+        return offer.id == offer_id;
       })
 
       return textbook.id == offer.textbook_id;
@@ -145,19 +162,37 @@ export class ProfilePageComponent implements OnInit {
 
   }
 
-  getPendingOfferSellerOffer(offer_id) {
+  getPendingOfferSellerOffer(offer_id:number) {
     let that = this;
 
-    var offer:Offer = this.all_offers.find(function (offer: Offer) {
-      return offer.id == offer_id
+    var offer:Offer = this.all_offers.find(function (offer:Offer) {
+      return offer.id == offer_id;
     })
+
 
     return offer;
 
   }
 
-  getPendingOfferSeller() {
+  getPendingOfferSeller(offer_id) {
 
+    let that = this;
+
+    var user:User = this.all_users.find(function (user:User) {
+
+      var offer = that.all_offers.find(function (offer:Offer) {
+        return offer.id == offer_id;
+      })
+
+      var textbook = that.all_textbooks.find(function (textbook:Textbook) {
+        return textbook.id == offer.textbook_id;
+      })
+
+      return user.id == textbook.user_id;
+
+    })
+
+    return user;
   }
 
   // OPTIMIZE END

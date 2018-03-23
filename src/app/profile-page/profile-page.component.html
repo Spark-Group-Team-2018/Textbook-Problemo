@@ -33,6 +33,7 @@
         <div *ngFor = "let seller_pendingoffer of seller_pending_offers" class = "list-group-item">
           <p>Pending offer for <br><em>{{getTextbookByOffer(seller_pendingoffer.offer_id).name}}</em></p>
           <p>Price: ${{getPendingOfferSellerOffer(seller_pendingoffer.offer_id).price}}</p>
+          <p>Sold by: {{getPendingOfferSeller(seller_pendingoffer.offer_id).first_name}} {{getPendingOfferSeller(seller_pendingoffer.offer_id).last_name}}</p>
         </div>
       </ul>
 
