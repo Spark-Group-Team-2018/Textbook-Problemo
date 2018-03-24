@@ -138,6 +138,22 @@ export class ProfilePageComponent implements OnInit {
 
     alert("DELETE Textbook " + user_textbook_id.toString());
 
+    let that = this;
+
+    /** Validation Code HERE FIXME **/
+
+    /** Validation code end **/
+
+    that.api.deleteTextbook(user_textbook_id).then (function (res) {
+      console.log(res);
+
+      that.refreshUserData(that.user.id);
+      that.refreshGenData();
+
+    }).catch (function (err) {
+      console.log(err);
+    })
+
   }
 
   /**
@@ -150,6 +166,22 @@ export class ProfilePageComponent implements OnInit {
   deleteUserOffer(user_offer_id:number) {
 
     alert("DELETE Offer " + user_offer_id.toString());
+
+    let that = this;
+
+    /** Validation Code HERE FIXME **/
+
+    /** Validation code end **/
+
+    that.api.deleteOffer(user_offer_id).then (function (res) {
+      console.log(res);
+
+      that.refreshUserData(that.user.id);
+      that.refreshGenData();
+
+    }).catch (function (err) {
+      console.log(err);
+    })
 
   }
 
@@ -165,6 +197,12 @@ export class ProfilePageComponent implements OnInit {
 
     alert("DELETE Seller Pending Offer " + pending_offer_id.toString());
 
+    /** Validation Code HERE FIXME **/
+
+    /** Validation code end **/
+
+    this.deletePendingOffer(pending_offer_id);
+
   }
 
   /**
@@ -179,7 +217,34 @@ export class ProfilePageComponent implements OnInit {
 
     alert("DELETE Buyer Pending Offer " + pending_offer_id.toString());
 
+    /** Validation Code HERE FIXME **/
+
+    /** Validation code end **/
+
+    this.deletePendingOffer(pending_offer_id);
+
   }
+
+  /**
+    Deletes the pending offer
+  **/
+
+  deletePendingOffer(pending_offer_id:number) {
+
+    let that = this;
+
+    that.api.deletePendingOffer(pending_offer_id).then (function (res) {
+      that.refreshUserData(that.user.id);
+      that.refreshGenData();
+    }).catch(function (err) {
+      console.log(err);
+    })
+
+  }
+
+  /**
+  Retrieves the Id of the User
+  **/
 
   getUserId() {
 

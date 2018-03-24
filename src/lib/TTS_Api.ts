@@ -190,6 +190,28 @@ export class TextbookTradeSystemApi {
 
   }
 
+  public deletePendingOffer(pending_offer_id:number) {
+
+    let that = this;
+
+    var delete_pending_offer_promise = new Promise (function (resolve, reject) {
+
+      that.http.delete(endpoint + '/pendingoffers' + '/' + pending_offer_id)
+        .toPromise()
+        .then (function (res) {
+
+          resolve(res);
+
+        }).catch (function (err) {
+          reject(err);
+        })
+
+    })
+
+    return delete_pending_offer_promise;
+
+  }
+
   public getPendingOffers() {
 
     let that = this;
@@ -339,6 +361,24 @@ export class TextbookTradeSystemApi {
 
   }
 
+  public deleteTextbook(textbook_id:number) {
+    let that = this;
+
+    var delete_textbook_promise = new Promise(function (resolve, reject) {
+      that.http.delete(endpoint + "/textbooks" + "/" + textbook_id)
+        .toPromise()
+        .then (function (res) {
+
+          resolve(res);
+
+        }).catch (function (err) {
+          reject(err);
+        })
+    })
+
+    return delete_textbook_promise;
+  }
+
   public getUserTextbooks(user_id:number) {
 
     let that = this;
@@ -399,7 +439,23 @@ export class TextbookTradeSystemApi {
     return create_textbook_promise;
   }
 
+  public deleteOffer(offer_id:number) {
+    let that = this;
 
+    var delete_offer_promise = new Promise(function (resolve, reject) {
+      that.http.delete(endpoint + "/offers" + "/" + offer_id)
+        .toPromise()
+        .then (function (res) {
+
+          resolve(res);
+
+        }).catch (function (err) {
+          reject(err);
+        })
+    })
+
+    return delete_offer_promise;
+  }
 
   public getOffers() {
 
