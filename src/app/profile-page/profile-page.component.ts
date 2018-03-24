@@ -54,29 +54,7 @@ export class ProfilePageComponent implements OnInit {
     }).then (function (user:User) {
       that.user = user;
 
-      that.api.getSellerPendingOffers(that.user.id).then (function (pending_offers:PendingOffer[]) {
-        that.seller_pending_offers = pending_offers
-        console.log(that.seller_pending_offers)
-      })
-
-      that.api.getBuyerPendingOffers(that.user.id).then (function (pending_offers:PendingOffer[]) {
-
-        that.buyer_pending_offers = pending_offers;
-        console.log("Buyer Pending Offers")
-        console.log(that.buyer_pending_offers);
-
-      });
-
-
-      that.api.getUserOffers(that.user.id).then (function (offers:Offer[]) {
-        that.user_offers = offers
-      })
-
-      //Retrieve the user created textbooks
-      that.api.getUserTextbooks(that.user.id).then (function (textbooks: Textbook[]) {
-        that.user_textbooks = textbooks;
-
-      })
+      that.refreshUserData(that.user.id);
 
     }).catch (function (err) {
       console.log(err)
@@ -86,6 +64,15 @@ export class ProfilePageComponent implements OnInit {
       }
 
     })
+
+    that.refreshGenData();
+
+  }
+
+  //Retrieves all essential data
+
+  refreshGenData() {
+    let that = this;
 
     /** OPTIMIZE ME **/
     that.api.getOffers().then (function (offers:Offer[]) {
@@ -108,6 +95,89 @@ export class ProfilePageComponent implements OnInit {
     })
 
     /** END OPTIMIZE **/
+  }
+
+  refreshUserData(user_id:number) {
+    let that = this;
+
+    that.api.getSellerPendingOffers(that.user.id).then (function (pending_offers:PendingOffer[]) {
+      that.seller_pending_offers = pending_offers
+      console.log(that.seller_pending_offers)
+    })
+
+    that.api.getBuyerPendingOffers(that.user.id).then (function (pending_offers:PendingOffer[]) {
+
+      that.buyer_pending_offers = pending_offers;
+      console.log("Buyer Pending Offers")
+      console.log(that.buyer_pending_offers);
+
+    });
+
+
+    that.api.getUserOffers(that.user.id).then (function (offers:Offer[]) {
+      that.user_offers = offers
+    })
+
+    //Retrieve the user created textbooks
+    that.api.getUserTextbooks(that.user.id).then (function (textbooks: Textbook[]) {
+      that.user_textbooks = textbooks;
+
+    })
+
+
+  }
+
+  /**
+
+  checks if the user_id corresponds to the textbook user_id
+  if so, delete
+
+  **/
+
+  deleteUserTextbook(user_textbook_id:number) {
+
+    alert("DELETE Textbook " + user_textbook_id.toString());
+
+  }
+
+  /**
+
+  checks if the textbook the offer points to corresponds to the user_id
+  if so, delete
+
+  **/
+
+  deleteUserOffer(user_offer_id:number) {
+
+    alert("DELETE Offer " + user_offer_id.toString());
+
+  }
+
+  /**
+
+  checks if the person is the buyer
+
+  if so, then delete the PendingOffer
+
+  **/
+
+  deleteSellerPendingOffer(pending_offer_id:number) {
+
+    alert("DELETE Seller Pending Offer " + pending_offer_id.toString());
+
+  }
+
+  /**
+
+  checks if the offer belongs to the seller
+
+  if so, then delete the PendingOffer
+
+  **/
+
+  deleteBuyerPendingOffer(pending_offer_id:number) {
+
+    alert("DELETE Buyer Pending Offer " + pending_offer_id.toString());
 
   }
 
@@ -171,6 +241,23 @@ export class ProfilePageComponent implements OnInit {
 
 
     return offer;
+
+  }
+
+  getPendingOfferBuyer(pending_offer_id) {
+    let that = this;
+
+    var user:User = this.all_users.find(function (user:User) {
+
+      var buyer_pending_offer = that.buyer_pending_offers.find(function (pending_offer:PendingOffer) {
+        return pending_offer.id == pending_offer_id;
+      })
+
+      return user.id == buyer_pending_offer.buyer_id;
+
+    })
+
+    return user;
 
   }
 
