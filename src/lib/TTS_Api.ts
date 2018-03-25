@@ -58,6 +58,41 @@ export class TextbookTradeSystemApi {
 
   }
 
+  public parseRawBook(item:any) {
+
+    return <Book>{
+      id: Number(item["id"]),
+      ISBN: item["ISBN"],
+      title: item["title"],
+      description: item["description"],
+      manufacturer_id: item["manufacturer_id"]
+    }
+
+  }
+
+  //Retrieve book by book_id
+
+  public getBookById(book_id:number) {
+
+    let that = this;
+
+    var book_promise = new Promise(function (resolve, reject) {
+      that.http.get(endpoint + "/books" + '/' + book_id)
+        .toPromise()
+        .then (function (bookItem:any) {
+
+          var book:Book = that.parseRawBook(bookItem);
+
+          resolve(book)
+        }).catch (function (err) {
+          reject(err);
+        })
+    })
+
+    return book_promise;
+
+  }
+
   //Retrieve all da book
   public getBooks() {
 
@@ -69,13 +104,7 @@ export class TextbookTradeSystemApi {
         .then (function (res) {
 
           var books:Book[] = (<any[]>res).map(function (item) {
-            return <Book>{
-              id: Number(item["id"]),
-              ISBN: item["ISBN"],
-              title: item["title"],
-              description: item["description"],
-              manufacturer_id: item["manufacturer_id"]
-            }
+            return that.parseRawBook(item);
           })
 
           resolve(books)
