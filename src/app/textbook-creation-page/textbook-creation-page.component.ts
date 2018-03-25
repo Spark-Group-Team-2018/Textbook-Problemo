@@ -8,11 +8,14 @@ import { RouterModule, Routes, Router, ActivatedRoute, NavigationExtras }  from 
 //Import the api
 import {TextbookTradeSystemApi} from '../../lib/TTS_Api';
 
+//User Database
+import {UserDatabase} from '../../lib/User_Database';
+
 @Component({
   selector: 'app-textbook-creation-page',
   templateUrl: './textbook-creation-page.component.html',
   styleUrls: ['./textbook-creation-page.component.css'],
-  providers: [TextbookTradeSystemApi]
+  providers: [TextbookTradeSystemApi, UserDatabase]
 })
 export class TextbookCreationPageComponent implements OnInit {
 
@@ -21,12 +24,11 @@ export class TextbookCreationPageComponent implements OnInit {
 
   public books:Book[] = [];
 
-
-
   constructor(
     private route: ActivatedRoute,
     private router: Router,
-    private api: TextbookTradeSystemApi
+    private api: TextbookTradeSystemApi,
+    private user_db: UserDatabase
   ) {
 
     let that = this;
@@ -74,18 +76,7 @@ export class TextbookCreationPageComponent implements OnInit {
 
     let that = this;
 
-    var user_id_promise = new Promise(function (resolve, reject) {
-      that.route.queryParams
-        .subscribe(params => {
-          let user_id:number = Number(params["user_id"]) || null;
-
-          if (user_id == null) {
-            reject("invalid_user");
-          }
-
-          resolve(user_id)
-        })
-    })
+    var user_id_promise = that.user_db.getUserId();
 
     return user_id_promise;
 

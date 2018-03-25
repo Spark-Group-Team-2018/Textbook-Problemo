@@ -11,11 +11,14 @@ import {TextbookTradeSystemApi} from '../../lib/TTS_Api';
 //Routing System Lib
 import { RouterModule, Routes, Router, ActivatedRoute }  from '@angular/router';
 
+//User Database System
+import {UserDatabase} from '../../lib/User_Database';
+
 @Component({
   selector: 'app-browse-offers-page',
   templateUrl: './browse-offers-page.component.html',
   styleUrls: ['./browse-offers-page.component.css'],
-  providers: [TextbookTradeSystemApi]
+  providers: [TextbookTradeSystemApi, UserDatabase]
 })
 export class BrowseOffersPageComponent implements OnInit {
 
@@ -29,7 +32,8 @@ export class BrowseOffersPageComponent implements OnInit {
   constructor(
     private router: Router,
     private route: ActivatedRoute,
-    private api: TextbookTradeSystemApi
+    private api: TextbookTradeSystemApi,
+    private user_db: UserDatabase
   ) { }
 
   ngOnInit() {
@@ -91,19 +95,7 @@ export class BrowseOffersPageComponent implements OnInit {
 
     let that = this;
 
-    var user_id_promise = new Promise(function (resolve, reject) {
-      that.route.queryParams
-        .subscribe(params => {
-          let user_id:number = Number(params["user_id"]) || null;
-
-
-          if (user_id == null) {
-            reject("invalid_user");
-          }
-
-          resolve(user_id)
-        })
-    })
+    var user_id_promise = that.user_db.getUserId();
 
     return user_id_promise;
 
