@@ -1,5 +1,8 @@
 import * as localForage from "localforage";
 
+//Establishing API Stuff
+import {Injectable} from '@angular/core';
+
 //Import rxjs helpers for API
 import 'rxjs/add/operator/toPromise';
 import 'rxjs/add/operator/map';
@@ -32,7 +35,7 @@ export class UserDatabase {
 
   **/
 
-  setUserId(user_id:number) {
+  public setUserId(user_id:number) {
 
     let that = this;
 
@@ -58,7 +61,7 @@ export class UserDatabase {
 
   **/
 
-  getUserId() {
+  public getUserId() {
 
     var user_promise = new Promise(function (resolve, reject) {
 
@@ -85,11 +88,11 @@ export class UserDatabase {
 
     var user_logged_in = new Promise(function (resolve, reject) {
 
-      that.getUserId().then (function (value) {
+      that.getUserId().then (function (user_id:number) {
 
-        if (value == null) {
+        if (user_id == null) {
           resolve(false);
-        }else if (typeof(value) == "number")){
+        }else if (typeof(user_id) == "number") {
           resolve(true);
         }
 
@@ -111,7 +114,7 @@ export class UserDatabase {
 
   **/
 
-  clearUser() {
+  public clearUser() {
 
     let that = this;
 
