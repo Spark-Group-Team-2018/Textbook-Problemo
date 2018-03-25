@@ -12,6 +12,9 @@ import {PendingOffer} from '../../models/pendingoffer';
 import {Router, ActivatedRoute, ParamMap, NavigationExtras} from '@angular/router';
 import { Observable }         from 'rxjs/Observable';
 
+// Import the User Database
+import {UserDatabase} from '../../lib/User_Database';
+
 //Import rxjs helpers for API
 import 'rxjs/add/operator/toPromise';
 import 'rxjs/add/operator/map';
@@ -20,7 +23,7 @@ import 'rxjs/add/operator/map';
   selector: 'app-profile-page',
   templateUrl: './profile-page.component.html',
   styleUrls: ['./profile-page.component.css'],
-  providers: [TextbookTradeSystemApi]
+  providers: [TextbookTradeSystemApi, UserDatabase]
 })
 export class ProfilePageComponent implements OnInit {
 
@@ -43,6 +46,7 @@ export class ProfilePageComponent implements OnInit {
     private api: TextbookTradeSystemApi,
     private route: ActivatedRoute,
     private router: Router,
+    private user_db: UserDatabase
   ) { }
 
   ngOnInit() {
@@ -250,18 +254,7 @@ export class ProfilePageComponent implements OnInit {
 
     let that = this;
 
-    var user_id_promise = new Promise(function (resolve, reject) {
-      that.route.queryParams
-        .subscribe(params => {
-          let user_id:number = Number(params["user_id"]) || null;
-
-          if (user_id == null) {
-            reject("invalid_user");
-          }
-
-          resolve(user_id)
-        })
-    })
+    var user_id_promise = that.user_db.getUserId();
 
     return user_id_promise;
 
