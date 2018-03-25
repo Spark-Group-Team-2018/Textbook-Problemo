@@ -133,6 +133,25 @@ export class ProfilePageComponent implements OnInit {
 
   /**
 
+  UPDATE User functions
+
+  **/
+
+
+  updateUserTextbook(textbook_id:number) {
+
+    this.router.navigate(['/create-textbook'], {queryParams: {mode: 'update', id: textbook_id}})
+
+  }
+
+  /**
+
+  DELETE User functions
+
+  **/
+
+  /**
+
   checks if the user_id corresponds to the textbook user_id
   if so, delete
 

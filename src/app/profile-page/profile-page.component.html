@@ -5,11 +5,11 @@
   </div>
 
   <div class = "text-center">
-    <a [routerLink]="['/add-book']" [queryParams]="{user_id: user.id}">Add Book</a>
+    <a [routerLink]="['/add-book']">Add Book</a>
     <span> | </span>
-    <a [routerLink] = "['/create-textbook']" [queryParams] = "{user_id: user.id}">Create Textbook</a>
+    <a [routerLink] = "['/create-textbook']">Create Textbook</a>
     <span> | </span>
-    <a [routerLink] = "['/create-offer']" [queryParams] = "{user_id: user.id}">Create Offer</a>
+    <a [routerLink] = "['/create-offer']">Create Offer</a>
   </div>
   <br>
 
@@ -27,6 +27,10 @@
 
           <button (click) = "deleteUserTextbook(textbook.id)" class = "btn btn-danger">
             Delete
+          </button>
+
+          <button (click) = "updateUserTextbook(textbook.id)" class = "btn btn-success">
+            Edit
           </button>
 
         </div>

@@ -329,6 +329,41 @@ export class TextbookTradeSystemApi {
 
   }
 
+  public parseRawTextbook(item:any) {
+
+    return <Textbook>{
+      id: Number(item["id"]),
+      name: item["textbook_title"],
+      book_id: item["book_id"],
+      user_id: item["user_id"],
+      status: item["status"],
+      is_public: item["is_public"],
+      owner_description: item["owner_description"]
+    }
+
+  }
+
+  public getTextbookById(textbook_id:number) {
+
+    let that = this;
+
+    var textbook_promise = new Promise(function (resolve,reject) {
+
+      that.http.get(endpoint + '/textbooks' + '/' + textbook_id)
+        .toPromise()
+        .then (function (item:any) {
+          var textbook:Textbook = that.parseRawTextbook(item);
+          resolve(textbook);
+        }).catch (function (err) {
+          reject(err);
+        })
+
+    })
+
+    return textbook_promise;
+
+  }
+
   public getTextbooks() {
 
     let that = this;
@@ -339,15 +374,7 @@ export class TextbookTradeSystemApi {
         .then (function (res) {
 
           var textbooks:Textbook[] = (<any[]>res).map(function (item) {
-            return <Textbook>{
-              id: Number(item["id"]),
-              name: item["textbook_title"],
-              book_id: item["book_id"],
-              user_id: item["user_id"],
-              status: item["status"],
-              is_public: item["is_public"],
-              owner_description: item["owner_description"]
-            }
+            return that.parseRawTextbook(item);
           })
 
           resolve(textbooks)
@@ -378,6 +405,37 @@ export class TextbookTradeSystemApi {
 
     return delete_textbook_promise;
   }
+
+  public updateTextbook(updated_textbook:Textbook) {
+
+    let that = this;
+
+    var textbook_id:number = updated_textbook.id;
+
+    var textbook_payload = Textbook.getTextbookPayload(updated_textbook);
+
+    const httpOptions = {
+        headers: new HttpHeaders({
+          'Content-Type': 'application/json'
+        })
+    }
+
+    var update_textbook_promise = new Promise(function (resolve,reject) {
+
+      that.http.put(endpoint + '/textbooks' + '/' + textbook_id, textbook_payload, httpOptions)
+        .toPromise()
+        .then (function (item:any) {
+          var updated_textbook:Textbook = that.parseRawTextbook(item);
+          resolve(updated_textbook);
+        }).catch (function (err) {
+          reject(err);
+        })
+    })
+
+    return update_textbook_promise;
+
+  }
+
 
   public getUserTextbooks(user_id:number) {
 
