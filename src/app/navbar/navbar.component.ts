@@ -19,8 +19,19 @@ export class NavbarComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.user_db.getUserId().then (function (user_id:number) {
-      console.log('USER: ' + user_id);
+    let that = this;
+
+    this.user_db.userLoggedIn().then (function (result:boolean) {
+
+      if (result == false) {
+        console.log("Logging in...")
+        return that.user_db.setUserId(1);
+      } else if (result == true) {
+        return that.user_db.getUserId();
+      }
+
+    }).then (function (user_id:number) {
+      console.log("Logged In w/ user_id: " + user_id);
     }).catch (function (err) {
       console.log(err);
     })
