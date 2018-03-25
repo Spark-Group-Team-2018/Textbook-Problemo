@@ -497,6 +497,17 @@ export class TextbookTradeSystemApi {
     return create_textbook_promise;
   }
 
+
+  public parseRawOffer(item:any) {
+
+    return <Offer>{
+      id: Number(item["id"]),
+      textbook_id: item["textbook_id"],
+      price: Number(item["price"])
+    }
+
+  }
+
   public deleteOffer(offer_id:number) {
     let that = this;
 
@@ -524,12 +535,8 @@ export class TextbookTradeSystemApi {
         .toPromise()
         .then (function (res) {
 
-          var offers:Offer[] = (<any[]>res).map(function (item) {
-            return <Offer>{
-              id: Number(item["id"]),
-              textbook_id: item["textbook_id"],
-              price: Number(item["price"])
-            }
+          var offers:Offer[] = (<any[]>res).map(function (item:any) {
+            return that.parseRawOffer(item)
           })
 
           console.log(offers);
@@ -541,6 +548,63 @@ export class TextbookTradeSystemApi {
     })
 
     return offer_promise;
+
+  }
+
+  public getOfferById(offer_id:number) {
+
+    let that = this;
+
+    var offer_promise = new Promise(function (resolve,reject) {
+
+      that.http.get(endpoint + '/offers' + '/' + offer_id)
+        .toPromise()
+        .then (function (item:any) {
+
+          var retrieved_offer:Offer = that.parseRawOffer(item);
+          resolve(retrieved_offer);
+
+        }).catch (function (err) {
+          reject(err);
+        })
+
+    })
+
+    return offer_promise;
+
+  }
+
+  public updateOffer(updated_offer:Offer) {
+
+    let that = this;
+
+    const httpOptions ={
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json'
+      })
+    }
+
+    var offer_id = updated_offer.id;
+
+    var updated_offer_payload = Offer.getOfferPayload(updated_offer);
+
+    var update_offer_promise = new Promise(function (resolve, reject) {
+
+      that.http.put(endpoint + '/offers' + '/' + offer_id, updated_offer_payload, httpOptions)
+        .toPromise()
+        .then (function (item:any) {
+
+          var updated_offer_res = that.parseRawOffer(item);
+          resolve(updated_offer_res);
+
+        }).catch (function (err) {
+          reject(err);
+        })
+
+
+    })
+
+    return update_offer_promise;
 
   }
 

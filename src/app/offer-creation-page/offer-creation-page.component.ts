@@ -10,6 +10,11 @@ import {TextbookTradeSystemApi} from '../../lib/TTS_Api';
 //User Database
 import {UserDatabase} from '../../lib/User_Database';
 
+//Import rxjs helpers for API
+import 'rxjs/add/operator/toPromise';
+import 'rxjs/add/operator/map';
+import 'rxjs/add/operator/switchMap';
+
 @Component({
   selector: 'app-offer-creation-page',
   templateUrl: './offer-creation-page.component.html',
@@ -22,6 +27,7 @@ export class OfferCreationPageComponent implements OnInit {
   public user_id:number = null;
 
   public user_textbooks:Textbook[] = [];
+  public mode:string = null;
 
   constructor(
     private route: ActivatedRoute,
@@ -40,6 +46,22 @@ export class OfferCreationPageComponent implements OnInit {
     }).then (function (textbooks: Textbook[]) {
       that.user_textbooks = textbooks;
       console.log(that.user_textbooks);
+
+      return that.getMode();
+
+    }).then (function (mode:string) {
+      that.mode = mode;
+
+      if (that.mode == "update") {
+
+        that.getOfferId().then (function (offer_id:number) {
+          return that.api.getOfferById(offer_id);
+        }).then (function (offer:Offer) {
+          that.new_offer = offer;
+        })
+
+      }
+
     }).catch(function (err) {
       console.log(err);
       that.goBack();
@@ -56,12 +78,62 @@ export class OfferCreationPageComponent implements OnInit {
 
     let that = this;
 
-    this.api.createOffer(this.new_offer).then (function (offer:Offer) {
+    var offer_promise = null;
+
+    switch(that.mode) {
+      case 'create':
+        offer_promise = this.api.createOffer(this.new_offer);
+        break;
+      case 'update':
+        offer_promise = this.api.updateOffer(this.new_offer);
+        break;
+    }
+
+    offer_promise.then (function (offer:Offer) {
       alert(JSON.stringify(offer));
       that.goBack();
     }).catch (function (err) {
       alert("Unable to create offer");
     })
+
+
+  }
+
+  getOfferId() {
+
+    let that = this;
+
+    var id_promise = new Promise(function (resolve, reject) {
+
+      that.route
+        .queryParams
+        .subscribe(params => {
+          let id:number = params["id"] || null;
+          resolve(id);
+        })
+    })
+
+    return id_promise;
+
+  }
+
+  getMode() {
+
+    let that = this;
+
+    var mode_promise = new Promise(function (resolve, reject) {
+
+      that.route
+      .queryParams
+      .subscribe(params => {
+        let mode = params["mode"] || "create";
+        resolve(mode);
+      })
+
+
+    })
+
+    return mode_promise;
 
   }
 

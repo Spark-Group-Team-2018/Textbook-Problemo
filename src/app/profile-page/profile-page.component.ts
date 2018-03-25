@@ -140,7 +140,13 @@ export class ProfilePageComponent implements OnInit {
 
   updateUserTextbook(textbook_id:number) {
 
-    this.router.navigate(['/create-textbook'], {queryParams: {mode: 'update', id: textbook_id}})
+    this.router.navigate(['/create-textbook'], {queryParams: {mode: 'update', id: textbook_id}});
+
+  }
+
+  updateUserOffer(offer_id:number) {
+
+    this.router.navigate(['/create-offer'], {queryParams : {mode: 'update', id: offer_id}});
 
   }
 

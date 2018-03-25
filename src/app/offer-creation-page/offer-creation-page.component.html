@@ -1,12 +1,12 @@
 <div class = "container-fluid">
 
-  <h1 class = "text-center">Create Offer</h1>
+  <h1 class = "text-center">Create Offer <span *ngIf = "mode == 'update'">(edit)</span></h1>
 
   <form name = "create-textbook-form">
 
       <div class = "form-group">
         <label>Textbook Name: </label>
-        
+
         <select [(ngModel)] = "new_offer.textbook_id" class = "form-control col-sm-10" name = "offer-textbook-id">
           <option *ngFor = "let textbook of user_textbooks" value = "{{textbook.id}}">{{textbook.name}}</option>
         </select>
