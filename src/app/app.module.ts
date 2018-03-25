@@ -26,6 +26,7 @@ import { UserLoginPageComponent } from './user-login-page/user-login-page.compon
 const appRoutes: Routes = [
   {path: 'home', component: HomePageComponent},
   {path: 'profile', component: ProfilePageComponent},
+  {path: 'login', component: UserLoginPageComponent},
   {path: 'create-textbook', component: TextbookCreationPageComponent},
   {path: 'create-offer', component: OfferCreationPageComponent},
   {path: 'add-book', component: BookCreationPageComponent},
