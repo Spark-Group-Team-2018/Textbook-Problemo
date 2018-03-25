@@ -21,6 +21,7 @@ import { BrowseBooksPageComponent } from './browse-books-page/browse-books-page.
 import { HomePageComponent } from './home-page/home-page.component';
 import { BrowseOffersPageComponent } from './browse-offers-page/browse-offers-page.component';
 import { UserLoginPageComponent } from './user-login-page/user-login-page.component';
+import { ViewBookPageComponent } from './view-book-page/view-book-page.component';
 
 //The Angular Routes
 const appRoutes: Routes = [
@@ -46,7 +47,8 @@ const appRoutes: Routes = [
     BrowseBooksPageComponent,
     HomePageComponent,
     BrowseOffersPageComponent,
-    UserLoginPageComponent
+    UserLoginPageComponent,
+    ViewBookPageComponent
   ],
   imports: [
     BrowserModule,
