@@ -29,6 +29,36 @@ export class TextbookTradeSystemApi {
   }
 
 
+  private parseRawManufacturer(item:any) {
+
+    return <Manufacturer> {
+      id: Number(item["id"]),
+      name: item["name"],
+      description: item["description"]
+    }
+
+  }
+
+  public getManufacturerById(manufacturer_id:number) {
+
+    let that = this;
+
+    var manufacturer_promise = new Promise(function (resolve, reject) {
+      that.http.get(endpoint + "/manufacturers" + "/" + manufacturer_id)
+        .toPromise()
+        .then (function (item:any) {
+          var manufacturer:Manufacturer = that.parseRawManufacturer(item);
+
+          resolve(manufacturer)
+        }).catch (function (err) {
+          reject(err)
+        })
+    })
+
+    return manufacturer_promise;
+
+  }
+
   //Retrieve all da manufacturers
   public getManufacturers() {
 
@@ -38,13 +68,9 @@ export class TextbookTradeSystemApi {
       that.http.get(endpoint + "/manufacturers")
         .toPromise()
         .then (function (res) {
-          var manufacturers:Manufacturer[] = (<any[]>res).map(function (item) {
+          var manufacturers:Manufacturer[] = (<any[]>res).map(function (item:any) {
 
-            return <Manufacturer> {
-              id: Number(item["id"]),
-              name: item["name"],
-              description: item["description"]
-            }
+            return that.parseRawManufacturer(item);
 
           })
 
@@ -58,7 +84,7 @@ export class TextbookTradeSystemApi {
 
   }
 
-  public parseRawBook(item:any) {
+  private parseRawBook(item:any) {
 
     return <Book>{
       id: Number(item["id"]),
@@ -155,7 +181,7 @@ export class TextbookTradeSystemApi {
   }
 
   //User functions
-  public parseRawUser(item:any) {
+  private parseRawUser(item:any) {
 
     return <User> {
       id: item["id"],
@@ -527,7 +553,7 @@ export class TextbookTradeSystemApi {
   }
 
 
-  public parseRawOffer(item:any) {
+  private parseRawOffer(item:any) {
 
     return <Offer>{
       id: Number(item["id"]),

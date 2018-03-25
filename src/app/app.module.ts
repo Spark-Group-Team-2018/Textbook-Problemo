@@ -28,6 +28,7 @@ const appRoutes: Routes = [
   {path: 'home', component: HomePageComponent},
   {path: 'profile', component: ProfilePageComponent},
   {path: 'login', component: UserLoginPageComponent},
+  {path: 'view-book/:id', component: ViewBookPageComponent},
   {path: 'create-textbook', component: TextbookCreationPageComponent},
   {path: 'create-offer', component: OfferCreationPageComponent},
   {path: 'add-book', component: BookCreationPageComponent},
