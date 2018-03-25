@@ -20,6 +20,7 @@ import { BookCreationPageComponent } from './book-creation-page/book-creation-pa
 import { BrowseBooksPageComponent } from './browse-books-page/browse-books-page.component';
 import { HomePageComponent } from './home-page/home-page.component';
 import { BrowseOffersPageComponent } from './browse-offers-page/browse-offers-page.component';
+import { UserLoginPageComponent } from './user-login-page/user-login-page.component';
 
 //The Angular Routes
 const appRoutes: Routes = [
@@ -43,7 +44,8 @@ const appRoutes: Routes = [
     BookCreationPageComponent,
     BrowseBooksPageComponent,
     HomePageComponent,
-    BrowseOffersPageComponent
+    BrowseOffersPageComponent,
+    UserLoginPageComponent
   ],
   imports: [
     BrowserModule,
