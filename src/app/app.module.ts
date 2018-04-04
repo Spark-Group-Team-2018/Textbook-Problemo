@@ -10,6 +10,9 @@ import { FormsModule }   from '@angular/forms';
 //Routing
 import {RouterModule, Routes} from '@angular/router';
 
+//Auth
+import {AngularFireModule} from 'angularfire2';
+
 //Pages and Components
 import { AppComponent } from './app.component';
 import { ProfilePageComponent } from './profile-page/profile-page.component';
@@ -36,6 +39,15 @@ const appRoutes: Routes = [
   {path: 'browse-offers', component: BrowseOffersPageComponent}
 ]
 
+export const firebaseConfig = {
+    apiKey: "AIzaSyDNpj9LBLJuK6o39LwbGiIMDTbfZ5SjKyE",
+    authDomain: "texbookio.firebaseapp.com",
+    databaseURL: "https://texbookio.firebaseio.com",
+    projectId: "texbookio",
+    storageBucket: "texbookio.appspot.com",
+    messagingSenderId: "844847264422"
+  };
+
 
 @NgModule({
   declarations: [
@@ -58,7 +70,8 @@ const appRoutes: Routes = [
       appRoutes,
       { enableTracing: true } // <-- debugging purposes only
     ),
-    HttpClientModule
+    HttpClientModule,
+    AngularFireModule.initializeApp(firebaseConfig)
   ],
   providers: [],
   bootstrap: [AppComponent]
