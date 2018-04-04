@@ -24,6 +24,10 @@ export class UserLoginPageComponent implements OnInit {
 
   }
 
+  googleTestLogin() {
+
+  }
+
   userLogin(user_id:number) {
 
     let that = this;
