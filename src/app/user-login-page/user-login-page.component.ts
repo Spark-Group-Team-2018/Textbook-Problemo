@@ -54,13 +54,20 @@ export class UserLoginPageComponent implements OnInit {
 
     var logged_in_promise = new Promise (function (resolve, reject) {
 
+      var social_logged_in:boolean = undefined;
+      var db_logged_in:boolean = undefined;
+
       user.then (function (res) {
 
-        if (res == null) {
-          resolve(false);
-        }else if (res != null) {
-          resolve(true);
-        }
+        social_logged_in = (res != null);
+
+        return that.user_db.getUser();
+
+      }).then (function (user:User) {
+
+        db_logged_in = (user != null);
+
+        resolve((social_logged_in || db_logged_in));
 
       }).catch (function (err) {
         reject(err);
@@ -112,9 +119,12 @@ export class UserLoginPageComponent implements OnInit {
     })
   }
 
-  googleLogout() {
+  userLogout() {
 
     this.authService.logout();
+    this.user_db.clearUser();
+
+    this.logged_in = false
 
   }
 
@@ -128,6 +138,7 @@ export class UserLoginPageComponent implements OnInit {
 
     let that = this;
 
+    that.logged_in = true;
 
     that.user_db.setUser(user).then (function (res) {
       that.router.navigate(['/profile']);

@@ -91,6 +91,10 @@ export class UserDatabase {
     var user_promise = new Promise(function (resolve, reject) {
 
       localForage.getItem('user').then (function (value) {
+        if (value == null) {
+          resolve(null);
+        }
+
         resolve(value["id"]);
       }).catch (function (err) {
         reject(err);

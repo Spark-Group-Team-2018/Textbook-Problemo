@@ -57,6 +57,10 @@ export class ProfilePageComponent implements OnInit {
       that.user = user;
       console.log(that.user);
 
+      if (user == null) {
+        that.redirectToLogin();
+      }
+
       /** FIXME HELLAS **/
       that.refreshUserData(that.user);
 
@@ -64,13 +68,18 @@ export class ProfilePageComponent implements OnInit {
       console.log(err)
 
       if (err == "invalid_user") {
-        that.router.navigate(["/"]);
+        that.redirectToLogin();
       }
 
     })
 
     that.refreshGenData();
 
+  }
+
+  /** Redirect to Login Page **/
+  redirectToLogin() {
+    this.router.navigate(["/login"])
   }
 
   //Retrieves all essential data
