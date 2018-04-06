@@ -1,11 +1,18 @@
 <div class = "container-fluid">
 
   <div class = "row">
-    <div class = "col-md-12">
+    <div *ngIf = "!logged_in" class = "col-md-12">
       <button (click) = "googleTestLogin()" class = "btn btn-success btn-block">
         W/ Google
       </button>
     </div>
+
+    <div *ngIf = "logged_in" class = "col-md-12">
+      <button (click) = "googleLogout()" class = "btn btn-danger btn-block">
+        LOGOUT
+      </button>
+    </div>
+
   </div>
 
   <br>

@@ -12,7 +12,7 @@ import {Book} from '../models/book';
 import {Manufacturer} from '../models/manufacturer';
 import {User} from '../models/user';
 import {PendingOffer} from '../models/pendingoffer';
-
+import {User} from '../models/user';
 
 //Import rxjs helpers for API
 import 'rxjs/add/operator/toPromise';
@@ -28,6 +28,17 @@ export class TextbookTradeSystemApi {
 
   }
 
+
+  private authHeaders(user_auth:string) {
+    const httpOptions = {
+        headers: new HttpHeaders({
+          'Content-Type': 'application/json'
+          'Authorization': user_auth
+        })
+    }
+
+    return httpOptions;
+  }
 
   private parseRawManufacturer(item:any) {
 
@@ -189,6 +200,112 @@ export class TextbookTradeSystemApi {
       last_name: item["last_name"],
       email: item["email"]
     }
+  }
+
+  /** create new user **/
+  public newUser(user:User) {
+
+    var new_user_payload = User.getNewUserPayload(user);
+
+    let that = this;
+
+    const httpOptions = {
+        headers: new HttpHeaders({
+          'Content-Type': 'application/json'
+        })
+    }
+
+    var user_promise = new Promise (function (resolve, reject) {
+      that.http.post(endpoint + '/users', new_user_payload, httpOptions)
+        .toPromise()
+        .then (function (res:any) {
+
+          if (res["status"] == "unable to save new user") {
+            resolve(user)
+          }else {
+            console.log(res);
+
+            var new_user:User = that.parseRawUser(res);
+            new_user.user_token = user.user_token;
+            resolve(new_user);
+          }
+
+        }).catch (function (err) {
+          reject(err);
+        })
+    })
+
+    return user_promise;
+
+  }
+
+  /** gets the user auth token **/
+  public userAuth(user: User) {
+
+    var email = user["email"];
+    var password = user["user_token"]
+
+    let that = this
+
+    var auth_payload = {
+      "email": email,
+      "password": password
+    }
+
+    const httpOptions = {
+        headers: new HttpHeaders({
+          'Content-Type': 'application/json'
+        })
+    }
+
+    var authentication_promise = new Promise(function (resolve, reject) {
+
+      that.http.post(endpoint + "/authenticate", auth_payload, httpOptions)
+        .toPromise()
+        .then (function (res:any) {
+
+          var authToken = res["auth_token"]
+          resolve(authToken);
+
+        }).catch (function (err) {
+          reject(err);
+        })
+    })
+
+    return authentication_promise;
+
+  }
+
+  /** get the authenticated user **/
+  public getAuthUser(authToken:string) {
+
+    let that = this;
+
+
+
+    const httpOptions = {
+        headers: new HttpHeaders({
+          'Authorization': authToken
+        })
+    }
+
+    var auth_user_promise = new Promise(function (resolve, reject) {
+
+      that.http.get(endpoint + "/authenticated-user", httpOptions)
+        .toPromise()
+        .then (function (res:any) {
+          var auth_user:User = that.parseRawUser(res);
+          auth_user.authToken = authToken;
+          resolve(auth_user);
+        })
+        .catch (function (err) {
+          reject(err);
+        })
+
+    })
+
+    return auth_user_promise;
+
   }
 
   public getUsers() {
