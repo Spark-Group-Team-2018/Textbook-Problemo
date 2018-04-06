@@ -40,8 +40,8 @@ export class ProfilePageComponent implements OnInit {
   public buyer_pending_offers: PendingOffer[] = [];
 
   public user_id:number = null;
-  public user:User = null;
 
+  public user:User = null;
   constructor(
     private api: TextbookTradeSystemApi,
     private route: ActivatedRoute,
@@ -175,7 +175,7 @@ export class ProfilePageComponent implements OnInit {
 
     /** Validation code end **/
 
-    that.api.deleteTextbook(user_textbook_id).then (function (res) {
+    that.api.deleteTextbook(user_textbook_id, that.user["authToken"]).then (function (res) {
       console.log(res);
 
       that.refreshUserData(that.user);

@@ -555,11 +555,13 @@ export class TextbookTradeSystemApi {
 
   }
 
-  public deleteTextbook(textbook_id:number) {
+  public deleteTextbook(textbook_id:number, authToken:string) {
     let that = this;
 
+    const httpOptions = that.authHeaders(authToken);
+
     var delete_textbook_promise = new Promise(function (resolve, reject) {
-      that.http.delete(endpoint + "/textbooks" + "/" + textbook_id)
+      that.http.delete(endpoint + "/textbooks" + "/" + textbook_id, httpOptions)
         .toPromise()
         .then (function (res) {
 
@@ -573,7 +575,7 @@ export class TextbookTradeSystemApi {
     return delete_textbook_promise;
   }
 
-  public updateTextbook(updated_textbook:Textbook) {
+  public updateTextbook(updated_textbook:Textbook, authToken:string) {
 
     let that = this;
 
@@ -581,11 +583,7 @@ export class TextbookTradeSystemApi {
 
     var textbook_payload = Textbook.getTextbookPayload(updated_textbook);
 
-    const httpOptions = {
-        headers: new HttpHeaders({
-          'Content-Type': 'application/json'
-        })
-    }
+    const httpOptions = that.authHeaders(authToken);
 
     var update_textbook_promise = new Promise(function (resolve,reject) {
 
@@ -628,14 +626,10 @@ export class TextbookTradeSystemApi {
   }
 
   //Create a new textbook
-  public createTextbook(new_textbook:Textbook) {
+  public createTextbook(new_textbook:Textbook, authToken:string) {
     var textbook_payload = Textbook.getTextbookPayload(new_textbook);
 
-    const httpOptions = {
-        headers: new HttpHeaders({
-          'Content-Type': 'application/json'
-        })
-    }
+    const httpOptions = this.authHeaders(authToken);
 
     let that = this;
 
