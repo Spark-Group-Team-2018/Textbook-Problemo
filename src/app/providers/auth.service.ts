@@ -6,6 +6,9 @@ import * as firebase from 'firebase/app';
 
 import * as crypto from 'crypto-js';
 
+//model
+import {User} from '../../models/user';
+
 @Injectable()
 export class AuthService {
 
@@ -34,7 +37,7 @@ export class AuthService {
 
           var parsed_user = <User> {
             email: raw_user["email"],
-            user_token: crypto.SHA256(raw_user.uid).toString();
+            user_token: crypto.SHA256(raw_user.uid).toString()
           }
 
           resolve(parsed_user);

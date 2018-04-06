@@ -10,7 +10,6 @@ import {Textbook} from '../models/textbook';
 import {Offer} from '../models/offer';
 import {Book} from '../models/book';
 import {Manufacturer} from '../models/manufacturer';
-import {User} from '../models/user';
 import {PendingOffer} from '../models/pendingoffer';
 import {User} from '../models/user';
 
@@ -32,7 +31,7 @@ export class TextbookTradeSystemApi {
   private authHeaders(user_auth:string) {
     const httpOptions = {
         headers: new HttpHeaders({
-          'Content-Type': 'application/json'
+          'Content-Type': 'application/json',
           'Authorization': user_auth
         })
     }
@@ -155,15 +154,11 @@ export class TextbookTradeSystemApi {
   }
 
   //Create a book
-  public createBook(new_book:Book) {
+  public createBook(new_book:Book, authToken) {
 
     var book_payload = Book.getBookPayload(new_book);
 
-    const httpOptions = {
-        headers: new HttpHeaders({
-          'Content-Type': 'application/json'
-        })
-    }
+    const httpOptions = this.authHeaders(authToken);
 
     let that = this;
 

@@ -40,7 +40,7 @@ export class UserLoginPageComponent implements OnInit {
     let that = this;
 
     this.checkLoggedIn().then (function (res) {
-      that.logged_in = res;
+      that.logged_in = <boolean>res;
     });
 
   }
@@ -58,7 +58,7 @@ export class UserLoginPageComponent implements OnInit {
 
         if (res == null) {
           resolve(false);
-        }elif (res != null) {
+        }else if (res != null) {
           resolve(true);
         }
 
@@ -82,7 +82,7 @@ export class UserLoginPageComponent implements OnInit {
 
     }).then (function (user) {
 
-      return that.api.newUser(user);
+      return that.api.newUser(<User>user);
 
     }).then (function (user:User) {
 
@@ -99,13 +99,13 @@ export class UserLoginPageComponent implements OnInit {
     }).then (function (authToken) {
       console.log(authToken);
 
-      return that.api.getAuthUser(authToken);
+      return that.api.getAuthUser(<string>authToken);
 
     }).then (function (authenticated_user) {
       console.log("Auth USER");
       console.log(authenticated_user);
 
-      that.userLogin(authenticated_user);
+      that.userLogin(<User>authenticated_user);
 
     }).catch ((err) => {
       console.log(err);

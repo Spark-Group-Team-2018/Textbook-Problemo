@@ -43,7 +43,7 @@ export class UserDatabase {
 
     var user_promise = new Promise(function (resolve, reject) {
       localForage.setItem('user', user).then (function () {
-        return that.getUserId();
+        return that.getUser();
       }).then (function (user_id:number) {
         resolve(user_id)
       }).catch (function (err) {
@@ -67,7 +67,7 @@ export class UserDatabase {
     var user_promise = new Promise(function (resolve, reject) {
 
       localForage.getItem('user').then (function (value) {
-        resolve(value);
+        resolve(<User>value);
       }).catch (function (err) {
         reject(err);
       })
@@ -113,7 +113,7 @@ export class UserDatabase {
 
     var user_logged_in = new Promise(function (resolve, reject) {
 
-      that.getUserId().then (function (user:User) {
+      that.getUserId().then (function (user_id:Number) {
 
         if (user_id == null) {
           resolve(false);
