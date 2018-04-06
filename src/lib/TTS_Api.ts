@@ -357,13 +357,15 @@ export class TextbookTradeSystemApi {
 
   }
 
-  public deletePendingOffer(pending_offer_id:number) {
+  public deletePendingOffer(pending_offer_id:number, authToken:string) {
 
     let that = this;
 
+    const httpOptions = that.authHeaders(authToken);
+
     var delete_pending_offer_promise = new Promise (function (resolve, reject) {
 
-      that.http.delete(endpoint + '/pendingoffers' + '/' + pending_offer_id)
+      that.http.delete(endpoint + '/pendingoffers' + '/' + pending_offer_id, httpOptions)
         .toPromise()
         .then (function (res) {
 
@@ -468,18 +470,13 @@ export class TextbookTradeSystemApi {
 
   }
 
-  public createPendingOffer(pending_offer:PendingOffer) {
+  public createPendingOffer(pending_offer:PendingOffer, authToken:string) {
 
     let that = this;
 
+    const httpOptions = that.authHeaders(authToken);
 
     var pendingOfferPayload = PendingOffer.getPendingOfferPayload(pending_offer);
-
-    const httpOptions = {
-        headers: new HttpHeaders({
-          'Content-Type': 'application/json'
-        })
-    }
 
     var pending_offer_promise = new Promise(function (resolve, reject) {
       that.http.post(endpoint + "/pendingoffers", pendingOfferPayload, httpOptions)

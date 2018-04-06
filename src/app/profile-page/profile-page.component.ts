@@ -264,7 +264,7 @@ export class ProfilePageComponent implements OnInit {
 
     let that = this;
 
-    that.api.deletePendingOffer(pending_offer_id).then (function (res) {
+    that.api.deletePendingOffer(pending_offer_id, that.user["authToken"]).then (function (res) {
       that.refreshUserData(that.user);
       that.refreshGenData();
     }).catch(function (err) {
