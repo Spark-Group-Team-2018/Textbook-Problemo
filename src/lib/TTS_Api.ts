@@ -735,15 +735,11 @@ export class TextbookTradeSystemApi {
 
   }
 
-  public updateOffer(updated_offer:Offer) {
+  public updateOffer(updated_offer:Offer, authToken:string) {
 
     let that = this;
 
-    const httpOptions ={
-      headers: new HttpHeaders({
-        'Content-Type': 'application/json'
-      })
-    }
+    const httpOptions = that.authHeaders(authToken);
 
     var offer_id = updated_offer.id;
 
@@ -769,15 +765,11 @@ export class TextbookTradeSystemApi {
 
   }
 
-  public createOffer(offer:Offer) {
+  public createOffer(offer:Offer, authtoken:string) {
 
     let that = this;
 
-    const httpOptions = {
-        headers: new HttpHeaders({
-          'Content-Type': 'application/json'
-        })
-    }
+    const httpOptions = that.authHeaders(authtoken);
 
     var offer_payload = Offer.getOfferPayload(offer);
 
