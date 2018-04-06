@@ -204,7 +204,7 @@ export class ProfilePageComponent implements OnInit {
 
     /** Validation code end **/
 
-    that.api.deleteOffer(user_offer_id).then (function (res) {
+    that.api.deleteOffer(user_offer_id, that.user["authToken"]).then (function (res) {
       console.log(res);
 
       that.refreshUserData(that.user);

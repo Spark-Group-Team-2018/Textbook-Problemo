@@ -669,11 +669,13 @@ export class TextbookTradeSystemApi {
 
   }
 
-  public deleteOffer(offer_id:number) {
+  public deleteOffer(offer_id:number, authToken:string) {
     let that = this;
 
+    const httpOptions = that.authHeaders(authToken);
+
     var delete_offer_promise = new Promise(function (resolve, reject) {
-      that.http.delete(endpoint + "/offers" + "/" + offer_id)
+      that.http.delete(endpoint + "/offers" + "/" + offer_id, httpOptions)
         .toPromise()
         .then (function (res) {
 
