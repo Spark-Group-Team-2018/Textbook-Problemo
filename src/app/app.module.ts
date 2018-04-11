@@ -39,7 +39,10 @@ const appRoutes: Routes = [
   {path: 'create-offer', component: OfferCreationPageComponent},
   {path: 'add-book', component: BookCreationPageComponent},
   {path: 'browse-books', component: BrowseBooksPageComponent},
-  {path: 'browse-offers', component: BrowseOffersPageComponent}
+  {path: 'browse-offers', component: BrowseOffersPageComponent},
+  {path: 'view-textbook', component: TextbookViewPageComponent},
+  {path: 'view-offer', component: OfferViewPageComponent},
+  {path: 'view-pendingoffer', component: PendingOfferViewPageComponent}
 ]
 
 export const firebaseConfig = {
