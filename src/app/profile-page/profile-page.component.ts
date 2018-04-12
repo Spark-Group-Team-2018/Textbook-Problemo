@@ -82,6 +82,13 @@ export class ProfilePageComponent implements OnInit {
     this.router.navigate(["/login"])
   }
 
+  /** Allows viewing of textbook **/
+  viewTextbook(textbook_id:number) {
+
+    this.router.navigate(['/view-textbook'], { queryParams: { id: textbook_id } });
+
+  }
+
   //Retrieves all essential data
 
   refreshGenData() {

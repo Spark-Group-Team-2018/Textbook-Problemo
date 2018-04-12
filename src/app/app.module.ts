@@ -25,6 +25,9 @@ import { HomePageComponent } from './home-page/home-page.component';
 import { BrowseOffersPageComponent } from './browse-offers-page/browse-offers-page.component';
 import { UserLoginPageComponent } from './user-login-page/user-login-page.component';
 import { ViewBookPageComponent } from './view-book-page/view-book-page.component';
+import { TextbookViewPageComponent } from './textbook-view-page/textbook-view-page.component';
+import { OfferViewPageComponent } from './offer-view-page/offer-view-page.component';
+import { PendingOfferViewPageComponent } from './pending-offer-view-page/pending-offer-view-page.component';
 
 //The Angular Routes
 const appRoutes: Routes = [
@@ -36,7 +39,10 @@ const appRoutes: Routes = [
   {path: 'create-offer', component: OfferCreationPageComponent},
   {path: 'add-book', component: BookCreationPageComponent},
   {path: 'browse-books', component: BrowseBooksPageComponent},
-  {path: 'browse-offers', component: BrowseOffersPageComponent}
+  {path: 'browse-offers', component: BrowseOffersPageComponent},
+  {path: 'view-textbook', component: TextbookViewPageComponent},
+  {path: 'view-offer', component: OfferViewPageComponent},
+  {path: 'view-pendingoffer', component: PendingOfferViewPageComponent}
 ]
 
 export const firebaseConfig = {
@@ -61,7 +67,10 @@ export const firebaseConfig = {
     HomePageComponent,
     BrowseOffersPageComponent,
     UserLoginPageComponent,
-    ViewBookPageComponent
+    ViewBookPageComponent,
+    TextbookViewPageComponent,
+    OfferViewPageComponent,
+    PendingOfferViewPageComponent
   ],
   imports: [
     BrowserModule,
