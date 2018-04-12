@@ -89,6 +89,14 @@ export class ProfilePageComponent implements OnInit {
 
   }
 
+  /** Allows viewing of offer **/
+
+  viewOffer(offer_id:number) {
+
+    this.router.navigate(['/view-offer'], {queryParams: {id: offer_id}});
+
+  }
+
   //Retrieves all essential data
 
   refreshGenData() {

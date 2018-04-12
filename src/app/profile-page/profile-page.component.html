@@ -67,6 +67,11 @@
         <div *ngFor = "let offer of user_offers" class="list-group-item">
           <p>Offer for <u>{{getOfferTextbook(offer).name}}</u></p>
 
+
+          <button (click) = "viewOffer(offer.id)" class = "btn btn-primary">
+            View
+          </button>
+
           <button (click) = "deleteUserOffer(offer.id)" class = "btn btn-danger">
             Delete
           </button>

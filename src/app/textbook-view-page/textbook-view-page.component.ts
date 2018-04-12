@@ -60,6 +60,9 @@ export class TextbookViewPageComponent implements OnInit {
     })
   }
 
+  goBack() {
+    history.back();
+  }
 
   getID() {
 
