@@ -29,9 +29,12 @@ export class BrowseBooksPageComponent implements OnInit {
 
     this.api.getBooks().then (function (books:Book[]){
       that.books = books;
-      //alert(that.books)
     })
 
+  }
+
+  viewBook(id:number) {
+    this.router.navigate(['view-book', id]);
   }
 
   ngOnInit() {
