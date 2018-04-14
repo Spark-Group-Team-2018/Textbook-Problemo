@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 
 import {Book} from '../../models/book';
-import {Manufacturer} from '../../models/manufacturer'
+import {Manufacturer} from '../../models/manufacturer';
+import {User} from '../../models/user';
 
 import { RouterModule, Routes, Router, ActivatedRoute }  from '@angular/router';
 
@@ -20,11 +21,11 @@ import {UserDatabase} from '../../lib/User_Database';
 export class BookCreationPageComponent implements OnInit {
 
   public new_book:Book;
-  public manufacturer_id:string
+  public manufacturer_id:string;
 
   public manufacturers:Manufacturer[] = [];
 
-  public user_id:number = null;
+  public user:User;
 
   constructor(private route: ActivatedRoute,
   private router: Router,
@@ -39,12 +40,18 @@ export class BookCreationPageComponent implements OnInit {
       console.log(that.manufacturers)
     })
 
-    that.getUserId().then (function (user_id:number) {
-      that.user_id = user_id;
-    }).catch(function (err) {
+    that.getUser().then (function (user:User) {
+      that.user = user;
+
+      if (that.user == null) {
+        that.goBack();
+      }
+
+    }).catch (function (err) {
       console.log(err);
       that.goBack();
     })
+
 
   }
 
@@ -58,7 +65,7 @@ export class BookCreationPageComponent implements OnInit {
   submitBook() {
     let that = this;
 
-    this.api.createBook(this.new_book).then (function (book:Book) {
+    this.api.createBook(this.new_book, that.user["authToken"]).then (function (book:Book) {
       alert(JSON.stringify(book));
       that.goBack();
     }).catch (function (err) {
@@ -66,18 +73,18 @@ export class BookCreationPageComponent implements OnInit {
     })
   }
 
-  getUserId() {
+  getUser() {
 
     let that = this;
 
-    var user_id_promise = that.user_db.getUserId();
+    var user_promise = that.user_db.getUser();
 
-    return user_id_promise;
+    return user_promise;
 
   }
 
   goBack() {
-    this.router.navigate(['/profile'], {queryParams: {user_id: this.user_id}})
+    this.router.navigate(['/profile'])
   }
 
 }

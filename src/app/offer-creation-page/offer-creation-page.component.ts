@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 
 import {Offer} from '../../models/offer';
 import {Textbook} from '../../models/textbook';
+import {User} from '../../models/user';
 
 import { RouterModule, Routes, Router, ActivatedRoute }  from '@angular/router';
 
@@ -24,10 +25,11 @@ import 'rxjs/add/operator/switchMap';
 export class OfferCreationPageComponent implements OnInit {
 
   public new_offer:Offer = Offer.createEmptyOffer();
-  public user_id:number = null;
 
   public user_textbooks:Textbook[] = [];
   public mode:string = null;
+
+  public user:User = null;
 
   constructor(
     private route: ActivatedRoute,
@@ -40,9 +42,14 @@ export class OfferCreationPageComponent implements OnInit {
 
     let that = this;
 
-    that.getUserId().then (function (user_id:number) {
-      that.user_id = user_id;
-      return that.api.getUserTextbooks(that.user_id);
+    that.getUser().then (function (user:User) {
+      that.user = user;
+
+      if (user == null) {
+        that.goBack();
+      }
+
+      return that.api.getUserTextbooks(that.user.id);
     }).then (function (textbooks: Textbook[]) {
       that.user_textbooks = textbooks;
       console.log(that.user_textbooks);
@@ -71,7 +78,7 @@ export class OfferCreationPageComponent implements OnInit {
   }
 
   goBack() {
-    this.router.navigate(['/profile'], {queryParams: {user_id: this.user_id}})
+    this.router.navigate(['/profile'])
   }
 
   submitOffer() {
@@ -82,10 +89,10 @@ export class OfferCreationPageComponent implements OnInit {
 
     switch(that.mode) {
       case 'create':
-        offer_promise = this.api.createOffer(this.new_offer);
+        offer_promise = this.api.createOffer(this.new_offer, that.user["authToken"]);
         break;
       case 'update':
-        offer_promise = this.api.updateOffer(this.new_offer);
+        offer_promise = this.api.updateOffer(this.new_offer, that.user["authToken"]);
         break;
     }
 
@@ -93,6 +100,7 @@ export class OfferCreationPageComponent implements OnInit {
       alert(JSON.stringify(offer));
       that.goBack();
     }).catch (function (err) {
+      console.log(err);
       alert("Unable to create offer");
     })
 
@@ -144,6 +152,17 @@ export class OfferCreationPageComponent implements OnInit {
     var user_id_promise = that.user_db.getUserId();
 
     return user_id_promise;
+
+  }
+
+  getUser() {
+
+    let that = this;
+
+    var user_promise = that.user_db.getUser();
+
+    return user_promise;
+
 
   }
 

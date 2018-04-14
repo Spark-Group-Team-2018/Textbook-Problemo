@@ -40,8 +40,8 @@ export class ProfilePageComponent implements OnInit {
   public buyer_pending_offers: PendingOffer[] = [];
 
   public user_id:number = null;
-  public user:User = null;
 
+  public user:User = null;
   constructor(
     private api: TextbookTradeSystemApi,
     private route: ActivatedRoute,
@@ -53,23 +53,55 @@ export class ProfilePageComponent implements OnInit {
 
     let that = this;
 
-    that.getUserId().then (function (id:number) {
-      return that.api.getUserById(id);
-    }).then (function (user:User) {
+    that.getUser().then (function (user:User) {
       that.user = user;
+      console.log(that.user);
 
-      that.refreshUserData(that.user.id);
+      if (user == null) {
+        that.redirectToLogin();
+      }
+
+      /** FIXME HELLAS **/
+      that.refreshUserData(that.user);
 
     }).catch (function (err) {
       console.log(err)
 
       if (err == "invalid_user") {
-        that.router.navigate(["/"]);
+        that.redirectToLogin();
       }
 
     })
 
     that.refreshGenData();
+
+  }
+
+  /** Redirect to Login Page **/
+  redirectToLogin() {
+    this.router.navigate(["/login"])
+  }
+
+  /** Allows viewing of pending offer **/
+  viewPendingOffer(pending_offer_id:number) {
+
+    this.router.navigate(['/view-pendingoffer'], { queryParams: { id: pending_offer_id} });
+
+  }
+
+
+  /** Allows viewing of textbook **/
+  viewTextbook(textbook_id:number) {
+
+    this.router.navigate(['/view-textbook'], { queryParams: { id: textbook_id } });
+
+  }
+
+  /** Allows viewing of offer **/
+
+  viewOffer(offer_id:number) {
+
+    this.router.navigate(['/view-offer'], {queryParams: {id: offer_id}});
 
   }
 
@@ -101,15 +133,17 @@ export class ProfilePageComponent implements OnInit {
     /** END OPTIMIZE **/
   }
 
-  refreshUserData(user_id:number) {
+  refreshUserData(user:User) {
     let that = this;
 
-    that.api.getSellerPendingOffers(that.user.id).then (function (pending_offers:PendingOffer[]) {
+    var user_auth = user["authToken"]
+
+    that.api.getSellerPendingOffers(user.id).then (function (pending_offers:PendingOffer[]) {
       that.seller_pending_offers = pending_offers
       console.log(that.seller_pending_offers)
     })
 
-    that.api.getBuyerPendingOffers(that.user.id).then (function (pending_offers:PendingOffer[]) {
+    that.api.getBuyerPendingOffers(user.id).then (function (pending_offers:PendingOffer[]) {
 
       that.buyer_pending_offers = pending_offers;
       console.log("Buyer Pending Offers")
@@ -118,12 +152,12 @@ export class ProfilePageComponent implements OnInit {
     });
 
 
-    that.api.getUserOffers(that.user.id).then (function (offers:Offer[]) {
+    that.api.getUserOffers(user.id).then (function (offers:Offer[]) {
       that.user_offers = offers
     })
 
     //Retrieve the user created textbooks
-    that.api.getUserTextbooks(that.user.id).then (function (textbooks: Textbook[]) {
+    that.api.getUserTextbooks(user.id).then (function (textbooks: Textbook[]) {
       that.user_textbooks = textbooks;
 
     })
@@ -173,10 +207,10 @@ export class ProfilePageComponent implements OnInit {
 
     /** Validation code end **/
 
-    that.api.deleteTextbook(user_textbook_id).then (function (res) {
+    that.api.deleteTextbook(user_textbook_id, that.user["authToken"]).then (function (res) {
       console.log(res);
 
-      that.refreshUserData(that.user.id);
+      that.refreshUserData(that.user);
       that.refreshGenData();
 
     }).catch (function (err) {
@@ -202,10 +236,10 @@ export class ProfilePageComponent implements OnInit {
 
     /** Validation code end **/
 
-    that.api.deleteOffer(user_offer_id).then (function (res) {
+    that.api.deleteOffer(user_offer_id, that.user["authToken"]).then (function (res) {
       console.log(res);
 
-      that.refreshUserData(that.user.id);
+      that.refreshUserData(that.user);
       that.refreshGenData();
 
     }).catch (function (err) {
@@ -262,8 +296,8 @@ export class ProfilePageComponent implements OnInit {
 
     let that = this;
 
-    that.api.deletePendingOffer(pending_offer_id).then (function (res) {
-      that.refreshUserData(that.user.id);
+    that.api.deletePendingOffer(pending_offer_id, that.user["authToken"]).then (function (res) {
+      that.refreshUserData(that.user);
       that.refreshGenData();
     }).catch(function (err) {
       console.log(err);
@@ -283,6 +317,14 @@ export class ProfilePageComponent implements OnInit {
 
     return user_id_promise;
 
+  }
+
+  getUser() {
+    let that = this;
+
+    var user_promise = that.user_db.getUser();
+
+    return user_promise;
   }
 
   getOfferTextbook(offer:Offer) {

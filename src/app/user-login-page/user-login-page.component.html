@@ -1,19 +1,20 @@
 <div class = "container-fluid">
 
   <div class = "row">
-
-    <div class = "col-md-6">
-      <button (click) = "userLogin(1)" class = "btn btn-primary btn-block">
-        Test User 1
+    <div *ngIf = "!logged_in" class = "col-md-12">
+      <button (click) = "googleTestLogin()" class = "btn btn-success btn-block">
+        W/ Google
       </button>
     </div>
 
-    <div class = "col-md-6">
-      <button (click) = "userLogin(2)" class = "btn btn-primary btn-block">
-        Test User 2
+    <div *ngIf = "logged_in" class = "col-md-12">
+      <button (click) = "userLogout()" class = "btn btn-danger btn-block">
+        LOGOUT
       </button>
     </div>
 
   </div>
+
+  <br>
 
 </div>

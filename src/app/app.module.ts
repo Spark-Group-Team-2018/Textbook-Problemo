@@ -10,6 +10,9 @@ import { FormsModule }   from '@angular/forms';
 //Routing
 import {RouterModule, Routes} from '@angular/router';
 
+//Auth
+import {AngularFireModule} from 'angularfire2';
+
 //Pages and Components
 import { AppComponent } from './app.component';
 import { ProfilePageComponent } from './profile-page/profile-page.component';
@@ -22,6 +25,9 @@ import { BrowseBooksPageComponent } from './browse-books-page/browse-books-page.
 import { BrowseOffersPageComponent } from './browse-offers-page/browse-offers-page.component';
 import { UserLoginPageComponent } from './user-login-page/user-login-page.component';
 import { ViewBookPageComponent } from './view-book-page/view-book-page.component';
+import { TextbookViewPageComponent } from './textbook-view-page/textbook-view-page.component';
+import { OfferViewPageComponent } from './offer-view-page/offer-view-page.component';
+import { PendingOfferViewPageComponent } from './pending-offer-view-page/pending-offer-view-page.component';
 
 //The Angular Routes
 const appRoutes: Routes = [
@@ -33,8 +39,20 @@ const appRoutes: Routes = [
   {path: 'create-offer', component: OfferCreationPageComponent},
   {path: 'add-book', component: BookCreationPageComponent},
   {path: 'browse-books', component: BrowseBooksPageComponent},
-  {path: 'browse-offers', component: BrowseOffersPageComponent}
+  {path: 'browse-offers', component: BrowseOffersPageComponent},
+  {path: 'view-textbook', component: TextbookViewPageComponent},
+  {path: 'view-offer', component: OfferViewPageComponent},
+  {path: 'view-pendingoffer', component: PendingOfferViewPageComponent}
 ]
+
+export const firebaseConfig = {
+    apiKey: "AIzaSyDNpj9LBLJuK6o39LwbGiIMDTbfZ5SjKyE",
+    authDomain: "texbookio.firebaseapp.com",
+    databaseURL: "https://texbookio.firebaseio.com",
+    projectId: "texbookio",
+    storageBucket: "texbookio.appspot.com",
+    messagingSenderId: "844847264422"
+  };
 
 
 @NgModule({
@@ -49,7 +67,10 @@ const appRoutes: Routes = [
     BrowseBooksPageComponent,
     BrowseOffersPageComponent,
     UserLoginPageComponent,
-    ViewBookPageComponent
+    ViewBookPageComponent,
+    TextbookViewPageComponent,
+    OfferViewPageComponent,
+    PendingOfferViewPageComponent
   ],
   imports: [
     BrowserModule,
@@ -58,7 +79,8 @@ const appRoutes: Routes = [
       appRoutes,
       { enableTracing: true } // <-- debugging purposes only
     ),
-    HttpClientModule
+    HttpClientModule,
+    AngularFireModule.initializeApp(firebaseConfig)
   ],
   providers: [],
   bootstrap: [AppComponent]
