@@ -82,6 +82,14 @@ export class ProfilePageComponent implements OnInit {
     this.router.navigate(["/login"])
   }
 
+  /** Allows viewing of pending offer **/
+  viewPendingOffer(pending_offer_id:number) {
+
+    this.router.navigate(['/view-pendingoffer'], { queryParams: { id: pending_offer_id} });
+
+  }
+
+
   /** Allows viewing of textbook **/
   viewTextbook(textbook_id:number) {
 

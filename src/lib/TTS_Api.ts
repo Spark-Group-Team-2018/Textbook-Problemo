@@ -381,6 +381,30 @@ export class TextbookTradeSystemApi {
 
   }
 
+  public getPendingOfferById(pendingoffer_id:number) {
+
+    let that = this;
+
+    var pending_offer_promise = new Promise (function (resolve, reject) {
+
+      that.http.get(endpoint + '/pendingoffers' + '/' + pendingoffer_id.toString())
+        .toPromise()
+        .then (function (item:any) {
+
+          var pending_offer:PendingOffer = that.parseRawPendingOffer(item);
+
+          resolve(pending_offer);
+
+        }).catch (function (err) {
+          reject(err);
+        })
+
+    })
+
+    return pending_offer_promise;
+
+  }
+
   public getPendingOffers() {
 
     let that = this;

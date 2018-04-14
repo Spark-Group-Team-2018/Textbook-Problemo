@@ -50,6 +50,10 @@
           <p>Price: ${{getPendingOfferSellerOffer(seller_pendingoffer.offer_id).price}}</p>
           <p>Sold by: {{getPendingOfferSeller(seller_pendingoffer.offer_id).first_name}} {{getPendingOfferSeller(seller_pendingoffer.offer_id).last_name}}</p>
 
+          <button (click) = "viewPendingOffer(seller_pendingoffer.id)" class = "btn btn-primary">
+            View
+          </button>
+
           <button (click) = "deleteSellerPendingOffer(seller_pendingoffer.id)" class = "btn btn-danger">
             Delete
           </button>
@@ -83,7 +87,6 @@
         </div>
       </ul>
 
-      <!-- TODO Implement section for buyer pending offers -->
       <br>
 
       <h2 class = "text-center">View Pending Offers by Buyers</h2>
@@ -95,6 +98,11 @@
             <p>Pending offer for <br><em>{{getTextbookByOffer(buyer_pendingoffer.offer_id).name}}</em></p>
             <p>Price: ${{getPendingOfferSellerOffer(buyer_pendingoffer.offer_id).price}}</p>
             <p>Desired by: {{getPendingOfferBuyer(buyer_pendingoffer.id).first_name}} {{getPendingOfferBuyer(buyer_pendingoffer.id).last_name}}</p>
+
+            <button (click) = "viewPendingOffer(buyer_pendingoffer.id)" class = "btn btn-primary">
+              View
+            </button>
+
             <button (click) = "deleteBuyerPendingOffer(buyer_pendingoffer.id)" class = "btn btn-danger">
               Delete
             </button>
