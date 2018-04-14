@@ -19,9 +19,9 @@ import { ProfilePageComponent } from './profile-page/profile-page.component';
 import { TextbookCreationPageComponent } from './textbook-creation-page/textbook-creation-page.component';
 import { OfferCreationPageComponent } from './offer-creation-page/offer-creation-page.component';
 import { NavbarComponent } from './navbar/navbar.component';
+import { HomepageComponent } from './homepage/homepage.component';
 import { BookCreationPageComponent } from './book-creation-page/book-creation-page.component';
 import { BrowseBooksPageComponent } from './browse-books-page/browse-books-page.component';
-import { HomePageComponent } from './home-page/home-page.component';
 import { BrowseOffersPageComponent } from './browse-offers-page/browse-offers-page.component';
 import { UserLoginPageComponent } from './user-login-page/user-login-page.component';
 import { ViewBookPageComponent } from './view-book-page/view-book-page.component';
@@ -31,7 +31,7 @@ import { PendingOfferViewPageComponent } from './pending-offer-view-page/pending
 
 //The Angular Routes
 const appRoutes: Routes = [
-  {path: '', component: HomePageComponent},
+  {path: '', component: HomepageComponent},
   {path: 'profile', component: ProfilePageComponent},
   {path: 'login', component: UserLoginPageComponent},
   {path: 'view-book/:id', component: ViewBookPageComponent},
@@ -62,9 +62,9 @@ export const firebaseConfig = {
     TextbookCreationPageComponent,
     OfferCreationPageComponent,
     NavbarComponent,
+    HomepageComponent,
     BookCreationPageComponent,
     BrowseBooksPageComponent,
-    HomePageComponent,
     BrowseOffersPageComponent,
     UserLoginPageComponent,
     ViewBookPageComponent,
