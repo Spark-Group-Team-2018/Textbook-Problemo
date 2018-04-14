@@ -193,7 +193,8 @@ export class TextbookTradeSystemApi {
       id: item["id"],
       first_name: item["first_name"],
       last_name: item["last_name"],
-      email: item["email"]
+      email: item["email"],
+      phone_number: item["phone_number"]
     }
   }
 
