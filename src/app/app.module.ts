@@ -17,13 +17,23 @@ import { TextbookCreationPageComponent } from './textbook-creation-page/textbook
 import { OfferCreationPageComponent } from './offer-creation-page/offer-creation-page.component';
 import { NavbarComponent } from './navbar/navbar.component';
 import { HomepageComponent } from './homepage/homepage.component';
-
+import { BookCreationPageComponent } from './book-creation-page/book-creation-page.component';
+import { BrowseBooksPageComponent } from './browse-books-page/browse-books-page.component';
+import { BrowseOffersPageComponent } from './browse-offers-page/browse-offers-page.component';
+import { UserLoginPageComponent } from './user-login-page/user-login-page.component';
+import { ViewBookPageComponent } from './view-book-page/view-book-page.component';
 
 //The Angular Routes
 const appRoutes: Routes = [
-  {path: '', component: ProfilePageComponent},
+  {path: 'home', component: HomepageComponent},
+  {path: 'profile', component: ProfilePageComponent},
+  {path: 'login', component: UserLoginPageComponent},
+  {path: 'view-book/:id', component: ViewBookPageComponent},
   {path: 'create-textbook', component: TextbookCreationPageComponent},
-  {path: 'create-offer', component: OfferCreationPageComponent}
+  {path: 'create-offer', component: OfferCreationPageComponent},
+  {path: 'add-book', component: BookCreationPageComponent},
+  {path: 'browse-books', component: BrowseBooksPageComponent},
+  {path: 'browse-offers', component: BrowseOffersPageComponent}
 ]
 
 
@@ -34,7 +44,12 @@ const appRoutes: Routes = [
     TextbookCreationPageComponent,
     OfferCreationPageComponent,
     NavbarComponent,
-    HomepageComponent
+    HomepageComponent,
+    BookCreationPageComponent,
+    BrowseBooksPageComponent
+    BrowseOffersPageComponent,
+    UserLoginPageComponent,
+    ViewBookPageComponent
   ],
   imports: [
     BrowserModule,

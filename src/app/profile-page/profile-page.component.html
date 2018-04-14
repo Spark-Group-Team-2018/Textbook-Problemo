@@ -1,9 +1,15 @@
 <div class = "container-fluid">
 
   <div class = "text-center">
-    <a href = "/create-textbook">Create Textbook</a>
+    <h1>{{user.first_name}} {{user.last_name}}</h1>
+  </div>
+
+  <div class = "text-center">
+    <a [routerLink]="['/add-book']">Add Book</a>
     <span> | </span>
-    <a href = "/create-offer">Create Offer</a>
+    <a [routerLink] = "['/create-textbook']">Create Textbook</a>
+    <span> | </span>
+    <a [routerLink] = "['/create-offer']">Create Offer</a>
   </div>
   <br>
 
@@ -16,6 +22,34 @@
       <ul class="list-group">
         <div *ngFor = "let textbook of user_textbooks" class="list-group-item">
           {{textbook.name}}
+
+          <br><br>
+
+          <button (click) = "deleteUserTextbook(textbook.id)" class = "btn btn-danger">
+            Delete
+          </button>
+
+          <button (click) = "updateUserTextbook(textbook.id)" class = "btn btn-success">
+            Edit
+          </button>
+
+        </div>
+      </ul>
+
+      <br>
+
+      <h2 class = "text-center">View Pending Offers with Seller</h2>
+
+      <ul class = "list-group">
+        <div *ngFor = "let seller_pendingoffer of seller_pending_offers" class = "list-group-item">
+          <p>Pending offer for <br><em>{{getTextbookByOffer(seller_pendingoffer.offer_id).name}}</em></p>
+          <p>Price: ${{getPendingOfferSellerOffer(seller_pendingoffer.offer_id).price}}</p>
+          <p>Sold by: {{getPendingOfferSeller(seller_pendingoffer.offer_id).first_name}} {{getPendingOfferSeller(seller_pendingoffer.offer_id).last_name}}</p>
+
+          <button (click) = "deleteSellerPendingOffer(seller_pendingoffer.id)" class = "btn btn-danger">
+            Delete
+          </button>
+
         </div>
       </ul>
 
@@ -28,8 +62,40 @@
       <ul class="list-group">
         <div *ngFor = "let offer of user_offers" class="list-group-item">
           <p>Offer for <u>{{getOfferTextbook(offer).name}}</u></p>
+
+          <button (click) = "deleteUserOffer(offer.id)" class = "btn btn-danger">
+            Delete
+          </button>
+
+          <button (click) = "updateUserOffer(offer.id)" class = "btn btn-success">
+            Edit
+          </button>
+
         </div>
       </ul>
+
+      <!-- TODO Implement section for buyer pending offers -->
+      <br>
+
+      <h2 class = "text-center">View Pending Offers by Buyers</h2>
+
+      <ul class = "list-group">
+
+        <ul class = "list-group">
+          <div *ngFor = "let buyer_pendingoffer of buyer_pending_offers" class = "list-group-item">
+            <p>Pending offer for <br><em>{{getTextbookByOffer(buyer_pendingoffer.offer_id).name}}</em></p>
+            <p>Price: ${{getPendingOfferSellerOffer(buyer_pendingoffer.offer_id).price}}</p>
+            <p>Desired by: {{getPendingOfferBuyer(buyer_pendingoffer.id).first_name}} {{getPendingOfferBuyer(buyer_pendingoffer.id).last_name}}</p>
+            <button (click) = "deleteBuyerPendingOffer(buyer_pendingoffer.id)" class = "btn btn-danger">
+              Delete
+            </button>
+          </div>
+        </ul>
+
+
+      </ul>
+
+      <!-- CODE END -->
 
     </div>
 

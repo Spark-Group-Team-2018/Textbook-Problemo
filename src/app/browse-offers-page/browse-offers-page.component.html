@@ -1,0 +1,19 @@
+<div class = "container-fluid">
+
+  <h1 class = "text-center">Browse Offers</h1>
+
+  <div *ngFor = "let offer of offers" class = "card offer-card">
+
+    <div class = "card-header">
+      {{getTextbook(offer.textbook_id).name}}
+    </div>
+
+    <div class = "card-body">
+      for ${{offer.price}}
+
+      <button (click) = "sendOffer(offer.id)" class = "btn btn-success">Buy</button>
+    </div>
+
+  </div>
+
+</div>
