@@ -31,7 +31,7 @@ import { PendingOfferViewPageComponent } from './pending-offer-view-page/pending
 
 //The Angular Routes
 const appRoutes: Routes = [
-  {path: 'home', component: HomePageComponent},
+  {path: '', component: HomePageComponent},
   {path: 'profile', component: ProfilePageComponent},
   {path: 'login', component: UserLoginPageComponent},
   {path: 'view-book/:id', component: ViewBookPageComponent},

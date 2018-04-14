@@ -6,6 +6,7 @@ import {Manufacturer} from '../../models/manufacturer';
 import {User} from '../../models/user';
 import {Book} from '../../models/book';
 import {PendingOffer} from '../../models/pendingoffer';
+import {Offer} from '../../models/offer';
 //
 
 /** API **/
