@@ -16,16 +16,16 @@ import { ProfilePageComponent } from './profile-page/profile-page.component';
 import { TextbookCreationPageComponent } from './textbook-creation-page/textbook-creation-page.component';
 import { OfferCreationPageComponent } from './offer-creation-page/offer-creation-page.component';
 import { NavbarComponent } from './navbar/navbar.component';
+import { HomepageComponent } from './homepage/homepage.component';
 import { BookCreationPageComponent } from './book-creation-page/book-creation-page.component';
 import { BrowseBooksPageComponent } from './browse-books-page/browse-books-page.component';
-import { HomePageComponent } from './home-page/home-page.component';
 import { BrowseOffersPageComponent } from './browse-offers-page/browse-offers-page.component';
 import { UserLoginPageComponent } from './user-login-page/user-login-page.component';
 import { ViewBookPageComponent } from './view-book-page/view-book-page.component';
 
 //The Angular Routes
 const appRoutes: Routes = [
-  {path: 'home', component: HomePageComponent},
+  {path: 'home', component: HomepageComponent},
   {path: 'profile', component: ProfilePageComponent},
   {path: 'login', component: UserLoginPageComponent},
   {path: 'view-book/:id', component: ViewBookPageComponent},
@@ -44,9 +44,9 @@ const appRoutes: Routes = [
     TextbookCreationPageComponent,
     OfferCreationPageComponent,
     NavbarComponent,
+    HomepageComponent,
     BookCreationPageComponent,
-    BrowseBooksPageComponent,
-    HomePageComponent,
+    BrowseBooksPageComponent
     BrowseOffersPageComponent,
     UserLoginPageComponent,
     ViewBookPageComponent
