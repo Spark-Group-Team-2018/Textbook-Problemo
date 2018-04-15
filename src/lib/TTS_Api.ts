@@ -304,6 +304,34 @@ export class TextbookTradeSystemApi {
 
   }
 
+  //TODO Implement auth user config
+  public updateAuthUser(authUser:User, authToken:string) {
+
+    let that = this;
+
+    const httpOptions = this.authHeaders(authToken);
+
+    var update_user_payload = User.getUserPayload(authUser);
+
+    var update_auth_user_promise = new Promise(function (resolve, reject) {
+
+      that.http.put(endpoint + "/update-authenticated-user", update_user_payload, httpOptions)
+        .toPromise()
+        .then (function (item:any) {
+
+          var updated_auth_user:User = that.parseRawUser(item);
+          resolve(updated_auth_user);
+
+        }).catch (function (err) {
+          reject(err);
+        })
+
+    })
+
+    return update_auth_user_promise;
+
+  }
+
   public getUsers() {
 
     let that = this;
