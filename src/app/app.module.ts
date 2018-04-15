@@ -34,6 +34,7 @@ import { UserConfigPageComponent } from './user-config-page/user-config-page.com
 const appRoutes: Routes = [
   {path: '', component: HomepageComponent},
   {path: 'profile', component: ProfilePageComponent},
+  {path: 'user-config', component: UserConfigPageComponent},
   {path: 'login', component: UserLoginPageComponent},
   {path: 'view-book/:id', component: ViewBookPageComponent},
   {path: 'create-textbook', component: TextbookCreationPageComponent},
