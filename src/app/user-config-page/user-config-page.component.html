@@ -1,0 +1,28 @@
+<div class = "main-content container-fluid">
+
+  <h1 class = "text-center"> Configuring User <br>{{user_update.email}} </h1>
+
+  <form name = "user_config_form" class = "container">
+
+    <div class = "form-group">
+      <label>First name: </label>
+      <input type = "text" [(ngModel)] = "user_update.first_name" class = "form-control" name = "first_name"/>
+    </div>
+
+    <div class = "form-group">
+      <label>Last name: </label>
+      <input type = "text" [(ngModel)] = "user_update.last_name" class = "form-control" name = "last_name"/>
+    </div>
+
+    <div class = "form-group">
+      <label>Phone number: </label>
+      <input type = "tel" [(ngModel)] = "user_update.phone_number" class = "form-control" name = "phone_number"/>
+    </div>
+
+    <button (click) = "updateUser()" class = "btn btn-success">
+      Submit
+    </button>
+
+  </form>
+
+</div>

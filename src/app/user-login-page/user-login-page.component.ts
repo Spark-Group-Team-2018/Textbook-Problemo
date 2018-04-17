@@ -140,8 +140,14 @@ export class UserLoginPageComponent implements OnInit {
 
     that.logged_in = true;
 
-    that.user_db.setUser(user).then (function (res) {
-      that.router.navigate(['/profile']);
+    that.user_db.setUser(user).then (function (user:User) {
+
+      if (user.first_name == "" || user.last_name == "" || user.phone_number == "000-000-0000") {
+        that.router.navigate(['user-config']);
+      }else {
+        that.router.navigate(['/profile']);
+      }
+
     }).catch (function (err) {
       console.log(err);
     })
