@@ -46,7 +46,7 @@ const appRoutes: Routes = [
     NavbarComponent,
     HomepageComponent,
     BookCreationPageComponent,
-    BrowseBooksPageComponent
+    BrowseBooksPageComponent,
     BrowseOffersPageComponent,
     UserLoginPageComponent,
     ViewBookPageComponent
