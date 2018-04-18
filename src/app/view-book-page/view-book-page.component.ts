@@ -49,6 +49,10 @@ export class ViewBookPageComponent implements OnInit {
 
   }
 
+  browseBooks() {
+    this.router.navigate(['/browse-books'])
+  }
+
   getBookId() {
 
     let that = this;

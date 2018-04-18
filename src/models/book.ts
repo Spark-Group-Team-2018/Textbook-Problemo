@@ -5,6 +5,7 @@ export class Book {
   title:string
   description:string
   manufacturer_id:number
+  cover_image_link:string
 
   constructor() {
 

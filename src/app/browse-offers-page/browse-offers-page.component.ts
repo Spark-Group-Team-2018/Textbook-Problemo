@@ -4,6 +4,7 @@ import { Component, OnInit } from '@angular/core';
 import {Offer} from '../../models/offer';
 import {Textbook} from '../../models/textbook';
 import {PendingOffer} from '../../models/pendingoffer';
+import {User} from '../../models/user';
 
 //TTS Api
 import {TextbookTradeSystemApi} from '../../lib/TTS_Api';
@@ -26,8 +27,7 @@ export class BrowseOffersPageComponent implements OnInit {
 
   public textbooks:Textbook[] = [];
 
-  //FIXME
-  public user_id:number = null;
+  public user:User = null;
 
   constructor(
     private router: Router,
@@ -40,8 +40,13 @@ export class BrowseOffersPageComponent implements OnInit {
 
     let that = this;
 
-    this.getUserId().then (function (user_id:number) {
-      that.user_id = user_id;
+    this.getUser().then (function (user:User) {
+      that.user = user;
+
+      if (user == null) {
+        that.goToProfile();
+      }
+
     }).catch (function (err) {
       console.log(err);
     })
@@ -71,11 +76,11 @@ export class BrowseOffersPageComponent implements OnInit {
 
   //IMPLEMENTME
   sendOffer(offer_id:number) {
-    var new_pending_offer:PendingOffer = PendingOffer.createPendingOffer(offer_id, this.user_id);
+    var new_pending_offer:PendingOffer = PendingOffer.createPendingOffer(offer_id, this.user.id);
 
     let that = this;
 
-    that.api.createPendingOffer(new_pending_offer).then (function (pendingOffer: PendingOffer) {
+    that.api.createPendingOffer(new_pending_offer, that.user["authToken"]).then (function (pendingOffer: PendingOffer) {
       alert(JSON.stringify(pendingOffer));
       that.goToProfile();
     }).catch (function (err) {
@@ -87,7 +92,7 @@ export class BrowseOffersPageComponent implements OnInit {
 
   goToProfile() {
 
-    this.router.navigate(['/profile'], {queryParams: {user_id: this.user_id}});
+    this.router.navigate(['/profile']);
 
   }
 
@@ -98,6 +103,16 @@ export class BrowseOffersPageComponent implements OnInit {
     var user_id_promise = that.user_db.getUserId();
 
     return user_id_promise;
+
+  }
+
+  getUser() {
+
+    let that = this;
+
+    var user_promise = that.user_db.getUser();
+
+    return user_promise;
 
   }
 

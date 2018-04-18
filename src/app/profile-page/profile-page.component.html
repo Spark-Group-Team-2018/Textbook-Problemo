@@ -2,6 +2,7 @@
 
   <div class = "text-center">
     <h1>{{user.first_name}} {{user.last_name}}</h1>
+    <h2>{{user.email}}</h2>
   </div>
 
   <div class = "text-center">
@@ -10,6 +11,8 @@
     <a [routerLink] = "['/create-textbook']">Create Textbook</a>
     <span> | </span>
     <a [routerLink] = "['/create-offer']">Create Offer</a>
+    <span> | </span>
+    <a [routerLink] = "['/user-config']">Config</a>
   </div>
   <br>
 
@@ -24,6 +27,10 @@
           {{textbook.name}}
 
           <br><br>
+
+          <button (click) = "viewTextbook(textbook.id)" class = "btn btn-primary">
+            View
+          </button>
 
           <button (click) = "deleteUserTextbook(textbook.id)" class = "btn btn-danger">
             Delete
@@ -46,6 +53,10 @@
           <p>Price: ${{getPendingOfferSellerOffer(seller_pendingoffer.offer_id).price}}</p>
           <p>Sold by: {{getPendingOfferSeller(seller_pendingoffer.offer_id).first_name}} {{getPendingOfferSeller(seller_pendingoffer.offer_id).last_name}}</p>
 
+          <button (click) = "viewPendingOffer(seller_pendingoffer.id)" class = "btn btn-primary">
+            View
+          </button>
+
           <button (click) = "deleteSellerPendingOffer(seller_pendingoffer.id)" class = "btn btn-danger">
             Delete
           </button>
@@ -63,6 +74,11 @@
         <div *ngFor = "let offer of user_offers" class="list-group-item">
           <p>Offer for <u>{{getOfferTextbook(offer).name}}</u></p>
 
+
+          <button (click) = "viewOffer(offer.id)" class = "btn btn-primary">
+            View
+          </button>
+
           <button (click) = "deleteUserOffer(offer.id)" class = "btn btn-danger">
             Delete
           </button>
@@ -74,7 +90,6 @@
         </div>
       </ul>
 
-      <!-- TODO Implement section for buyer pending offers -->
       <br>
 
       <h2 class = "text-center">View Pending Offers by Buyers</h2>
@@ -86,6 +101,11 @@
             <p>Pending offer for <br><em>{{getTextbookByOffer(buyer_pendingoffer.offer_id).name}}</em></p>
             <p>Price: ${{getPendingOfferSellerOffer(buyer_pendingoffer.offer_id).price}}</p>
             <p>Desired by: {{getPendingOfferBuyer(buyer_pendingoffer.id).first_name}} {{getPendingOfferBuyer(buyer_pendingoffer.id).last_name}}</p>
+
+            <button (click) = "viewPendingOffer(buyer_pendingoffer.id)" class = "btn btn-primary">
+              View
+            </button>
+
             <button (click) = "deleteBuyerPendingOffer(buyer_pendingoffer.id)" class = "btn btn-danger">
               Delete
             </button>

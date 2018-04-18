@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 
 import {Textbook} from '../../models/textbook';
 import {Book} from '../../models/book';
+import {User} from '../../models/user';
 
 import { RouterModule, Routes, Router, ActivatedRoute, NavigationExtras }  from '@angular/router';
 
@@ -26,6 +27,8 @@ export class TextbookCreationPageComponent implements OnInit {
 
   public new_textbook:Textbook = Textbook.createEmptyTextbook();
   public user_id:number = null;
+  public user:User;
+
 
   public books:Book[] = [];
   public mode:string = null;
@@ -45,10 +48,18 @@ export class TextbookCreationPageComponent implements OnInit {
       console.log(err);
     })
 
-    that.getUserId().then (function (user_id:number) {
-      that.user_id = user_id;
-      that.new_textbook.user_id = user_id;
+    that.getUser().then (function (user:User) {
+
+      if (user == null) {
+        that.goBack();
+      }
+
+      that.user = user;
+
+      that.user_id = user.id
+      that.new_textbook.user_id = user.id;
       return that.getMode();
+
     }).then (function (mode:string) {
       that.mode = mode;
 
@@ -84,13 +95,13 @@ export class TextbookCreationPageComponent implements OnInit {
 
         /** Create the Textbook on the Backend **/
 
-        textbook_promise = this.api.createTextbook(this.new_textbook)
+        textbook_promise = this.api.createTextbook(this.new_textbook, that.user["authToken"])
 
         break;
 
       case 'update':
 
-        textbook_promise = this.api.updateTextbook(this.new_textbook);
+        textbook_promise = this.api.updateTextbook(this.new_textbook, that.user["authToken"]);
 
         break;
     }
@@ -108,7 +119,7 @@ export class TextbookCreationPageComponent implements OnInit {
 
   goBack() {
 
-    this.router.navigate(['/profile'], {queryParams: {user_id: this.user_id}})
+    this.router.navigate(['/profile'])
   }
 
   getTextbookId() {
@@ -158,5 +169,14 @@ export class TextbookCreationPageComponent implements OnInit {
     return user_id_promise;
 
   }
+
+  getUser() {
+    let that = this;
+
+    var user_promise = that.user_db.getUser();
+
+    return user_promise;
+  }
+
 
 }

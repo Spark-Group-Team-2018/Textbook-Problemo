@@ -7,8 +7,8 @@ import {Textbook} from '../models/textbook';
 import {Offer} from '../models/offer';
 import {Book} from '../models/book';
 import {Manufacturer} from '../models/manufacturer';
-import {User} from '../models/user';
 import {PendingOffer} from '../models/pendingoffer';
+import {User} from '../models/user';
 //Import rxjs helpers for API
 import 'rxjs/add/operator/toPromise';
 import 'rxjs/add/operator/map';
@@ -22,6 +22,17 @@ export class TextbookTradeSystemApi {
 
   }
 
+
+  private authHeaders(user_auth: string) {
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        'Authorization': user_auth
+      })
+    }
+
+    return httpOptions;
+  }
 
   private parseRawManufacturer(item: any) {
 
@@ -138,15 +149,12 @@ export class TextbookTradeSystemApi {
   }
 
   //Create a book
-  public createBook(new_book: Book) {
+
+  public createBook(new_book: Book, authToken) {
 
     var book_payload = Book.getBookPayload(new_book);
 
-    const httpOptions = {
-      headers: new HttpHeaders({
-        'Content-Type': 'application/json'
-      })
-    }
+    const httpOptions = this.authHeaders(authToken);
 
     let that = this;
 
@@ -181,8 +189,142 @@ export class TextbookTradeSystemApi {
       id: item["id"],
       first_name: item["first_name"],
       last_name: item["last_name"],
-      email: item["email"]
+      email: item["email"],
+      phone_number: item["phone_number"]
     }
+  }
+
+  /** create new user **/
+  public newUser(user: User) {
+
+    var new_user_payload = User.getNewUserPayload(user);
+
+    let that = this;
+
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json'
+      })
+    }
+
+    var user_promise = new Promise(function (resolve, reject) {
+      that.http.post(endpoint + '/users', new_user_payload, httpOptions)
+        .toPromise()
+        .then(function (res: any) {
+
+          if (res["status"] == "unable to save new user") {
+            resolve(user)
+          } else {
+            console.log(res);
+
+            var new_user: User = that.parseRawUser(res);
+            new_user.user_token = user.user_token;
+            resolve(new_user);
+          }
+
+        }).catch(function (err) {
+        reject(err);
+      })
+    })
+
+    return user_promise;
+
+  }
+
+  /** gets the user auth token **/
+  public userAuth(user: User) {
+
+    var email = user["email"];
+    var password = user["user_token"]
+
+    let that = this
+
+    var auth_payload = {
+      "email": email,
+      "password": password
+    }
+
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json'
+      })
+    }
+
+    var authentication_promise = new Promise(function (resolve, reject) {
+
+      that.http.post(endpoint + "/authenticate", auth_payload, httpOptions)
+        .toPromise()
+        .then(function (res: any) {
+
+          var authToken = res["auth_token"]
+          resolve(authToken);
+
+        }).catch(function (err) {
+        reject(err);
+      })
+    })
+
+    return authentication_promise;
+
+  }
+
+  /** get the authenticated user **/
+  public getAuthUser(authToken: string) {
+
+    let that = this;
+
+
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Authorization': authToken
+      })
+    }
+
+    var auth_user_promise = new Promise(function (resolve, reject) {
+
+      that.http.get(endpoint + "/authenticated-user", httpOptions)
+        .toPromise()
+        .then(function (res: any) {
+          var auth_user: User = that.parseRawUser(res);
+          auth_user.authToken = authToken;
+          resolve(auth_user);
+        })
+        .catch(function (err) {
+          reject(err);
+        })
+
+    })
+
+    return auth_user_promise;
+
+  }
+
+  //TODO Implement auth user config
+  public updateAuthUser(authUser: User, authToken: string) {
+
+    let that = this;
+
+    const httpOptions = this.authHeaders(authToken);
+
+    var update_user_payload = User.getUserPayload(authUser);
+
+    var update_auth_user_promise = new Promise(function (resolve, reject) {
+
+      that.http.put(endpoint + "/update-authenticated-user", update_user_payload, httpOptions)
+        .toPromise()
+        .then(function (item: any) {
+
+          var updated_auth_user: User = that.parseRawUser(item);
+          resolve(updated_auth_user);
+
+        }).catch(function (err) {
+        reject(err);
+      })
+
+    })
+
+    return update_auth_user_promise;
+
   }
 
   public getUsers() {
@@ -239,13 +381,16 @@ export class TextbookTradeSystemApi {
 
   }
 
-  public deletePendingOffer(pending_offer_id: number) {
+
+  public deletePendingOffer(pending_offer_id: number, authToken: string) {
 
     let that = this;
 
+    const httpOptions = that.authHeaders(authToken);
+
     var delete_pending_offer_promise = new Promise(function (resolve, reject) {
 
-      that.http.delete(endpoint + '/pendingoffers' + '/' + pending_offer_id)
+      that.http.delete(endpoint + '/pendingoffers' + '/' + pending_offer_id, httpOptions)
         .toPromise()
         .then(function (res) {
 
@@ -258,6 +403,30 @@ export class TextbookTradeSystemApi {
     })
 
     return delete_pending_offer_promise;
+
+  }
+
+  public getPendingOfferById(pendingoffer_id: number) {
+
+    let that = this;
+
+    var pending_offer_promise = new Promise(function (resolve, reject) {
+
+      that.http.get(endpoint + '/pendingoffers' + '/' + pendingoffer_id.toString())
+        .toPromise()
+        .then(function (item: any) {
+
+          var pending_offer: PendingOffer = that.parseRawPendingOffer(item);
+
+          resolve(pending_offer);
+
+        }).catch(function (err) {
+        reject(err);
+      })
+
+    })
+
+    return pending_offer_promise;
 
   }
 
@@ -350,18 +519,14 @@ export class TextbookTradeSystemApi {
 
   }
 
-  public createPendingOffer(pending_offer: PendingOffer) {
+  public createPendingOffer(pending_offer: PendingOffer, authToken: string) {
 
     let that = this;
 
+    const httpOptions = that.authHeaders(authToken);
 
     var pendingOfferPayload = PendingOffer.getPendingOfferPayload(pending_offer);
 
-    const httpOptions = {
-      headers: new HttpHeaders({
-        'Content-Type': 'application/json'
-      })
-    }
 
     var pending_offer_promise = new Promise(function (resolve, reject) {
       that.http.post(endpoint + "/pendingoffers", pendingOfferPayload, httpOptions)
@@ -437,11 +602,13 @@ export class TextbookTradeSystemApi {
 
   }
 
-  public deleteTextbook(textbook_id: number) {
+  public deleteTextbook(textbook_id: number, authToken: string) {
     let that = this;
 
+    const httpOptions = that.authHeaders(authToken);
+
     var delete_textbook_promise = new Promise(function (resolve, reject) {
-      that.http.delete(endpoint + "/textbooks" + "/" + textbook_id)
+      that.http.delete(endpoint + "/textbooks" + "/" + textbook_id, httpOptions)
         .toPromise()
         .then(function (res) {
 
@@ -455,7 +622,7 @@ export class TextbookTradeSystemApi {
     return delete_textbook_promise;
   }
 
-  public updateTextbook(updated_textbook: Textbook) {
+  public updateTextbook(updated_textbook: Textbook, authToken: string) {
 
     let that = this;
 
@@ -463,11 +630,7 @@ export class TextbookTradeSystemApi {
 
     var textbook_payload = Textbook.getTextbookPayload(updated_textbook);
 
-    const httpOptions = {
-      headers: new HttpHeaders({
-        'Content-Type': 'application/json'
-      })
-    }
+    const httpOptions = that.authHeaders(authToken);
 
     var update_textbook_promise = new Promise(function (resolve, reject) {
 
@@ -510,14 +673,10 @@ export class TextbookTradeSystemApi {
   }
 
   //Create a new textbook
-  public createTextbook(new_textbook: Textbook) {
+  public createTextbook(new_textbook: Textbook, authToken: string) {
     var textbook_payload = Textbook.getTextbookPayload(new_textbook);
 
-    const httpOptions = {
-      headers: new HttpHeaders({
-        'Content-Type': 'application/json'
-      })
-    }
+    const httpOptions = this.authHeaders(authToken);
 
     let that = this;
 
@@ -557,11 +716,13 @@ export class TextbookTradeSystemApi {
 
   }
 
-  public deleteOffer(offer_id: number) {
+  public deleteOffer(offer_id: number, authToken: string) {
     let that = this;
 
+    const httpOptions = that.authHeaders(authToken);
+
     var delete_offer_promise = new Promise(function (resolve, reject) {
-      that.http.delete(endpoint + "/offers" + "/" + offer_id)
+      that.http.delete(endpoint + "/offers" + "/" + offer_id, httpOptions)
         .toPromise()
         .then(function (res) {
 
@@ -623,15 +784,11 @@ export class TextbookTradeSystemApi {
 
   }
 
-  public updateOffer(updated_offer: Offer) {
+  public updateOffer(updated_offer: Offer, authToken: string) {
 
     let that = this;
 
-    const httpOptions = {
-      headers: new HttpHeaders({
-        'Content-Type': 'application/json'
-      })
-    }
+    const httpOptions = that.authHeaders(authToken);
 
     var offer_id = updated_offer.id;
 
@@ -657,15 +814,11 @@ export class TextbookTradeSystemApi {
 
   }
 
-  public createOffer(offer: Offer) {
+  public createOffer(offer: Offer, authtoken: string) {
 
     let that = this;
 
-    const httpOptions = {
-      headers: new HttpHeaders({
-        'Content-Type': 'application/json'
-      })
-    }
+    const httpOptions = that.authHeaders(authtoken);
 
     var offer_payload = Offer.getOfferPayload(offer);
 
