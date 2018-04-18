@@ -877,4 +877,30 @@ export class TextbookTradeSystemApi {
 
   }
 
+  public getBookInfoFromIsbn(isbn: number) {
+    const googleBooksEndpoint = 'https://www.googleapis.com/books/v1/volumes?q=';
+    const that = this;
+
+    return new Promise(function (resolve, reject) {
+      that.http.get(googleBooksEndpoint + isbn)
+        .toPromise()
+        .then(function (res) {
+          const book = res["items"][0]["volumeInfo"];
+
+          const bookInfo = {
+            title: book["title"],
+            authors: book["authors"],
+            publisher: book["publisher"],
+            publishedDate: book["publishedDate"],
+            description: book["description"],
+            thumbnailLink: book["imageLinks"]["thumbnail"]
+          };
+
+          return bookInfo;
+        }).catch(function (err) {
+        reject(err);
+      });
+    });
+
+  }
 }
