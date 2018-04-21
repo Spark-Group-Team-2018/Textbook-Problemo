@@ -9,23 +9,6 @@
         <input [(ngModel)] = "new_book.ISBN" class = "form-control" name = "book-isbn"/>
       </div>
 
-      <div class = "form-group">
-        <label>Title: </label>
-        <input [(ngModel)] = "new_book.title" class = "form-control" name = "book-title"/>
-      </div>
-
-      <div class = "form-group">
-        <label>Description:</label>
-        <textarea [(ngModel)] = "new_book.description" class = "form-control" name = "book-description"></textarea>
-      </div>
-
-      <div class = "form-group">
-        <label>Manufacturer: </label>
-        <select [(ngModel)] = "new_book.manufacturer_id" class = "form-control" name = "book-manufacturer-id">
-          <option *ngFor = "let manufacturer of manufacturers" value = "{{manufacturer.id}}">{{manufacturer.name}}</option>
-        </select>
-      </div>
-
       <button (click) = "goBack()" class = "btn btn-danger">Back</button>
       <button (click) = "submitBook()" class = "btn btn-success">Submit</button>
 

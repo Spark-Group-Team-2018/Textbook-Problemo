@@ -896,7 +896,7 @@ export class TextbookTradeSystemApi {
             thumbnailLink: book["imageLinks"]["thumbnail"]
           };
 
-          return bookInfo;
+          resolve(bookInfo);
         }).catch(function (err) {
         reject(err);
       });
