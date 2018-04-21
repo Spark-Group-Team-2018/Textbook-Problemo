@@ -1,0 +1,23 @@
+.googlebtn{
+  width:382px;
+  height:92px;
+  background-color: #FFFFFF;
+  background: url(/assets/google_signin_buttons/btn_google_signin_light_normal_web@2x.png);
+  display: inline-block;
+  font-weight: 400;
+  text-align: center;
+  white-space: nowrap;
+  vertical-align: middle;
+  user-select: none;
+  border: 1px solid transparent;
+  padding: .375rem .75rem;
+  font-size: 1rem;
+  line-height: 1.5;
+  border-radius: .25rem;
+}
+.googlebtn:hover{
+  background: url(/assets/google_signin_buttons/btn_google_signin_light_focus_web@2x.png);
+}
+.googlebtn:active{
+  background: url(/assets/google_signin_buttons/btn_google_signin_light_pressed_web@2x.png);
+}
