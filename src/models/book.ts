@@ -17,7 +17,8 @@ export class Book {
         ISBN: book["ISBN"],
         title: book["title"],
         description: book["description"],
-        manufacturer_id: book["manufacturer_id"]
+        manufacturer_id: book["manufacturer_id"],
+        cover_image_link: book["cover_image_link"]
       }
     }
   }
@@ -29,7 +30,8 @@ export class Book {
       ISBN: null,
       title: "",
       description: "",
-      manufacturer_id: 1
+      manufacturer_id: 1,
+      cover_image_link: ""
     }
 
   }

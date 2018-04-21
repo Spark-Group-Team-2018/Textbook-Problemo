@@ -1,12 +1,12 @@
 <div class = "container-fluid">
 
-  <h1 class = "text-center">Add Book</h1>
+  <h1 class = "text-center">Add Book By ISBN-13</h1>
 
   <form name = "create-book-form">
 
       <div class = "form-group">
         <label>ISBN: </label>
-        <input [(ngModel)] = "new_book.ISBN" class = "form-control" name = "book-isbn"/>
+        <input [(ngModel)] = "ISBN_Number" class = "form-control" name = "book-isbn"/>
       </div>
 
       <button (click) = "goBack()" class = "btn btn-danger">Back</button>

@@ -64,6 +64,36 @@ export class TextbookTradeSystemApi {
 
   }
 
+  public getManufacturerByName(manufacturer_name:string) {
+
+    let that = this;
+
+    var manufacturer_promise = new Promise (function (resolve, reject) {
+
+      that.http.get(endpoint + "/manufacturers/get-existing-manufacturer" + "?name=" + manufacturer_name)
+        .toPromise()
+        .then (function (rawManufacturer:any) {
+
+          if (rawManufacturer == null) {
+              //TEMP
+              console.log("manufacturer does not exist yet");
+              resolve(undefined);
+          }else {
+            console.log(rawManufacturer);
+            var manufacturer:Manufacturer = that.parseRawManufacturer(rawManufacturer);
+            resolve(manufacturer)
+          }
+
+        }).catch (function (err) {
+          reject(err);
+        })
+
+    })
+
+    return manufacturer_promise;
+
+  }
+
   //Retrieve all da manufacturers
   public getManufacturers() {
 
@@ -86,6 +116,31 @@ export class TextbookTradeSystemApi {
     })
 
     return manufacturer_promise;
+
+  }
+
+  public createManufacturer(manufacturer:Manufacturer, authToken:string) {
+
+    let that = this;
+
+    let manufacturer_payload:any = Manufacturer.getManufacturerPayload(manufacturer);
+
+    const httpOptions = this.authHeaders(authToken);
+
+    var create_manufacturer_promise = new Promise (function (resolve, reject) {
+      that.http.post(endpoint + "/manufacturers", manufacturer_payload, httpOptions)
+        .toPromise()
+        .then (function (rawManufacturer:any) {
+
+          var new_manufacturer:Manufacturer = that.parseRawManufacturer(rawManufacturer);
+          resolve(new_manufacturer);
+
+        }).catch (function (err) {
+          reject(err);
+        })
+    })
+
+    return create_manufacturer_promise;
 
   }
 
@@ -142,6 +197,82 @@ export class TextbookTradeSystemApi {
         }).catch(function (err) {
         reject(err);
       })
+    })
+
+    return book_promise;
+
+  }
+
+  public getBookInfoFromIsbn(isbn: number) {
+    const googleBooksEndpoint = 'https://www.googleapis.com/books/v1/volumes?q=';
+    const that = this;
+
+    return new Promise(function (resolve, reject) {
+      that.http.get(googleBooksEndpoint + isbn)
+        .toPromise()
+        .then(function (res) {
+          const book = res["items"][0]["volumeInfo"];
+
+          const bookInfo = {
+            title: book["title"],
+            ISBN: isbn,
+            authors: book["authors"],
+            publisher: book["publisher"],
+            publishedDate: book["publishedDate"],
+            description: book["description"],
+            thumbnailLink: book["imageLinks"]["thumbnail"]
+          };
+
+          console.log(bookInfo);
+
+          resolve(bookInfo);
+        }).catch(function (err) {
+        reject(err);
+      });
+    });
+
+  }
+
+  /** NOTE implement a manufacturer validation and simple manufacturer creation if otherwise **/
+  public parseBookInfo(bookInfo:any, authToken:string) {
+
+    let that = this;
+
+    var book_promise = new Promise(function (resolve, reject) {
+
+      that.getManufacturerByName(bookInfo["publisher"]).then (function (manufacturer) {
+
+        if (manufacturer == undefined) {
+          console.log("NEW manufacturer must be created!");
+          var tempManufacturer = <Manufacturer> {
+            name: bookInfo["publisher"],
+            description: ""
+          }
+          return that.createManufacturer(tempManufacturer, authToken);
+        }else {
+          return manufacturer;
+        }
+
+      }).then (function (manufacturer: Manufacturer) {
+
+        var book = <Book> {
+            ISBN: bookInfo["ISBN"],
+            title: bookInfo["title"],
+            description: bookInfo["description"],
+            manufacturer_id: manufacturer.id, /** FIXME **/
+            cover_image_link: bookInfo["thumbnailLink"]
+        }
+
+        resolve(book);
+
+
+      }).catch (function (err) {
+        reject(err);
+      })
+
+
+
+
     })
 
     return book_promise;
@@ -877,30 +1008,6 @@ export class TextbookTradeSystemApi {
 
   }
 
-  public getBookInfoFromIsbn(isbn: number) {
-    const googleBooksEndpoint = 'https://www.googleapis.com/books/v1/volumes?q=';
-    const that = this;
 
-    return new Promise(function (resolve, reject) {
-      that.http.get(googleBooksEndpoint + isbn)
-        .toPromise()
-        .then(function (res) {
-          const book = res["items"][0]["volumeInfo"];
 
-          const bookInfo = {
-            title: book["title"],
-            authors: book["authors"],
-            publisher: book["publisher"],
-            publishedDate: book["publishedDate"],
-            description: book["description"],
-            thumbnailLink: book["imageLinks"]["thumbnail"]
-          };
-
-          resolve(bookInfo);
-        }).catch(function (err) {
-        reject(err);
-      });
-    });
-
-  }
 }

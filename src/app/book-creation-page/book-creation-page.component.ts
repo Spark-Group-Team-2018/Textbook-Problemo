@@ -21,9 +21,12 @@ import {UserDatabase} from '../../lib/User_Database';
 export class BookCreationPageComponent implements OnInit {
 
   public new_book:Book;
+
+  public ISBN_Number:number
+
   public manufacturer_id:string;
 
-  public manufacturers:Manufacturer[] = [];
+  //public manufacturers:Manufacturer[] = [];
 
   public user:User;
 
@@ -35,10 +38,11 @@ export class BookCreationPageComponent implements OnInit {
 
     let that = this;
 
+    /**
     this.api.getManufacturers().then (function (manufacturers: Manufacturer[]) {
       that.manufacturers = manufacturers;
       console.log(that.manufacturers)
-    })
+    })**/
 
     that.getUser().then (function (user:User) {
       that.user = user;
@@ -65,12 +69,28 @@ export class BookCreationPageComponent implements OnInit {
   submitBook() {
     let that = this;
 
-    this.api.createBook(this.new_book, that.user["authToken"]).then (function (book:Book) {
-      alert(JSON.stringify(book));
-      that.goBack();
-    }).catch (function (err) {
-      alert("Unable to create book");
-    })
+
+    if (this.ISBN_Number.toString().length != 13) { /** Validates if the number is a valid ISBN-13 **/
+      alert("Not valid ISBN number");
+      this.ISBN_Number = undefined;
+
+
+    }else { /** retrieves the book info **/
+
+
+      this.api.getBookInfoFromIsbn(this.ISBN_Number).then (function (bookInfo:any) {
+        return that.api.parseBookInfo(bookInfo, that.user["authToken"]);
+      }).then (function (new_book:Book) {
+
+        return that.api.createBook(new_book, that.user["authToken"])
+
+      }).then (function (book:Book) {
+        alert(JSON.stringify(book));
+        that.goBack();
+      }).catch (function (err) {
+        alert("Unable to create book");
+      })
+    }
   }
 
   getUser() {

@@ -9,4 +9,15 @@ export class Manufacturer {
 
   }
 
+  static getManufacturerPayload(manufacturer:Manufacturer) {
+
+    return {
+      manufacturer: {
+        name: manufacturer.name,
+        description: manufacturer.description
+      }
+    }
+
+  }
+
 }
