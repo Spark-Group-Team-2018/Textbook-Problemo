@@ -1,12 +1,42 @@
-<h1 class = "text-center">Viewing a Pending Offer</h1>
-<div class = "main-content">
 
-  <h2>The user, {{buyer.email}} is asking to purchase {{textbook.name}}</h2>
-  <h2>From the user, {{seller.email}}</h2>
-  <h2>at the current price of ${{offer.price}}</h2>
+<div class = "main-content">
 
   <button (click) = "goBack()" class = "btn btn-danger">
     Back
   </button>
+
+  <h1 class = "text-center">Viewing a Pending Offer</h1>
+
+  <h2>Pending Offer for the sale of <br> <u>{{textbook.name}}</u></h2>
+  <h2> At the cost of ${{offer.price}}</h2>
+
+  <br>
+  <h1 class = "text-center">Contant info</h1>
+
+  <div class = "row">
+
+    <div class = "col-md-6">
+      <h2>Contact for Seller</h2>
+
+      <p class = "seller-contact">
+        <span><b>Name:</b> {{seller.first_name}} {{seller.last_name}}</span><br>
+        <span><b>Email:</b> {{seller.email}}</span><br>
+        <span><b>Phone number:</b> {{seller.phone_number}}</span>
+      </p>
+
+    </div>
+
+    <div class = "col-md-6">
+      <h2> Contact for Buyer</h2>
+
+      <p class = "buyer-contact">
+        <span><b>Name:</b> {{buyer.first_name}} {{buyer.last_name}}</span><br>
+        <span><b>Email:</b> {{buyer.email}}</span><br>
+        <span><b>Phone number:</b> {{buyer.phone_number}}</span>
+      </p>
+
+    </div>
+
+  </div>
 
 </div>
