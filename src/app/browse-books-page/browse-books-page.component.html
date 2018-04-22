@@ -6,9 +6,10 @@
       </div>
 
       <div class = "card-body">
-        {{book.description}}
+        {{book.description | words: 50}}
+        <br><br>
         <button (click) = "viewBook(book.id)" class = 'btn btn-primary'>
-          View
+          View More
         </button>
       </div>
     </div>

@@ -40,4 +40,9 @@ export class BrowseBooksPageComponent implements OnInit {
   ngOnInit() {
   }
 
+  truncate_description(description:string) {
+    return description;
+    //return Utility.truncate(description, 100, true);
+  }
+
 }

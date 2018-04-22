@@ -13,6 +13,9 @@ import {RouterModule, Routes} from '@angular/router';
 //Auth
 import {AngularFireModule} from 'angularfire2';
 
+//truncation
+import { TruncateModule } from 'ng2-truncate';
+
 //Pages and Components
 import { AppComponent } from './app.component';
 import { ProfilePageComponent } from './profile-page/profile-page.component';
@@ -78,6 +81,7 @@ export const firebaseConfig = {
   imports: [
     BrowserModule,
     FormsModule,
+    TruncateModule,
     RouterModule.forRoot(
       appRoutes,
       { enableTracing: true } // <-- debugging purposes only
