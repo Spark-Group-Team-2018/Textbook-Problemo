@@ -67,7 +67,8 @@ export class UserLoginPageComponent implements OnInit {
 
         db_logged_in = (user != null);
 
-        resolve((social_logged_in || db_logged_in));
+
+        resolve(db_logged_in);
 
       }).catch (function (err) {
         reject(err);

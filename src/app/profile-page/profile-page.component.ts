@@ -61,14 +61,22 @@ export class ProfilePageComponent implements OnInit {
         that.redirectToLogin();
       }
 
-      /** FIXME HELLAS **/
+      return that.api.getAuthUser(that.user["authToken"])
+
+
+    }).then(function (auth_user:User) {
+
+      console.log(auth_user);
+
       that.refreshUserData(that.user);
 
     }).catch (function (err) {
       console.log(err)
 
-      if (err == "invalid_user") {
-        that.redirectToLogin();
+      if (err == "invalid_user" || err.ok == false) {
+        that.user_db.clearUser().then (function (user:User) {
+          that.redirectToLogin();
+        })
       }
 
     })

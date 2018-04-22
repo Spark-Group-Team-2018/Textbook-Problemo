@@ -417,6 +417,7 @@ export class TextbookTradeSystemApi {
       that.http.get(endpoint + "/authenticated-user", httpOptions)
         .toPromise()
         .then(function (res: any) {
+
           var auth_user: User = that.parseRawUser(res);
           auth_user.authToken = authToken;
           resolve(auth_user);

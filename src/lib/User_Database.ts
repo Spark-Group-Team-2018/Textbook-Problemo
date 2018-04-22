@@ -150,7 +150,7 @@ export class UserDatabase {
     var user_promise = new Promise(function (resolve, reject) {
 
       localForage.setItem("user", null).then (function () {
-        return that.getUserId();
+        return that.getUser();
       }).then (function (value) {
         resolve(value);
       }).catch (function (err) {
