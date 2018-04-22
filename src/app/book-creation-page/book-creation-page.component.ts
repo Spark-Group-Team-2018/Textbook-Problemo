@@ -85,8 +85,13 @@ export class BookCreationPageComponent implements OnInit {
         return that.api.createBook(new_book, that.user["authToken"])
 
       }).then (function (book:Book) {
-        alert(JSON.stringify(book));
-        that.goBack();
+
+        if (book.id.toString() != "NaN") {
+          that.goBack();
+        }else {
+          alert("This book already is in the catalogue");
+          that.ISBN_Number = undefined;
+        }
       }).catch (function (err) {
         alert("Unable to create book");
       })
