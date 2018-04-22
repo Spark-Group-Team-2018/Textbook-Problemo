@@ -150,6 +150,7 @@ export class TextbookTradeSystemApi {
       id: Number(item["id"]),
       ISBN: item["ISBN"],
       title: item["title"],
+      cover_image_link: item["cover_image_link"],
       description: item["description"],
       manufacturer_id: item["manufacturer_id"]
     }
