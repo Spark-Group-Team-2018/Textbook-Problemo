@@ -1,5 +1,8 @@
+// User model
+
 export class User {
 
+  //user fields
   id:number
   first_name:string
   last_name:string
@@ -14,6 +17,7 @@ export class User {
 
   }
 
+  //generate payload neccessary for creating a new user on the backend
   static getNewUserPayload(user:User) {
 
     return {
@@ -29,6 +33,7 @@ export class User {
 
   }
 
+  //generate payload neccessary for other user interactions with the backend
   static getUserPayload(user:User) {
 
     return {
