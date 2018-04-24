@@ -107,6 +107,7 @@ export class BookCreationPageComponent implements OnInit {
     }).then (function (book:Book) {
 
       if (book.id.toString() != "NaN") {
+        alert("book added!");
         that.goBack();
       }else {
         alert("This book already is in the catalogue");
@@ -115,7 +116,7 @@ export class BookCreationPageComponent implements OnInit {
     }).catch (function (err) {
       alert("Unable to create book");
     })
-    
+
   }
 
   //Submits a ISBN book creation
@@ -138,6 +139,7 @@ export class BookCreationPageComponent implements OnInit {
       }).then (function (book:Book) {
 
         if (book.id.toString() != "NaN") {
+          alert("book added!");
           that.goBack();
         }else {
           alert("This book already is in the catalogue");
