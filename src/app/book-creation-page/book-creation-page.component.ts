@@ -27,7 +27,6 @@ export class BookCreationPageComponent implements OnInit {
 
   public manufacturer_id:string;
 
-  //public manufacturers:Manufacturer[] = [];
 
   public user:User;
 
@@ -38,12 +37,6 @@ export class BookCreationPageComponent implements OnInit {
     this.new_book = Book.createEmptyBook();
 
     let that = this;
-
-    /**
-    this.api.getManufacturers().then (function (manufacturers: Manufacturer[]) {
-      that.manufacturers = manufacturers;
-      console.log(that.manufacturers)
-    })**/
 
     that.getUser().then (function (user:User) {
       that.user = user;
