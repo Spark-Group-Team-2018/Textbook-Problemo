@@ -23,9 +23,16 @@ export class BookCreationPageComponent implements OnInit {
 
   public new_book:Book;
 
-  public ISBN_Number:number
+  public mode_selected:boolean = false;
+  public book_creation_mode:string = "";
+
+  public ISBN_Number:number;
+
+  public book_search_query:string;
 
   public manufacturer_id:string;
+
+  public book_results:any[] = [];
 
   //public manufacturers:Manufacturer[] = [];
 
@@ -67,7 +74,52 @@ export class BookCreationPageComponent implements OnInit {
 
   }
 
-  submitBook() {
+  /** Chooses the book creation mode **/
+
+  modeSelect(mode:string) {
+
+    this.mode_selected = true;
+    this.book_creation_mode = mode;
+
+  }
+
+
+  //Updates the book_results list and searchs by book_name
+  searchBooks() {
+    let that = this;
+
+    that.api.getBooksInfoFromQuery(that.book_search_query).then (function (books:any[]) {
+      that.book_results = books;
+    }).catch (function (err) {
+      console.log(err);
+    })
+
+
+  }
+
+  //Creats a book from the selected book_result
+  submitBookResult(book_result:any) {
+    let that = this;
+
+    that.api.parseBookInfo(book_result, that.user["authToken"]).then (function (new_book:Book) {
+      return that.api.createBook(new_book, that.user["authToken"])
+
+    }).then (function (book:Book) {
+
+      if (book.id.toString() != "NaN") {
+        that.goBack();
+      }else {
+        alert("This book already is in the catalogue");
+        that.ISBN_Number = undefined;
+      }
+    }).catch (function (err) {
+      alert("Unable to create book");
+    })
+    
+  }
+
+  //Submits a ISBN book creation
+  submitISBNBook() {
     let that = this;
 
     if (this.ISBN_Number.toString().length != 13) { /** Validates if the number is a valid ISBN-13 **/

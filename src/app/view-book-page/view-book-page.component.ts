@@ -40,7 +40,6 @@ export class ViewBookPageComponent implements OnInit {
       return that.api.getBookById(book_id);
     }).then (function (book:Book) {
       that.book = book;
-      alert(JSON.stringify(that.book));
       return that.api.getManufacturerById(that.book.manufacturer_id);
     }).then (function (manufacturer:Manufacturer) {
       that.manufacturer = manufacturer;

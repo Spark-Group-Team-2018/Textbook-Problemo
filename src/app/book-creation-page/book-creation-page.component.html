@@ -1,17 +1,62 @@
 <div class = "container-fluid">
 
-  <h1 class = "text-center">Add Book By ISBN-13</h1>
+  <div *ngIf = "!mode_selected" class = "text-center creation-mode-select">
+    <button (click) = "modeSelect('isbn')" class = "btn-success btn">By ISBN</button>
+    <button (click) = "modeSelect('name')" class = "btn-primary btn">By Book Name</button>
+  </div>
 
-  <form name = "create-book-form">
+  <br>
+
+  <div *ngIf = "book_creation_mode == 'isbn'" class = "book-creation-by-isbn">
+    <h1 class = "text-center">Add Book By ISBN-13</h1>
+
+    <form name = "create-book-form">
+
+        <div class = "form-group">
+          <label>ISBN: </label>
+          <input [(ngModel)] = "ISBN_Number" class = "form-control" name = "book-isbn"/>
+        </div>
+
+        <button (click) = "submitISBNBook()" class = "btn btn-success">Submit</button>
+
+    </form>
+  </div>
+
+  <div *ngIf = "book_creation_mode=='name'" class = "book-creation-by-name">
+    <h1 class = "text-center">Add Book by Name</h1>
+
+    <form name = "book-search-form">
 
       <div class = "form-group">
-        <label>ISBN: </label>
-        <input [(ngModel)] = "ISBN_Number" class = "form-control" name = "book-isbn"/>
+        <label>Book: </label>
+        <input [(ngModel)] = "book_search_query" class = "form-control" name = "book-name"/>
       </div>
 
-      <button (click) = "goBack()" class = "btn btn-danger">Back</button>
-      <button (click) = "submitBook()" class = "btn btn-success">Submit</button>
+      <button (click) = "searchBooks()" class = "btn btn-primary">Search</button>
 
-  </form>
+    </form>
+
+    <div id = "book_results">
+
+      <div *ngFor = "let book of book_results" class = "card book-result">
+
+        <div class = "card-header">
+          {{book.title}}
+        </div>
+
+        <div class = "card-body">
+          <button (click) = "submitBookResult(book)" class = "btn btn-success">Add Book</button>
+          <br><br>
+          {{book.description}}
+        </div>
+
+      </div>
+
+    </div>
+  </div>
+
+  <br>
+
+  <button (click) = "goBack()" class = "btn btn-danger">Back</button>
 
 </div>
