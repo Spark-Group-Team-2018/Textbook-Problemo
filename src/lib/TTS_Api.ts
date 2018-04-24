@@ -204,6 +204,21 @@ export class TextbookTradeSystemApi {
 
   }
 
+  private processBookInfo(json: object) {
+    const book = json["volumeInfo"];
+
+    const bookInfo = {
+      title: book["title"],
+      authors: book["authors"],
+      publisher: book["publisher"],
+      publishedDate: book["publishedDate"],
+      description: book["description"],
+      thumbnailLink: book["imageLinks"]["thumbnail"]
+    };
+
+    return bookInfo;
+  }
+
   public getBookInfoFromIsbn(isbn: number) {
     const googleBooksEndpoint = 'https://www.googleapis.com/books/v1/volumes?q=';
     const that = this;
@@ -212,26 +227,29 @@ export class TextbookTradeSystemApi {
       that.http.get(googleBooksEndpoint + isbn)
         .toPromise()
         .then(function (res) {
-          const book = res["items"][0]["volumeInfo"];
-
-          const bookInfo = {
-            title: book["title"],
-            ISBN: isbn,
-            authors: book["authors"],
-            publisher: book["publisher"],
-            publishedDate: book["publishedDate"],
-            description: book["description"],
-            thumbnailLink: book["imageLinks"]["thumbnail"]
-          };
-
-          console.log(bookInfo);
-
-          resolve(bookInfo);
-        }).catch(function (err) {
-        reject(err);
-      });
+          return that.processBookInfo(res["items"][0])
+        })
+        .catch(function (err) {
+          reject(err);
+        });
     });
 
+  }
+
+  public getBooksInfoFromQuery(query: string) {
+    const googleBooksEndpoint = 'https://www.googleapis.com/books/v1/volumes?q=';
+    const that = this;
+
+    return new Promise(function (resolve, reject) {
+      that.http.get(googleBooksEndpoint + query)
+        .toPromise()
+        .then(function (res) {
+          return res["items"].map(that.processBookInfo)
+        })
+        .catch(function (err) {
+          reject(err);
+        });
+    });
   }
 
   /** NOTE implement a manufacturer validation and simple manufacturer creation if otherwise **/
@@ -1009,7 +1027,5 @@ export class TextbookTradeSystemApi {
     return offer_promise;
 
   }
-
-
 
 }
