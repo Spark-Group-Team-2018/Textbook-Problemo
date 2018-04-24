@@ -70,7 +70,6 @@ export class BookCreationPageComponent implements OnInit {
   submitBook() {
     let that = this;
 
-
     if (this.ISBN_Number.toString().length != 13) { /** Validates if the number is a valid ISBN-13 **/
       alert("Not valid ISBN number");
       this.ISBN_Number = undefined;
@@ -82,7 +81,6 @@ export class BookCreationPageComponent implements OnInit {
       this.api.getBookInfoFromIsbn(this.ISBN_Number).then (function (bookInfo:any) {
         return that.api.parseBookInfo(bookInfo, that.user["authToken"]);
       }).then (function (new_book:Book) {
-
         return that.api.createBook(new_book, that.user["authToken"])
 
       }).then (function (book:Book) {

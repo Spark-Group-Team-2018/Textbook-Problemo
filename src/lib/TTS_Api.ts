@@ -209,6 +209,7 @@ export class TextbookTradeSystemApi {
 
     const bookInfo = {
       title: book["title"],
+      ISBN: book["industryIdentifiers"][0]["identifier"],
       authors: book["authors"],
       publisher: book["publisher"],
       publishedDate: book["publishedDate"],
@@ -227,7 +228,7 @@ export class TextbookTradeSystemApi {
       that.http.get(googleBooksEndpoint + isbn)
         .toPromise()
         .then(function (res) {
-          return that.processBookInfo(res["items"][0])
+          resolve(that.processBookInfo(res["items"][0]));
         })
         .catch(function (err) {
           reject(err);
@@ -244,7 +245,7 @@ export class TextbookTradeSystemApi {
       that.http.get(googleBooksEndpoint + query)
         .toPromise()
         .then(function (res) {
-          return res["items"].map(that.processBookInfo)
+          resolve(res["items"].map(that.processBookInfo));
         })
         .catch(function (err) {
           reject(err);
