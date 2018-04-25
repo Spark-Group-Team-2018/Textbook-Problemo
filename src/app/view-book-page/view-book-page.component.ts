@@ -21,8 +21,14 @@ import { RouterModule, Routes, Router, ActivatedRoute, NavigationExtras }  from 
   styleUrls: ['./view-book-page.component.css'],
   providers: [TextbookTradeSystemApi]
 })
+
+/**
+Page designated for viewing book business logic
+**/
+
 export class ViewBookPageComponent implements OnInit {
 
+  /** Book variables **/
   public book:Book = null;
   public manufacturer:Manufacturer = null;
 
@@ -31,6 +37,11 @@ export class ViewBookPageComponent implements OnInit {
     private route: ActivatedRoute,
     private router: Router
   ) { }
+
+  /**
+  Get the specified book to view
+  Get the associated manufacturer
+  **/
 
   ngOnInit() {
 
@@ -49,10 +60,16 @@ export class ViewBookPageComponent implements OnInit {
 
   }
 
+  /**
+  Navigate back to the browse books page
+  **/
   browseBooks() {
     this.router.navigate(['/browse-books'])
   }
 
+  /**
+  Get the book id
+  **/
   getBookId() {
 
     let that = this;

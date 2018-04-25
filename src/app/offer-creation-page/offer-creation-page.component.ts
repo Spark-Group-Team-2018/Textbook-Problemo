@@ -1,11 +1,14 @@
 import { Component, OnInit } from '@angular/core';
 
+// Models
 import {Offer} from '../../models/offer';
 import {Textbook} from '../../models/textbook';
 import {User} from '../../models/user';
 
+// Routing
 import { RouterModule, Routes, Router, ActivatedRoute }  from '@angular/router';
 
+//Import API
 import {TextbookTradeSystemApi} from '../../lib/TTS_Api';
 
 //User Database
@@ -22,8 +25,15 @@ import 'rxjs/add/operator/switchMap';
   styleUrls: ['./offer-creation-page.component.css'],
   providers: [TextbookTradeSystemApi, UserDatabase]
 })
+
+/**
+Business Logic for creation of Offers
+**/
 export class OfferCreationPageComponent implements OnInit {
 
+  /**
+  Declare variables used for creation of new offer
+  **/
   public new_offer:Offer = Offer.createEmptyOffer();
 
   public user_textbooks:Textbook[] = [];
@@ -38,6 +48,11 @@ export class OfferCreationPageComponent implements OnInit {
     private user_db: UserDatabase
   ) { }
 
+  /**
+  Get the logged in user
+  Retrieve all the user textbooks
+  check if the user wants to edit or create an offer'
+  **/
   ngOnInit() {
 
     let that = this;
@@ -77,10 +92,12 @@ export class OfferCreationPageComponent implements OnInit {
 
   }
 
+  // Go back to profile
   goBack() {
     this.router.navigate(['/profile'])
   }
 
+  // Creates a new offer
   submitOffer() {
 
     let that = this;
@@ -107,6 +124,7 @@ export class OfferCreationPageComponent implements OnInit {
 
   }
 
+  //Gets an existing offer by id
   getOfferId() {
 
     let that = this;
@@ -125,6 +143,7 @@ export class OfferCreationPageComponent implements OnInit {
 
   }
 
+  //Get the mode (editting or creating)
   getMode() {
 
     let that = this;
@@ -145,6 +164,7 @@ export class OfferCreationPageComponent implements OnInit {
 
   }
 
+  //Get the user's id
   getUserId() {
 
     let that = this;
@@ -155,6 +175,7 @@ export class OfferCreationPageComponent implements OnInit {
 
   }
 
+  //Get the logged in user from the local db
   getUser() {
 
     let that = this;

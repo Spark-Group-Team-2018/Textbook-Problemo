@@ -25,8 +25,15 @@ import 'rxjs/add/operator/map';
   styleUrls: ['./profile-page.component.css'],
   providers: [TextbookTradeSystemApi, UserDatabase]
 })
+
+/**
+  Page for User Profile Page business logic
+**/
 export class ProfilePageComponent implements OnInit {
 
+  /**
+  Declares all user variables
+  **/
   public user_offers:Offer[] = [];
   public user_textbooks:Textbook[] = [];
 
@@ -49,6 +56,10 @@ export class ProfilePageComponent implements OnInit {
     private user_db: UserDatabase
   ) { }
 
+  /**
+  Gets the logged in user (if not, go to login)
+  retrieves all the user data (textbooks, offers, etc)
+  **/
   ngOnInit() {
 
     let that = this;
@@ -141,6 +152,10 @@ export class ProfilePageComponent implements OnInit {
     /** END OPTIMIZE **/
   }
 
+  /**
+    Retrieves all profile data
+    textbooks, offers, pending offers
+  **/
   refreshUserData(user:User) {
     let that = this;
 
@@ -179,13 +194,14 @@ export class ProfilePageComponent implements OnInit {
 
   **/
 
-
+  /** Updates a user textbook **/
   updateUserTextbook(textbook_id:number) {
 
     this.router.navigate(['/create-textbook'], {queryParams: {mode: 'update', id: textbook_id}});
 
   }
 
+  /** updates a user offer **/
   updateUserOffer(offer_id:number) {
 
     this.router.navigate(['/create-offer'], {queryParams : {mode: 'update', id: offer_id}});
@@ -199,6 +215,7 @@ export class ProfilePageComponent implements OnInit {
   **/
 
   /**
+  Deletes user textbook
 
   checks if the user_id corresponds to the textbook user_id
   if so, delete
@@ -228,12 +245,12 @@ export class ProfilePageComponent implements OnInit {
   }
 
   /**
+  Deletes user offer
 
   checks if the textbook the offer points to corresponds to the user_id
-  if so, delete
+  if so, deletes the offer specified by id
 
   **/
-
   deleteUserOffer(user_offer_id:number) {
 
     alert("DELETE Offer " + user_offer_id.toString());
@@ -327,6 +344,10 @@ export class ProfilePageComponent implements OnInit {
 
   }
 
+  /**
+  Retrieves logged in user
+  **/
+
   getUser() {
     let that = this;
 
@@ -335,6 +356,9 @@ export class ProfilePageComponent implements OnInit {
     return user_promise;
   }
 
+  /**
+  get offer of textbook
+  **/
   getOfferTextbook(offer:Offer) {
 
     return this.user_textbooks.find(function (textbook:Textbook) {
@@ -348,6 +372,9 @@ export class ProfilePageComponent implements OnInit {
   ;; These are helper functions for rendering pending offers from sellers
   **/
 
+  /**
+  Get textbook of an offer
+  **/
   getTextbookByOffer(offer_id:number) {
 
     let that = this;
@@ -364,7 +391,7 @@ export class ProfilePageComponent implements OnInit {
     return textbook;
 
   }
-
+  /** Get offer associated with pending offer of a seller **/
   getPendingOfferSellerOffer(offer_id:number) {
     let that = this;
 
@@ -377,6 +404,7 @@ export class ProfilePageComponent implements OnInit {
 
   }
 
+  /** Get the buyer of a pending offer **/
   getPendingOfferBuyer(pending_offer_id) {
     let that = this;
 
@@ -394,6 +422,7 @@ export class ProfilePageComponent implements OnInit {
 
   }
 
+  /** Get the seller of a pending offer **/
   getPendingOfferSeller(offer_id) {
 
     let that = this;

@@ -1,5 +1,8 @@
+// Model for pending offers
+
 export class PendingOffer {
 
+  //pending offer fields
   id:number
 
   offer_id:number
@@ -47,7 +50,7 @@ export class PendingOffer {
   ;; This method parses the model to its respective payload form
   ;; with the payload form (JSON in this case) the data can then be
   ;; sent to the backend for storage and business logic in TextbookTradeSystemApi
-  
+
   **/
 
   static getPendingOfferPayload(pendingoffer:PendingOffer) {

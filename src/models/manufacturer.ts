@@ -1,5 +1,8 @@
+// Manufacturer model
+
 export class Manufacturer {
 
+  //Manufacturer fields
   id:number
   name:string
   description:string
@@ -9,6 +12,7 @@ export class Manufacturer {
 
   }
 
+  //Get the payload necessary for the manufacturer to interact with the backend
   static getManufacturerPayload(manufacturer:Manufacturer) {
 
     return {

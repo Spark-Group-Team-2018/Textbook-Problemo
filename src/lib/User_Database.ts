@@ -59,7 +59,7 @@ export class UserDatabase {
   /**
 
   getUser()
-
+  retrieves the user from the browser database
   **/
 
   public getUser() {

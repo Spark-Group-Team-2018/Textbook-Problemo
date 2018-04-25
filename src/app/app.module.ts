@@ -50,6 +50,7 @@ const appRoutes: Routes = [
   {path: 'view-pendingoffer', component: PendingOfferViewPageComponent}
 ]
 
+//Config for firebase
 export const firebaseConfig = {
     apiKey: "AIzaSyDNpj9LBLJuK6o39LwbGiIMDTbfZ5SjKyE",
     authDomain: "texbookio.firebaseapp.com",
@@ -59,7 +60,7 @@ export const firebaseConfig = {
     messagingSenderId: "844847264422"
   };
 
-
+//Overall application linking with deps and libs
 @NgModule({
   declarations: [
     AppComponent,

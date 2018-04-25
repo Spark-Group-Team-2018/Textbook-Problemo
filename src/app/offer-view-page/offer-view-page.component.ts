@@ -26,9 +26,12 @@ import 'rxjs/add/operator/map';
   styleUrls: ['./offer-view-page.component.css'],
   providers: [TextbookTradeSystemApi]
 })
+/**
+  Page in charge of viewing offer business logic
+**/
 export class OfferViewPageComponent implements OnInit {
 
-
+  /** Offer variables **/
   public offer:Offer = null;
   public textbook:Textbook = null;
   public user:User = null;
@@ -39,6 +42,11 @@ export class OfferViewPageComponent implements OnInit {
     private api: TextbookTradeSystemApi
   ) { }
 
+  /**
+    retrieves the offer to be viewed
+    retrieve corresponding textbook
+    retrieves corresponding user
+  **/
   ngOnInit() {
     let that = this;
 
@@ -60,6 +68,7 @@ export class OfferViewPageComponent implements OnInit {
     history.back();
   }
 
+  //Get the offer id
   getID() {
 
     let that = this;

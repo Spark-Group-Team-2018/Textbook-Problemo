@@ -26,8 +26,15 @@ import 'rxjs/add/operator/map';
   styleUrls: ['./textbook-view-page.component.css'],
   providers: [TextbookTradeSystemApi]
 })
+
+/**
+Page responsible for viewing textbook logic
+**/
+
 export class TextbookViewPageComponent implements OnInit {
 
+
+  /** Textbook variables **/
   public textbook_id:number
   public textbook:Textbook = null;
   public book:Book = null;
@@ -40,6 +47,11 @@ export class TextbookViewPageComponent implements OnInit {
     private api: TextbookTradeSystemApi
   ) { }
 
+  /**
+  Gets the selected textbook
+  Gets the associated book
+  Gets the associated manufacturer
+  **/
   ngOnInit() {
     let that = this;
 
@@ -60,10 +72,12 @@ export class TextbookViewPageComponent implements OnInit {
     })
   }
 
+  // Go back
   goBack() {
     history.back();
   }
 
+  // Get the textbook id
   getID() {
 
     let that = this;

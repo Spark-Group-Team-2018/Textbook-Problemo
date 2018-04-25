@@ -9,6 +9,10 @@ import * as crypto from 'crypto-js';
 //model
 import {User} from '../../models/user';
 
+/**
+Service in charge of Social Authentication of Users
+**/
+
 @Injectable()
 export class AuthService {
 
@@ -16,14 +20,17 @@ export class AuthService {
 
   }
 
+  //Logs the user in with google
   loginWithGoogle() {
     return this.af.auth.signInWithPopup(new firebase.auth.GoogleAuthProvider());
   }
 
+  //Logs the user out of google
   logout() {
     return this.af.auth.signOut();
   }
 
+  //Gets the current logged in user
   getLoggedInUser() {
     var raw_user =  this.af.auth.currentUser;
 
@@ -52,6 +59,6 @@ export class AuthService {
 
 
 
-  }
 
+  }
 }

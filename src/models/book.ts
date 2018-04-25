@@ -1,5 +1,8 @@
+//Book model
+
 export class Book {
 
+  //Book fields
   id:number
   ISBN:number
   title:string
@@ -11,6 +14,7 @@ export class Book {
 
   }
 
+  // Returns a payload version of the book model for interacting with the server
   static getBookPayload(book: Book) {
     return {
       book: {
@@ -23,6 +27,7 @@ export class Book {
     }
   }
 
+  // creates placeholder book for book creation
   static createEmptyBook() {
 
     return <Book> {
