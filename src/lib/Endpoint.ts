@@ -1,3 +1,5 @@
+/** Utility file created for switching backend providers **/
+
 /** Deployed on localhost **/
 //var endpoint = "http://localhost:3000";
 

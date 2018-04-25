@@ -1,7 +1,9 @@
 //Adding HTTP (AJAX) for Backend API interaction
 import {HttpClient, HttpHeaders} from '@angular/common/http';
+
 //Establishing API Stuff
 import {Injectable} from '@angular/core';
+
 //Import models for parsing
 import {Textbook} from '../models/textbook';
 import {Offer} from '../models/offer';
@@ -9,20 +11,35 @@ import {Book} from '../models/book';
 import {Manufacturer} from '../models/manufacturer';
 import {PendingOffer} from '../models/pendingoffer';
 import {User} from '../models/user';
+
 //Import rxjs helpers for API
 import 'rxjs/add/operator/toPromise';
 import 'rxjs/add/operator/map';
-//Get the API endpoint (URL)
+
+//Get the Backend API endpoint (URL)
 import endpoint from './Endpoint';
+
+/**
+
+TTS_API.ts
+
+This is utility libarary that makes interfacing with the textbookio backend much simpler for
+development purposes
+
+each request is initially a http request which recieves raw data. This raw JSON data is then converted into
+the corresponding TypeScript Objects for rendering
+
+**/
 
 @Injectable()
 export class TextbookTradeSystemApi {
 
+  //Simple constructor to inject http
   constructor(private http: HttpClient) {
 
   }
 
-
+  //Function that returns HTTP Request Headers neccessary for authenticating api requests
   private authHeaders(user_auth: string) {
     const httpOptions = {
       headers: new HttpHeaders({
@@ -34,6 +51,7 @@ export class TextbookTradeSystemApi {
     return httpOptions;
   }
 
+  //function responsible for parsing raw manufacturer JSON responses into the Manufacturer model
   private parseRawManufacturer(item: any) {
 
     return <Manufacturer> {
@@ -44,6 +62,7 @@ export class TextbookTradeSystemApi {
 
   }
 
+  /** Retrieves a specific manufacturer object by its id in the form of a Async JavaScript Promise **/
   public getManufacturerById(manufacturer_id: number) {
 
     let that = this;
@@ -64,6 +83,11 @@ export class TextbookTradeSystemApi {
 
   }
 
+  /**
+    Retrieves a specific manufacturer by its publisher_name
+    result is parsed to Manufacturer object
+    Mostly used for checking if a publisher is already in the system
+  **/
   public getManufacturerByName(manufacturer_name:string) {
 
     let that = this;
@@ -94,7 +118,7 @@ export class TextbookTradeSystemApi {
 
   }
 
-  //Retrieve all da manufacturers
+  //Function retrieves all the manufacturers from the backend database
   public getManufacturers() {
 
     let that = this;
@@ -119,6 +143,11 @@ export class TextbookTradeSystemApi {
 
   }
 
+  /**
+    Function creates a new manufacturer on the backend.
+    - requires authentication in form of auth_token
+    - requires a partially completed manufacturer object
+  **/
   public createManufacturer(manufacturer:Manufacturer, authToken:string) {
 
     let that = this;
@@ -144,6 +173,9 @@ export class TextbookTradeSystemApi {
 
   }
 
+  /**
+  function used to parse raw JSON Book responses into TypeScript Book objects
+  **/
   private parseRawBook(item: any) {
 
     return <Book>{
@@ -157,8 +189,7 @@ export class TextbookTradeSystemApi {
 
   }
 
-  //Retrieve book by book_id
-
+  //Retrieve book by book_id via the backend api
   public getBookById(book_id: number) {
 
     let that = this;
@@ -180,7 +211,10 @@ export class TextbookTradeSystemApi {
 
   }
 
-  //Retrieve all da book
+  /**
+    Retrieve all the books
+    - parsed to corresponding Book TypeScript Objects
+  **/
   public getBooks() {
 
     let that = this;
@@ -204,6 +238,11 @@ export class TextbookTradeSystemApi {
 
   }
 
+  /**
+  function written to parse raw book info from google books api into a
+  usable format
+  **/
+
   private processBookInfo(json: object) {
     const book = json["volumeInfo"];
 
@@ -220,6 +259,10 @@ export class TextbookTradeSystemApi {
     return bookInfo;
   }
 
+  /**
+  retrieves book data through the google books api
+  - takes in an ISBN number as a parameter
+  **/
   public getBookInfoFromIsbn(isbn: number) {
     const googleBooksEndpoint = 'https://www.googleapis.com/books/v1/volumes?q=';
     const that = this;
@@ -237,6 +280,11 @@ export class TextbookTradeSystemApi {
 
   }
 
+  /**
+    - retrieves a list of books as raw_book_data JSON
+    - parsed via processBookInfo
+    - takes in any string query as a parameter
+  **/
   public getBooksInfoFromQuery(query: string) {
     const googleBooksEndpoint = 'https://www.googleapis.com/books/v1/volumes?q=';
     const that = this;
@@ -253,7 +301,13 @@ export class TextbookTradeSystemApi {
     });
   }
 
-  /** NOTE implement a manufacturer validation and simple manufacturer creation if otherwise **/
+  /**
+  function created in order to parse google books api book data into TypeScript Book Objects
+  - it also insures that the book object has a existing manufacturer to reference to
+    ** IF NOT, it creates a new manufacturer
+  - requires bookInfo JSON that were parsed via processBookInfo
+  - requires authentication via authToken
+  **/
   public parseBookInfo(bookInfo:any, authToken:string) {
 
     let that = this;
@@ -279,7 +333,7 @@ export class TextbookTradeSystemApi {
             ISBN: bookInfo["ISBN"],
             title: bookInfo["title"],
             description: bookInfo["description"],
-            manufacturer_id: manufacturer.id, /** FIXME **/
+            manufacturer_id: manufacturer.id,
             cover_image_link: bookInfo["thumbnailLink"]
         }
 
@@ -299,8 +353,10 @@ export class TextbookTradeSystemApi {
 
   }
 
-  //Create a book
-
+  /**
+    Creates a new Book on the textrade backend
+    - requires authentication via a auth_token
+  **/
   public createBook(new_book: Book, authToken) {
 
     var book_payload = Book.getBookPayload(new_book);
@@ -333,7 +389,10 @@ export class TextbookTradeSystemApi {
 
   }
 
-  //User functions
+  /**
+    - parses a raw user json from the backend db
+    - converts to User TypeScript Object
+  **/
   private parseRawUser(item: any) {
 
     return <User> {
@@ -345,7 +404,10 @@ export class TextbookTradeSystemApi {
     }
   }
 
-  /** create new user **/
+  /**
+    Creates new user via backend api
+    - requires User TypeScript object
+  **/
   public newUser(user: User) {
 
     var new_user_payload = User.getNewUserPayload(user);
@@ -382,7 +444,16 @@ export class TextbookTradeSystemApi {
 
   }
 
-  /** gets the user auth token **/
+  /**
+    returns the user_auth_token for a specific user
+
+    requires the
+    -email
+    -password
+
+    of the user that is being authenticated
+
+  **/
   public userAuth(user: User) {
 
     var email = user["email"];
@@ -419,7 +490,10 @@ export class TextbookTradeSystemApi {
 
   }
 
-  /** get the authenticated user **/
+  /**
+    returns the current authenticated user through the auth token provided
+    also used to verify validity of auth token
+  **/
   public getAuthUser(authToken: string) {
 
     let that = this;
@@ -451,7 +525,11 @@ export class TextbookTradeSystemApi {
 
   }
 
-  //TODO Implement auth user config
+  /**
+    function that updates authenticated user with new user info
+    - Sends api request to main rails backend server
+    - requires the user auth token
+  **/
   public updateAuthUser(authUser: User, authToken: string) {
 
     let that = this;
@@ -479,6 +557,9 @@ export class TextbookTradeSystemApi {
 
   }
 
+  /**
+    Retrieves a list of all the users via the backend api
+  **/
   public getUsers() {
 
     let that = this;
@@ -503,6 +584,10 @@ export class TextbookTradeSystemApi {
 
   }
 
+  /**
+    Gets a specific user via the user's id
+    - Requests to the default rails backend server
+  **/
   public getUserById(user_id: number) {
     let that = this;
 
@@ -522,7 +607,10 @@ export class TextbookTradeSystemApi {
     return get_user_promise
   }
 
-
+  /**
+  Function that parses raw pending offer JSON from the backend server
+  - converts to PendingOffer TypeScript object
+  **/
   public parseRawPendingOffer(item: any) {
 
     return <PendingOffer> {
@@ -534,6 +622,11 @@ export class TextbookTradeSystemApi {
   }
 
 
+  /**
+    Deletes the specified pending offer
+    - requires authToken verification
+    NOTE future checks may need to implemented in later versions
+  **/
   public deletePendingOffer(pending_offer_id: number, authToken: string) {
 
     let that = this;
@@ -557,6 +650,11 @@ export class TextbookTradeSystemApi {
     return delete_pending_offer_promise;
 
   }
+
+  /**
+  Function that returns a PendingOffer object by its specified id
+  interacts with the main application backend
+  **/
 
   public getPendingOfferById(pendingoffer_id: number) {
 
@@ -582,6 +680,9 @@ export class TextbookTradeSystemApi {
 
   }
 
+  /**
+  Function that returns list of all PendingOffer objects from the rails backend db
+  **/
   public getPendingOffers() {
 
     let that = this;
@@ -610,7 +711,11 @@ export class TextbookTradeSystemApi {
 
   }
 
-  //OPTIMIZE ME
+  /**
+  Function that returns a list of all the PendingOffers
+  that have been requested for a specific seller
+  **/
+
   public getBuyerPendingOffers(seller_id: number) {
     let that = this;
 
@@ -648,7 +753,10 @@ export class TextbookTradeSystemApi {
 
   }
 
-  //OPTIMIZE ME
+  /**
+  function that returns a list of PendingOffer objects from the backend
+  these are the pendingoffers that the user has requested to sellers (The one they want to buy (text)books from
+  **/
   public getSellerPendingOffers(buyer_id: number) {
 
     let that = this;
@@ -671,6 +779,11 @@ export class TextbookTradeSystemApi {
 
   }
 
+  /**
+  Function that creates a pending textbook offer between two users and a textbook
+  - Requires to the backend api
+  - requires authentication via auth token
+  **/
   public createPendingOffer(pending_offer: PendingOffer, authToken: string) {
 
     let that = this;
@@ -695,6 +808,10 @@ export class TextbookTradeSystemApi {
 
   }
 
+  /**
+  function that parses raw textbook json from backend db to beautiful Textbook TypeScript Objects
+  **/
+
   public parseRawTextbook(item: any) {
 
     return <Textbook>{
@@ -709,6 +826,10 @@ export class TextbookTradeSystemApi {
 
   }
 
+  /**
+  function that returns a Textbook Object by its specified id
+  - interacts with backend
+  **/
   public getTextbookById(textbook_id: number) {
 
     let that = this;
@@ -730,6 +851,10 @@ export class TextbookTradeSystemApi {
 
   }
 
+  /**
+  Retrieves list of all textbooks from backend
+  - interacts with backend api
+  **/
   public getTextbooks() {
 
     let that = this;
@@ -754,6 +879,10 @@ export class TextbookTradeSystemApi {
 
   }
 
+  /**
+  Function that deletes a specified textbook by its id
+  requires a authToken for verification
+  **/
   public deleteTextbook(textbook_id: number, authToken: string) {
     let that = this;
 
@@ -773,6 +902,13 @@ export class TextbookTradeSystemApi {
 
     return delete_textbook_promise;
   }
+
+  /**
+  Function that updates a specific textbook
+  - requires textbook new data
+  - requires auth token for authentication
+  - Interacts with backend
+  **/
 
   public updateTextbook(updated_textbook: Textbook, authToken: string) {
 
@@ -801,6 +937,10 @@ export class TextbookTradeSystemApi {
   }
 
 
+  /**
+  Function responsible for retrieving all the textbooks associated with a specific user
+  - requires the id of said user
+  **/
   public getUserTextbooks(user_id: number) {
 
     let that = this;
@@ -824,7 +964,12 @@ export class TextbookTradeSystemApi {
 
   }
 
-  //Create a new textbook
+  /**
+  Function responsible for creating a new textbook
+  - requires:
+    - textbook data
+    - auth token for authentication
+  **/
   public createTextbook(new_textbook: Textbook, authToken: string) {
     var textbook_payload = Textbook.getTextbookPayload(new_textbook);
 
@@ -857,7 +1002,9 @@ export class TextbookTradeSystemApi {
     return create_textbook_promise;
   }
 
-
+  /**
+  parses raw offer JSON from backend to Offer TypeScript Object
+  **/
   private parseRawOffer(item: any) {
 
     return <Offer>{
@@ -868,6 +1015,11 @@ export class TextbookTradeSystemApi {
 
   }
 
+  /**
+  Deletes a specified Offer from the database
+  - requires offer id
+  - requires auth token for auth.
+  **/
   public deleteOffer(offer_id: number, authToken: string) {
     let that = this;
 
@@ -888,6 +1040,10 @@ export class TextbookTradeSystemApi {
     return delete_offer_promise;
   }
 
+  /**
+  Retrieves a list of all Offers from the backend db
+  - parsed to Offer TypeScript objects
+  **/
   public getOffers() {
 
     let that = this;
@@ -913,6 +1069,10 @@ export class TextbookTradeSystemApi {
 
   }
 
+  /**
+  Get a specific Offer by its id
+  - No auth neccessary
+  **/
   public getOfferById(offer_id: number) {
 
     let that = this;
@@ -936,6 +1096,11 @@ export class TextbookTradeSystemApi {
 
   }
 
+  /**
+  function that updates User Offer.
+  - requires new offer data
+  - requires auth token for authentication
+  **/
   public updateOffer(updated_offer: Offer, authToken: string) {
 
     let that = this;
@@ -966,6 +1131,10 @@ export class TextbookTradeSystemApi {
 
   }
 
+  /**
+  Function that creates a new offer for a textbook on the backend
+  - requires a auth token
+  **/
   public createOffer(offer: Offer, authtoken: string) {
 
     let that = this;
@@ -996,6 +1165,10 @@ export class TextbookTradeSystemApi {
 
   }
 
+  /**
+  Function that retrieves all the offers associated with a specific user
+  - requires only user_id
+  **/
   public getUserOffers(user_id: number) {
 
     let that = this;
