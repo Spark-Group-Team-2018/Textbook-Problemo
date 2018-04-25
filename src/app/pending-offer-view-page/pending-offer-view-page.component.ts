@@ -24,7 +24,16 @@ import { Observable }         from 'rxjs/Observable';
   styleUrls: ['./pending-offer-view-page.component.css'],
   providers: [TextbookTradeSystemApi]
 })
+
+/**
+  Page for viewing specific pending offer
+**/
 export class PendingOfferViewPageComponent implements OnInit {
+
+
+  /**
+  Pending offer variables
+  **/
 
   public current_pendingoffer:PendingOffer = null;
   public seller:User = null;
@@ -38,6 +47,12 @@ export class PendingOfferViewPageComponent implements OnInit {
     private api: TextbookTradeSystemApi
   ) { }
 
+  /**
+  Gets the selected pending offer
+  Gets associated seller and buyer
+  Gets the associated textbook
+  Gets the associated offer
+  **/
   ngOnInit() {
 
     let that = this;
@@ -68,6 +83,7 @@ export class PendingOfferViewPageComponent implements OnInit {
     history.back();
   }
 
+  //Get the pending offer id
   getID() {
 
     let that = this;

@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 
+//Data models
 import {Textbook} from '../../models/textbook';
 import {Book} from '../../models/book';
 import {User} from '../../models/user';
@@ -23,8 +24,12 @@ import 'rxjs/add/operator/switchMap';
   styleUrls: ['./textbook-creation-page.component.css'],
   providers: [TextbookTradeSystemApi, UserDatabase]
 })
+/**
+Page that handles textbook creation business logic
+**/
 export class TextbookCreationPageComponent implements OnInit {
 
+  /** Textbook creation variables **/
   public new_textbook:Textbook = Textbook.createEmptyTextbook();
   public user_id:number = null;
   public user:User;
@@ -33,6 +38,11 @@ export class TextbookCreationPageComponent implements OnInit {
   public books:Book[] = [];
   public mode:string = null;
 
+  /**
+  Gets the books from catalogue
+  Gets the logged in user
+  Gets the mode (create/update)
+  **/
   constructor(
     private route: ActivatedRoute,
     private router: Router,
@@ -84,6 +94,7 @@ export class TextbookCreationPageComponent implements OnInit {
 
   }
 
+  /** Either updates or creates a textbook with the textbook form filled out **/
   submitTextbook() {
 
     let that = this;
@@ -117,11 +128,13 @@ export class TextbookCreationPageComponent implements OnInit {
 
   }
 
+  // Go back
   goBack() {
 
     this.router.navigate(['/profile'])
   }
 
+  // Get the textbook id
   getTextbookId() {
 
     let that = this;
@@ -140,6 +153,7 @@ export class TextbookCreationPageComponent implements OnInit {
 
   }
 
+  //Get the mode (edit/create)
   getMode() {
 
     let that = this;
@@ -160,6 +174,7 @@ export class TextbookCreationPageComponent implements OnInit {
 
   }
 
+  //Get the logged in user id
   getUserId() {
 
     let that = this;
@@ -170,6 +185,7 @@ export class TextbookCreationPageComponent implements OnInit {
 
   }
 
+  //Get the logged in user
   getUser() {
     let that = this;
 

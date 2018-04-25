@@ -23,8 +23,13 @@ import { TextbookTradeSystemApi} from '../../lib/TTS_Api';
   styleUrls: ['./user-login-page.component.css'],
   providers: [UserDatabase, AuthService, AngularFireAuth, TextbookTradeSystemApi]
 })
+/**
+Page in charge of logging the user in
+**/
+
 export class UserLoginPageComponent implements OnInit {
 
+  /** User logged in variable **/
   public logged_in:boolean = false
 
   constructor(
@@ -35,6 +40,9 @@ export class UserLoginPageComponent implements OnInit {
     private api: TextbookTradeSystemApi
   ) { }
 
+  /**
+  Checks if the user is logged in
+  **/
   ngOnInit() {
 
     let that = this;
@@ -45,7 +53,10 @@ export class UserLoginPageComponent implements OnInit {
 
   }
 
-  /** TODO add check logged in method **/
+  /**
+  checks if user logged in
+  returns true or false
+  **/
   checkLoggedIn() {
 
     var user = this.getLoggedInUser();
@@ -79,6 +90,11 @@ export class UserLoginPageComponent implements OnInit {
     return logged_in_promise;
 
   }
+
+  /**
+  not a test. Actually part of the thing
+  logs the user in with google
+  **/
 
   googleTestLogin() {
     let that = this;
@@ -120,6 +136,9 @@ export class UserLoginPageComponent implements OnInit {
     })
   }
 
+  /**
+  Logs out the user via google and the local db
+  **/
   userLogout() {
 
     this.authService.logout();
@@ -129,12 +148,18 @@ export class UserLoginPageComponent implements OnInit {
 
   }
 
+  /**
+  Gets the logged in user from the google sign in
+  **/
   getLoggedInUser() {
     var user = this.authService.getLoggedInUser();
 
     return user;
   }
 
+  /**
+  updates logged in user in the local db
+  **/
   userLogin(user:User) {
 
     let that = this;

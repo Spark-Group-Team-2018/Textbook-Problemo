@@ -23,8 +23,14 @@ import 'rxjs/add/operator/map';
   styleUrls: ['./user-config-page.component.css'],
   providers: [TextbookTradeSystemApi, UserDatabase]
 })
+
+/**
+business logic that helps configure the user
+**/
+
 export class UserConfigPageComponent implements OnInit {
 
+  /** Updated User info **/
   public user_update:User = null;
 
   constructor(
@@ -34,6 +40,9 @@ export class UserConfigPageComponent implements OnInit {
     private router: Router
   ) { }
 
+  /** Gets the logged in user
+  if not logged in, go back to login page
+  **/
   ngOnInit() {
 
     let that = this;
@@ -51,6 +60,9 @@ export class UserConfigPageComponent implements OnInit {
 
   }
 
+  /**
+  Updates the user with the updated data via the backend api
+  **/
   updateUser() {
 
     console.log("Updating user!");
@@ -80,11 +92,12 @@ export class UserConfigPageComponent implements OnInit {
 
   }
 
-  //Sends that fake user home
+  //Sends that non-loggedin user home
   goHomeBoi() {
     this.router.navigate([''])
   }
 
+  //Sends to profile
   goToProfile() {
     this.router.navigate(['/profile'])
   }

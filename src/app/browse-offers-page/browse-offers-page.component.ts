@@ -21,6 +21,9 @@ import {UserDatabase} from '../../lib/User_Database';
   styleUrls: ['./browse-offers-page.component.css'],
   providers: [TextbookTradeSystemApi, UserDatabase]
 })
+/**
+Business logic for browsing offers
+**/
 export class BrowseOffersPageComponent implements OnInit {
 
   public offers:Offer[] = [];
@@ -36,6 +39,10 @@ export class BrowseOffersPageComponent implements OnInit {
     private user_db: UserDatabase
   ) { }
 
+  /**
+  Gets the logged in user
+  Get all the currently posted offers that the user can view
+  **/
   ngOnInit() {
 
     let that = this;
@@ -67,6 +74,9 @@ export class BrowseOffersPageComponent implements OnInit {
 
   }
 
+  /**
+  Gets the textbook associated with a offer
+  **/
   getTextbook(id:number) {
     return this.textbooks.find(function (textbook:Textbook) {
       return textbook.id == id;
@@ -74,7 +84,9 @@ export class BrowseOffersPageComponent implements OnInit {
   }
 
 
-  //IMPLEMENTME
+  /**
+  Sending a pending offer for both users to view one anothers contact info
+  **/
   sendOffer(offer_id:number) {
     var new_pending_offer:PendingOffer = PendingOffer.createPendingOffer(offer_id, this.user.id);
 
@@ -90,12 +102,18 @@ export class BrowseOffersPageComponent implements OnInit {
 
   }
 
+  /**
+  Go back to user profile
+  **/
   goToProfile() {
 
     this.router.navigate(['/profile']);
 
   }
 
+  /**
+  Gets the user's id
+  **/
   getUserId() {
 
     let that = this;
@@ -106,6 +124,7 @@ export class BrowseOffersPageComponent implements OnInit {
 
   }
 
+  /** Get the logged in user **/
   getUser() {
 
     let that = this;
