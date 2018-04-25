@@ -148,11 +148,12 @@ export class BookCreationPageComponent implements OnInit {
 
       }).then (function (book:Book) {
 
-        if (book.id.toString() != "NaN")
+        if (book.id.toString() != "NaN"){
           alert("book created!");
 
           that.goBack();
-        }else {
+        }
+        else {
           alert("This book already is in the catalogue");
           that.ISBN_Number = undefined;
         }
