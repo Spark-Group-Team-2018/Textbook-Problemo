@@ -117,11 +117,7 @@ export class BookCreationPageComponent implements OnInit {
     }).then (function (book:Book) {
 
       if (book.id.toString() != "NaN") {
-<<<<<<< HEAD
-        alert("book created!");
-=======
         alert("book added!");
->>>>>>> f33b3788df95f304a0eb29244e7f9883af6c41ae
         that.goBack();
       }else {
         alert("This book already is in the catalogue");
@@ -152,12 +148,9 @@ export class BookCreationPageComponent implements OnInit {
 
       }).then (function (book:Book) {
 
-        if (book.id.toString() != "NaN") {
-<<<<<<< HEAD
+        if (book.id.toString() != "NaN")
           alert("book created!");
-=======
-          alert("book added!");
->>>>>>> f33b3788df95f304a0eb29244e7f9883af6c41ae
+
           that.goBack();
         }else {
           alert("This book already is in the catalogue");
