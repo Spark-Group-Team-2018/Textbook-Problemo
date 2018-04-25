@@ -1,10 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 
+// Import TypeScript Models
 import {Book} from '../../models/book';
 import {Manufacturer} from '../../models/manufacturer';
 import {User} from '../../models/user';
 
-
+// Import tools for page routing
 import { RouterModule, Routes, Router, ActivatedRoute }  from '@angular/router';
 
 //Import the API
@@ -19,13 +20,24 @@ import {UserDatabase} from '../../lib/User_Database';
   styleUrls: ['./book-creation-page.component.css'],
   providers: [TextbookTradeSystemApi, UserDatabase]
 })
+
+/**
+Business logic for book creation
+
+able to create book by
+
+ISBN
+NAME
+
+**/
 export class BookCreationPageComponent implements OnInit {
+
+  /** Declare book creation variables **/
 
   public new_book:Book;
 
   public mode_selected:boolean = false;
   public book_creation_mode:string = "";
-
   public ISBN_Number:number;
 
   public book_search_query:string;
@@ -36,6 +48,12 @@ export class BookCreationPageComponent implements OnInit {
 
   public user:User;
 
+  // Constructor function
+  /**
+  Initializes required utility libs
+  retrieves logged in user
+  if not logged in, it leaves
+  **/
   constructor(private route: ActivatedRoute,
   private router: Router,
   private api: TextbookTradeSystemApi,
@@ -143,6 +161,7 @@ export class BookCreationPageComponent implements OnInit {
     }
   }
 
+  //Gets the logged in user
   getUser() {
 
     let that = this;
@@ -153,6 +172,7 @@ export class BookCreationPageComponent implements OnInit {
 
   }
 
+  //Goes back to the user profile
   goBack() {
     this.router.navigate(['/profile'])
   }
